@@ -53,7 +53,7 @@
   };
 
   networking.hostName = "zipzap";
-  networking.useDHCP = true;
+  networking.useDHCP = lib.mkDefault true;
   networking.networkmanager.enable = true;
 
   programs.zsh.enable = true;
