@@ -10,7 +10,7 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware.nix
-    ../home-manager/home.nix
+    ./home-manager.nix
   ];
 
   nixpkgs = {
