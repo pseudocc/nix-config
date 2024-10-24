@@ -24,7 +24,10 @@
       zipzap = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
-        modules = [./os/system.nix];
+        modules = [
+          ./nixos.nix
+          ./zipzap/system.nix
+        ];
       };
     };
   };

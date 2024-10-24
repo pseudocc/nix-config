@@ -1,17 +1,6 @@
-{ inputs, lib, config, pkgs, ... }: {
+{ inputs, outputs, lib, config, pkgs, ... }: {
   # You can import other NixOS modules here
-  imports = [
-    # If you want to use modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware.nix
-    ./home-manager.nix
-  ];
+  imports = [];
 
   nixpkgs = {
     # You can add overlays here
@@ -29,7 +18,7 @@
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages
-      allowUnfree = true;
+      allowUnfree = false;
     };
   };
 
@@ -56,11 +45,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "zipzap";
   networking.useDHCP = lib.mkDefault true;
   networking.networkmanager.enable = true;
 
-  programs.zsh.enable = true;
   users.users.pseudoc = {
     isNormalUser = true;
     description = "Real vim enthusiast.";
@@ -87,6 +74,10 @@
       PasswordAuthentication = false;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    neovim
+  ];
 
   system.stateVersion = "24.05";
 }
