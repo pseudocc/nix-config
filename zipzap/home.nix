@@ -30,15 +30,20 @@
   home = {
     username = "pseudoc";
     homeDirectory = "/home/pseudoc";
+
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+    };
+
+    # packages = with pkgs; [];
   };
 
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
-
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-  programs.git.enable = true;
+  wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  programs = {
+    kitty.enable = true;
+    git.enable = true;
+    home-manager.enable = true;
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
