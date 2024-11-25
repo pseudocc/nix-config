@@ -38,7 +38,21 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    systemd.enableXdgAutostart = true;
+
+    settings = {
+      cursor.inactive_timeout = 5;
+      input = {
+        kb_layout = "us";
+        touchpad = {
+          natural_scroll = true;
+        };
+      };
+
+      "$mod" = "SUPER";
+      bind = [
+        "$mod, T, exec, kitty"
+      ];
+    };
   };
 
   programs = {
