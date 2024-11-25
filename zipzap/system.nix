@@ -17,7 +17,7 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      pseudoc = import ./home.nix;
+      pseudoc = import ./home/index.nix;
     };
   };
 
