@@ -1,14 +1,8 @@
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ pkgs, inputs, outputs, constants, ... }: {
   imports = [
-    # If you want to use modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware.nix
+    ./greetd.nix
+
     # Import home-manager's NixOS module
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -17,7 +11,7 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      pseudoc = import ./home/index.nix;
+      ${constants.user.name} = import ./home/index.nix { inherit pkgs constants; };
     };
   };
 
@@ -44,4 +38,3 @@
     jack.enable = true;
   };
 }
-

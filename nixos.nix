@@ -1,4 +1,4 @@
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ inputs, lib, config, pkgs, constants, ... }: {
   # You can import other NixOS modules here
   imports = [];
 
@@ -61,19 +61,16 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  users.users.pseudoc = {
+  users.users.${constants.user.name} = {
     isNormalUser = true;
-    description = "Real vim enthusiast.";
+    description = constants.user.description;
     extraGroups = [ "wheel" "networkmanager" ];
 
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINuoseDzo0mUwBthHFnKfNPK1EdJTrpv7boeC1ybMsty pseudoc@nixos"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAUH3ybKRS1BOKcW7dngfm1YZ01tDKMqWaFf4uxzaiGG pseudoc@general"
-    ];
+    openssh.authorizedKeys.keys = constants.user.authorizedKeys;
   };
 
   security.sudo.extraRules = [{
-      users = [ "pseudoc" ];
+      users = [ constants.user.name ];
       commands = [{
         command = "ALL";
         options = [ "NOPASSWD" ];

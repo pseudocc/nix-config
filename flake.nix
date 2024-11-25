@@ -17,12 +17,13 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+    constants = import ./constants.nix;
   in {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       zipzap = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = {inherit inputs outputs constants;};
         # > Our main nixos configuration file <
         modules = [
           ./nixos.nix

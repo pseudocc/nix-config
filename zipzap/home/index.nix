@@ -1,9 +1,6 @@
-{ inputs, lib, config, pkgs, ... }: {
+{ pkgs, constants, ... }: {
   # You can import other home-manager modules here
   imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
-
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
@@ -28,8 +25,8 @@
   };
 
   home = {
-    username = "pseudoc";
-    homeDirectory = "/home/pseudoc";
+    username = constants.user.name;
+    homeDirectory = "/home/${constants.user.name}";
 
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
@@ -38,7 +35,12 @@
     # packages = with pkgs; [];
   };
 
-  wayland.windowManager.hyprland.enable = true; # enable Hyprland
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    systemd.enableXdgAutostart = true;
+  };
+
   programs = {
     kitty.enable = true;
     git.enable = true;
