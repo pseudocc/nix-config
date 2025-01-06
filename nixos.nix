@@ -17,10 +17,9 @@
     ];
 
     # Configure your nixpkgs instance
-    config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "google-chrome"
-      ];
+    config = {
+      allowUnfree = false;
+    };
   };
 
   nix = let
@@ -87,13 +86,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
+    vim
     gnupg
     tmux
     tree
-    google-chrome
     inputs.ghostty.packages.${system}.default
   ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.11";
 }

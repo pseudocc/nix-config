@@ -2,6 +2,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+    systemd.variables = ["--all"];
 
     settings = {
       "$mod" = "SUPER";
@@ -10,9 +11,9 @@
         gaps_in = 5;
         gaps_out = 15;
         border_size = 2;
+        layout = "dwindle";
         "col.active_border" = "rgba(3e8fb0ee) rgba(eb6f92ee) 30deg";
         "col.inactive_border" = "rgba(393552aa)";
-        layout = "dwindle";
       };
 
       dwindle = {
@@ -48,7 +49,7 @@
           enabled = true;
           offset = "3 3";
           range = 8;
-          "col.shadow" = "rgba(1a1a1aee)";
+	  color = "rgba(1a1a1aee)";
         };
       };
 
@@ -102,11 +103,14 @@
         "$mod, mouse_down, workspace, e+1"
       ] ++ (
         builtins.concatLists (builtins.genList (i:
-          [
-            "$mod, ${toString i}, workspace, ${toString i}"
-            "$mod SHIFT, ${toString i}, movetoworkspace, ${toString i}"
+	  let
+	    key = toString i;
+	    ws = toString (i + 1);
+          in [
+            "$mod, ${key}, workspace, ${ws}"
+            "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
           ]
-        ) 9)
+        ) 10)
       );
 
       bindm = [

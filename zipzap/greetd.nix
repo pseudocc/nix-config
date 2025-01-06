@@ -5,10 +5,10 @@ let
 in {
   services.greetd = {
     enable = true;
-    vt = 2;
+    vt = 6;
     settings = {
       default_session = {
-        command = "${tuigreet} --time --remember --remember-session --sessions ${hyprland-session}";
+        command = "${tuigreet} -t -s ${hyprland-session}";
         user = "${constants.user.name}";
       };
     };

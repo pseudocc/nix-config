@@ -33,12 +33,22 @@
       NIXOS_OZONE_WL = "1";
     };
 
-    # packages = with pkgs; [];
+    packages = with pkgs; [
+      chromium
+    ];
   };
 
   programs = {
+    bash.enable = true;
     kitty.enable = true;
     home-manager.enable = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
   };
 
   programs.git = {
@@ -60,5 +70,5 @@
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.11";
 }
