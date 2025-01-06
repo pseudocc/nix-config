@@ -15,11 +15,12 @@
       #   });
       # })
     ];
+
     # Configure your nixpkgs instance
-    config = {
-      # For Google Chrome
-      allowUnfree = true;
-    };
+    config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "google-chrome"
+      ];
   };
 
   nix = let
