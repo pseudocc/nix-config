@@ -27,4 +27,30 @@ in {
     };
     pull.rebase = true;
   };
+
+  colors = {
+    background = "#272120";
+    foreground = "#ddbfb9";
+    cursor = "#ffafa2";
+
+    black = "#413736";
+    red = "#db475f";
+    green = "#6ead47";
+    yellow = "#c68c2e";
+    blue = "#5a9bec";
+    magenta = "#c36ee7";
+    cyan = "#33acac";
+    white = "#cfc4c2";
+
+    bright = {
+      black = "#756764";
+      red = "#ed6677";
+      green = "#7fc453";
+      yellow = "#dfa13e";
+      blue = "#7cb1f5";
+      magenta = "#d18fef";
+      cyan = "#3dc4c4";
+      white = "#f8f6f6";
+    };
+  };
 }

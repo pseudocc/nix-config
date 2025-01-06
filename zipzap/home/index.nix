@@ -3,6 +3,7 @@
   imports = [
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
+    ./hyprland.nix
   ];
 
   nixpkgs = {
@@ -33,26 +34,6 @@
     };
 
     # packages = with pkgs; [];
-  };
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-
-    settings = {
-      cursor.inactive_timeout = 5;
-      input = {
-        kb_layout = "us";
-        touchpad = {
-          natural_scroll = true;
-        };
-      };
-
-      "$mod" = "SUPER";
-      bind = [
-        "$mod, T, exec, kitty"
-      ];
-    };
   };
 
   programs = {
