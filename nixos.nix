@@ -91,6 +91,7 @@
     tmux
     tree
     google-chrome
+    inputs.ghostty.packages.${inputs.nixpkgs.hostPlatform}.default
   ];
 
   system.stateVersion = "24.05";
