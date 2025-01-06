@@ -17,8 +17,8 @@
     ];
     # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = false;
+      # For Google Chrome
+      allowUnfree = true;
     };
   };
 
@@ -87,6 +87,10 @@
 
   environment.systemPackages = with pkgs; [
     neovim
+    gnupg
+    tmux
+    tree
+    google-chrome
   ];
 
   system.stateVersion = "24.05";

@@ -1,4 +1,4 @@
-{ pkgs, constants, ... }: {
+{ lib, pkgs, constants, ... }: {
   # You can import other home-manager modules here
   imports = [
     # You can also split up your configuration and import pieces of it here:
@@ -57,8 +57,22 @@
 
   programs = {
     kitty.enable = true;
-    git.enable = true;
     home-manager.enable = true;
+  };
+
+  programs.git = {
+    enable = true;
+    extraConfig = constants.git // {
+      gpg.program = lib.getExe' pkgs.gnupg "gpg2";
+      commit.gpgSign = true;
+    };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 1800;
+    enableSshSupport = true;
+    pinentryPackage = pkgs.pinentry-curses;
   };
 
   # Nicely reload system units when changing configs

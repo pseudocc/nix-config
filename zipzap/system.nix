@@ -1,4 +1,4 @@
-{ pkgs, inputs, outputs, constants, ... }: {
+{ lib, pkgs, inputs, outputs, constants, ... }: {
   imports = [
     ./hardware.nix
     ./greetd.nix
@@ -11,7 +11,7 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users = {
       # Import your home-manager configuration
-      ${constants.user.name} = import ./home/index.nix { inherit pkgs constants; };
+      ${constants.user.name} = import ./home/index.nix { inherit pkgs lib constants; };
     };
   };
 
