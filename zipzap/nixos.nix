@@ -1,7 +1,7 @@
 { lib, pkgs, flakes, ... }: {
   imports = [
+    ../zsetup.nix
     ./hardware.nix
-    ./greetd.nix
 
     flakes.nixos-hardware.nixosModules.lenovo-thinkpad-x13-yoga
     flakes.home-manager.nixosModules.home-manager
@@ -9,26 +9,29 @@
 
   home-manager = {
     extraSpecialArgs = { inherit flakes; };
-    users = {
-      # Import your home-manager configuration
-      ${flakes.me.user} = import ./home/index.nix { inherit lib pkgs flakes; };
+    users.${flakes.me.user} = import ./home/default.nix { inherit lib pkgs flakes; };
+  };
+
+  services.greetd = let
+    tuigreet = lib.getExe pkgs.greetd.tuigreet;
+    session = "${pkgs.hyprland}/share/wayland-sessions";
+  in {
+    enable = true;
+    vt = 6;
+    settings = {
+      default_session = {
+        command = "${tuigreet} -t -s ${session}";
+        user = "${flakes.me.user}";
+      };
     };
   };
 
   networking.hostName = "zipzap";
   time.timeZone = "Asia/Shanghai";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
+  zsetup = {
+    pipewire = true;
+    cups = true;
+    desktop = true;
   };
 }
