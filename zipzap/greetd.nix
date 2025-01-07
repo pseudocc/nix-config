@@ -1,4 +1,4 @@
-{ lib, pkgs, constants, ... }:
+{ lib, pkgs, flakes, ... }:
 let
   tuigreet = lib.getExe pkgs.greetd.tuigreet;
   hyprland-session = "${pkgs.hyprland}/share/wayland-sessions";
@@ -9,7 +9,7 @@ in {
     settings = {
       default_session = {
         command = "${tuigreet} -t -s ${hyprland-session}";
-        user = "${constants.user.name}";
+        user = "${flakes.me.user}";
       };
     };
   };

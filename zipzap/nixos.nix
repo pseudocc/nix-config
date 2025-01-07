@@ -1,27 +1,21 @@
-{ lib, pkgs, inputs, outputs, constants, ... }: {
+{ lib, pkgs, flakes, ... }: {
   imports = [
     ./hardware.nix
     ./greetd.nix
 
-    # Import home-manager's NixOS module
-    inputs.home-manager.nixosModules.home-manager
+    flakes.nixos-hardware.nixosModules.lenovo-thinkpad-x13-yoga
+    flakes.home-manager.nixosModules.home-manager
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = { inherit flakes; };
     users = {
       # Import your home-manager configuration
-      ${constants.user.name} = import ./home/index.nix { inherit pkgs lib constants; };
+      ${flakes.me.user} = import ./home/index.nix { inherit lib pkgs flakes; };
     };
   };
 
   networking.hostName = "zipzap";
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   time.timeZone = "Asia/Shanghai";
 
   # Enable CUPS to print documents.

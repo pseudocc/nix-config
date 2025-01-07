@@ -1,39 +1,18 @@
-{ lib, pkgs, constants, ... }: {
-  # You can import other home-manager modules here
+{ lib, pkgs, flakes, ... }: {
   imports = [
-    # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
     ./hyprland.nix
   ];
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      allowUnfree = false;
-    };
-  };
-
   home = {
-    username = constants.user.name;
-    homeDirectory = "/home/${constants.user.name}";
+    username = flakes.me.user;
+    homeDirectory = "/home/${flakes.me.user}";
 
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
     };
 
     packages = with pkgs; [
+      flakes.ghostty.packages.${system}.default
       chromium
     ];
   };
@@ -53,7 +32,13 @@
 
   programs.git = {
     enable = true;
-    extraConfig = constants.git // {
+    extraConfig = {
+      user = { inherit (flakes.me) nick name email signingKey; };
+      init.defaultBranch = "main";
+      alias = {
+        root = "rev-parse --show-toplevel";
+      };
+      pull.rebase = true;
       gpg.program = lib.getExe' pkgs.gnupg "gpg2";
       commit.gpgSign = true;
     };

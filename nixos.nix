@@ -1,49 +1,23 @@
-{ inputs, lib, config, pkgs, constants, ... }: {
-  # You can import other NixOS modules here
+{ lib, pkgs, flakes, ... }: {
   imports = [];
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-
-    # Configure your nixpkgs instance
-    config = {
-      allowUnfree = false;
-    };
-  };
-
   nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") flakes;
   in {
     settings = {
-      # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
       flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
-      nix-path = config.nix.nixPath;
     };
-    # Opinionated: disable channels
     channel.enable = false;
 
-    # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
   networking.useDHCP = lib.mkDefault true;
   networking.networkmanager.enable = true;
@@ -61,16 +35,18 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  users.users.${constants.user.name} = {
+  users.users.${flakes.me.user} = {
     isNormalUser = true;
-    description = constants.user.description;
+    description = flakes.me.description;
     extraGroups = [ "wheel" "networkmanager" ];
-
-    openssh.authorizedKeys.keys = constants.user.authorizedKeys;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINuoseDzo0mUwBthHFnKfNPK1EdJTrpv7boeC1ybMsty pseudoc@nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAUH3ybKRS1BOKcW7dngfm1YZ01tDKMqWaFf4uxzaiGG pseudoc@general"
+    ];
   };
 
   security.sudo.extraRules = [{
-      users = [ constants.user.name ];
+      users = [ flakes.me.user ];
       commands = [{
         command = "ALL";
         options = [ "NOPASSWD" ];
@@ -90,7 +66,7 @@
     gnupg
     tmux
     tree
-    inputs.ghostty.packages.${system}.default
+    curl
   ];
 
   system.stateVersion = "24.11";
