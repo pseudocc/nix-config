@@ -9,21 +9,7 @@
 
   home-manager = {
     extraSpecialArgs = { inherit flakes; };
-    users.${flakes.me.user} = import ./home/default.nix { inherit lib pkgs flakes; };
-  };
-
-  services.greetd = let
-    tuigreet = lib.getExe pkgs.greetd.tuigreet;
-    session = "${pkgs.hyprland}/share/wayland-sessions";
-  in {
-    enable = true;
-    vt = 6;
-    settings = {
-      default_session = {
-        command = "${tuigreet} -t -s ${session}";
-        user = "${flakes.me.user}";
-      };
-    };
+    users.${flakes.me.user} = import ./home/default.nix;
   };
 
   networking.hostName = "zipzap";
@@ -33,5 +19,6 @@
     pipewire = true;
     cups = true;
     desktop = true;
+    session = "${pkgs.hyprland}/share/wayland-sessions";
   };
 }
