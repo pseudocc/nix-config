@@ -1,4 +1,9 @@
-{
+{ lib, flakes, ... }:
+let
+  colors = flakes.colors;
+  rgba = let raw = lib.removePrefix "#"; in
+    color: alpha: "rgba(${raw color}${alpha})";
+in {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -12,8 +17,11 @@
         gaps_out = 15;
         border_size = 2;
         layout = "dwindle";
-        "col.active_border" = "rgba(3e8fb0ee) rgba(eb6f92ee) 30deg";
-        "col.inactive_border" = "rgba(393552aa)";
+        "col.active_border" = toString [
+	  (rgba colors.bright.yellow "ff")
+	  (rgba colors.red "ff")
+	];
+        "col.inactive_border" = rgba colors.bright.black "cc";
       };
 
       dwindle = {
@@ -49,7 +57,7 @@
           enabled = true;
           offset = "3 3";
           range = 8;
-	  color = "rgba(1a1a1aee)";
+	  color = rgba colors.background "ee";
         };
       };
 
