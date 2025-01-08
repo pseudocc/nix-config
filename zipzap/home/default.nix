@@ -1,6 +1,8 @@
+# vim: et:ts=2:sw=2
 { lib, pkgs, flakes, ... }: {
   imports = [
     ./hyprland.nix
+    ./ghostty.nix
   ];
 
   home = {
@@ -12,7 +14,6 @@
     };
 
     packages = with pkgs; [
-      flakes.ghostty.packages.${system}.default
       chromium
     ];
   };
@@ -28,6 +29,19 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+  };
+
+  programs.ghostty = {
+    enable = true;
+    config = {
+      window-decoration = false;
+      gtk-tabs-location = "bottom";
+      font-feature = "-clt";
+      keybind = [
+        "ctrl+z=close_surface"
+        "ctrl+d=new_split:right"
+      ];
+    };
   };
 
   programs.git = {
