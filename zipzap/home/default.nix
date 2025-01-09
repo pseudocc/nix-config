@@ -1,5 +1,9 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, flakes, ... }: {
+{ lib, pkgs, flakes, modulesPath, ... }: {
+  disabledModules = [
+    "${modulesPath}/programs/ghostty.nix"
+  ];
+
   imports = [
     ./hyprland.nix
     ./ghostty.nix
