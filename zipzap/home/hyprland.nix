@@ -1,5 +1,6 @@
-{ lib, flakes, ... }:
+{ lib, pkgs, flakes, ... }:
 let
+  ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   colors = flakes.colors;
   rgba = let raw = lib.removePrefix "#"; in
     color: alpha: "rgba(${raw color}${alpha})";
@@ -94,7 +95,7 @@ in {
       };
 
       bind = [
-        "$mod, T, exec, kitty"
+        "$mod, T, exec, ${lib.getExe ghostty}"
         "$mod, D, killactive,"
         "$mod, V, togglefloating,"
         "$mod, C, centerwindow,"

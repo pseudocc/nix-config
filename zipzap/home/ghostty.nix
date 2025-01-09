@@ -1,7 +1,7 @@
 # vim: et:ts=2:sw=2
 { lib, pkgs, config, flakes, ... }:
 with lib; let
-  system = pkgs.system;
+  ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   cfg = config.programs.ghostty;
   configType = with types; let
       primitiveType = either str (either bool int);
@@ -33,7 +33,7 @@ in {
     };
     package = mkOption {
       type = types.package;
-      default = flakes.ghostty.packages.${system}.default;
+      default = ghostty;
       defaultText = literalExpression "flakes.ghostty.packages.${system}.default";
       description = "Ghostty package to install";
     };

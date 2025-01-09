@@ -20,7 +20,6 @@
 
   programs = {
     bash.enable = true;
-    kitty.enable = true;
     home-manager.enable = true;
   };
 
