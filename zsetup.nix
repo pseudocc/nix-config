@@ -1,6 +1,7 @@
+# vim: et:ts=2:sw=2
 { lib, pkgs, config, flakes, ... }:
-with lib;
-let cfg = config.zsetup;
+with lib; let
+  cfg = config.zsetup;
 in {
   options.zsetup = {
     pipewire = mkEnableOption "sound with PipeWire";
@@ -21,6 +22,7 @@ in {
 
   config = {
     services.printing.enable = cfg.cups;
+    services.fwupd.enable = true;
 
     hardware.pulseaudio.enable = !cfg.pipewire;
     security.rtkit.enable = cfg.desktop;
