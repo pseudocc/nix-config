@@ -14,6 +14,11 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    intel-npu = {
+      url = "github:pseudocc/linux-npu-driver";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
