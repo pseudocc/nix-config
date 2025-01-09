@@ -1,3 +1,4 @@
+# vim: et:ts=2:sw=2
 {
   description = "pseudoc";
 
@@ -18,19 +19,18 @@
   outputs = {
     self,
     nixpkgs,
-    nixos-hardware,
     home-manager,
     ...
   } @ inputs:
   let
     flakes = inputs // {
       me = rec {
-	nick = "pseudoc";
-	user = nick;
-	name = "Atlas Yu";
-	email = "${nick}@163.com";
-	signingKey = "BEA76B7637CEBC8A";
-	description = "Real Vim enthusiast & Rust hater.";
+        nick = "pseudoc";
+        user = nick;
+        name = "Atlas Yu";
+        email = "${nick}@163.com";
+        signingKey = "BEA76B7637CEBC8A";
+        description = "Real Vim enthusiast & Rust hater.";
       };
 
       colors = {
@@ -63,7 +63,7 @@
     nixosConfigurations = {
       zipzap = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit flakes; };
-	system = "x86_64-linux";
+        system = "x86_64-linux";
         modules = [
           ./nixos.nix
           ./zipzap/nixos.nix
