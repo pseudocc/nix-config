@@ -5,7 +5,10 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "kvm-intel" ];
-  boot.kernelParams = [ "console=tty1" ];
+  boot.kernelParams = [
+    "console=tty1"
+    "iwlwifi.disable_11be=1"
+  ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
