@@ -39,10 +39,11 @@
     config = {
       window-decoration = false;
       gtk-tabs-location = "bottom";
-      font-feature = "-clt";
-      keybind = [
-        "ctrl+z=close_surface"
-        "ctrl+d=new_split:right"
+      font-feature = "-calt";
+      keybind = let
+        bind = key: act: "ctrl+shift+${key}=${act}";
+      in [
+        (bind "w" "close_surface")
       ];
     };
   };
