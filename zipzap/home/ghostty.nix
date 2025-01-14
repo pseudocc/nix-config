@@ -3,12 +3,11 @@
 with lib; let
   ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   cfg = config.programs.ghostty;
-  configType = with types; let
-      primitiveType = either str (either bool int);
-      multipleType = either primitiveType (listOf primitiveType);
-      entryType = attrsOf multipleType;
-    in entryType;
-  toConfig = let
+  Settings = with types; let
+      Primitives = either str (either bool int);
+      AnyPrimitives = either Primitives (listOf Primitives);
+    in attrsOf AnyPrimitives;
+  generate = let
     listWrap = value: if isList value then value else [value];
     toLine = key: value: let
       value' = if isBool value then boolToString value else toString value;
@@ -18,8 +17,8 @@ with lib; let
 in {
   options.programs.ghostty = {
     enable = mkEnableOption "Ghostty terminal";
-    config = mkOption {
-      type = configType;
+    settings = mkOption {
+      type = Settings;
       default = {};
       example = {
         background = "282c34";
@@ -41,6 +40,6 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [ cfg.package ];
-    xdg.configFile."ghostty/config".text = toConfig cfg.config;
+    xdg.configFile."ghostty/config".text = generate cfg.settings;
   };
 }

@@ -27,6 +27,7 @@
 
   catppuccin = {
     enable = true;
+    ghostty.enable = true;
     gtk = {
       enable = true;
       size = "standard";
@@ -51,7 +52,7 @@
 
   programs.ghostty = {
     enable = true;
-    config = {
+    settings = {
       window-decoration = false;
       gtk-tabs-location = "bottom";
       font-feature = "-calt";
