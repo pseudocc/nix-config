@@ -1,10 +1,40 @@
+# vim: et:ts=2:sw=2
 { lib, pkgs, flakes, ... }:
 let
   ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   colors = flakes.colors;
   rgba = let raw = lib.removePrefix "#"; in
     color: alpha: "rgba(${raw color}${alpha})";
+  wallpaper = builtins.fetchurl {
+    url = "file://${toString ./assets/wallpaper.jpg}";
+    sha256 = "sha256:0lbg9fyjkcw13n4fxnd14fj3fmq7lz5ydbzvakx2igy07gm2c7q9";
+  };
 in {
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+    config = {
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+      };
+      common = { default = [ "gtk" ]; };
+    };
+  };
+
+  services.hyprpaper = {
+    enable = true;
+    settings = let
+      wp = toString wallpaper;
+    in {
+      preload = [ wp ];
+      wallpaper = [ ",${wp}" ];
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -31,7 +61,6 @@ in {
       };
 
       cursor = {
-        enable_hyprcursor = true;
         inactive_timeout = 5;
       };
 

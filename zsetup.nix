@@ -2,15 +2,16 @@
 { lib, pkgs, config, flakes, ... }:
 with lib; let
   cfg = config.zsetup;
+  desktopType = types.nullOr types.package;
 in {
   options.zsetup = {
     pipewire = mkEnableOption "sound with PipeWire";
     cups = mkEnableOption "CUPS to print documents";
     desktop = mkOption {
-      type = types.bool;
-      default = true;
-      example = false;
-      description = "Whether desktop environment is present.";
+      type = desktopType;
+      default = null;
+      example = "gtk4";
+      description = "Which desktop environment is using.";
     };
     session = mkOption {
       type = with types; nullOr path;
@@ -25,7 +26,7 @@ in {
     services.fwupd.enable = true;
 
     hardware.pulseaudio.enable = !cfg.pipewire;
-    security.rtkit.enable = cfg.desktop;
+    security.rtkit.enable = cfg.desktop != null;
     services.pipewire = mkIf cfg.pipewire {
       enable = true;
       alsa.enable = true;
@@ -34,7 +35,10 @@ in {
       jack.enable = true;
     };
 
-    services.greetd = mkIf (cfg.desktop && cfg.session != null) {
+    environment.systemPackages = mkIf (cfg.desktop != null) [ cfg.desktop ];
+    programs.dconf.enable = cfg.desktop != null;
+
+    services.greetd = mkIf (cfg.desktop != null && cfg.session != null) {
       enable = true;
       vt = 6;
       settings = {

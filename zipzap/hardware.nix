@@ -7,7 +7,7 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [
     "console=tty1"
-    "iwlwifi.disable_11be=1"
+  # "iwlwifi.disable_11be=1"
   ];
   boot.extraModulePackages = [ ];
 

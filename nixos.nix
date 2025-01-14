@@ -63,7 +63,6 @@
 
   environment.systemPackages = with pkgs; [
     vim
-    gnupg
     tmux
     tree
     curl

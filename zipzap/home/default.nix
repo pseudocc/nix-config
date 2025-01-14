@@ -7,6 +7,7 @@
   imports = [
     ./hyprland.nix
     ./ghostty.nix
+    flakes.catppuccin.homeManagerModules.catppuccin
   ];
 
   home = {
@@ -14,12 +15,26 @@
     homeDirectory = "/home/${flakes.me.user}";
 
     sessionVariables = {
-      NIXOS_OZONE_WL = "1";
+      NIXOS_OZONE_WL = 1;
     };
 
     packages = with pkgs; [
       chromium
     ];
+  };
+
+  gtk.enable = true;
+
+  catppuccin = {
+    enable = true;
+    gtk = {
+      enable = true;
+      size = "standard";
+    };
+    cursors = {
+      enable = true;
+      accent = "peach";
+    };
   };
 
   programs = {

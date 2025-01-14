@@ -10,6 +10,9 @@
     # Ghostty Terminal (Customized)
     ghostty.url = "github:pseudocc/ghostty";
 
+    # Theme
+    catppuccin.url = "github:catppuccin/nix";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
