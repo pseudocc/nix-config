@@ -53,6 +53,7 @@ in {
         [ "clear" ]
         ++ binds primary {
           w = "close_surface";
+          q = "close_tab";
           c = "copy_to_clipboard";
           v = "paste_from_clipboard";
           p = "paste_from_selection";
