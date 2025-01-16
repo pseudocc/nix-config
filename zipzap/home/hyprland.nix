@@ -4,8 +4,8 @@ let
   ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   colors = flakes.colors;
   rgba = color: alpha: "rgba(${color}${alpha})";
-  wallpaper = builtins.fetchurl {
-    url = "file://${toString ./assets/wallpaper.jpg}";
+  wallpaper = flakes.lib.embedFile {
+    path = ./assets/wallpaper.jpg;
     sha256 = "sha256:0lbg9fyjkcw13n4fxnd14fj3fmq7lz5ydbzvakx2igy07gm2c7q9";
   };
 in {
@@ -26,11 +26,9 @@ in {
 
   services.hyprpaper = {
     enable = true;
-    settings = let
-      wp = toString wallpaper;
-    in {
-      preload = [ wp ];
-      wallpaper = [ ",${wp}" ];
+    settings = {
+      preload = [ wallpaper ];
+      wallpaper = [ ",${wallpaper}" ];
     };
   };
 
