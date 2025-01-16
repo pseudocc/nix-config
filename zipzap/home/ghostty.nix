@@ -4,7 +4,7 @@ with lib; let
   ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   cfg = config.programs.ghostty;
   Settings = with types; let
-      Primitives = either str (either bool int);
+      Primitives = either str (either bool (either int float));
       AnyPrimitives = either Primitives (listOf Primitives);
     in attrsOf AnyPrimitives;
   generate = let

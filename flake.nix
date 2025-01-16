@@ -13,13 +13,11 @@
     # Theme
     catppuccin.url = "github:catppuccin/nix";
 
+    # Firmware
+    intel-npu.url = "github:pseudocc/linux-npu-driver";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    intel-npu = {
-      url = "github:pseudocc/linux-npu-driver";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -41,29 +39,35 @@
         description = "Real Vim enthusiast & Rust hater.";
       };
 
-      colors = {
-        background = "#272120";
-        foreground = "#ddbfb9";
-        cursor = "#ffafa2";
+      colors = rec {
+        base = "13131e";
+        surface = "272120";
+        overlay = black;
+        highlight = "ffafa2";
+        text = "ddbfb9";
+
+        background = base;
+        foreground = text;
+        cursor = highlight;
     
-        black = "#413736";
-        red = "#db475f";
-        green = "#6ead47";
-        yellow = "#c68c2e";
-        blue = "#5a9bec";
-        magenta = "#c36ee7";
-        cyan = "#33acac";
-        white = "#cfc4c2";
+        black = "413736";
+        red = "db475f";
+        green = "6ead47";
+        yellow = "c68c2e";
+        blue = "5a9bec";
+        magenta = "c36ee7";
+        cyan = "33acac";
+        white = "cfc4c2";
     
         bright = {
-          black = "#756764";
-          red = "#ed6677";
-          green = "#7fc453";
-          yellow = "#dfa13e";
-          blue = "#7cb1f5";
-          magenta = "#d18fef";
-          cyan = "#3dc4c4";
-          white = "#f8f6f6";
+          black = "756764";
+          red = "ed6677";
+          green = "7fc453";
+          yellow = "dfa13e";
+          blue = "7cb1f5";
+          magenta = "d18fef";
+          cyan = "3dc4c4";
+          white = "f8f6f6";
         };
       };
     };

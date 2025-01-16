@@ -3,8 +3,7 @@
 let
   ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   colors = flakes.colors;
-  rgba = let raw = lib.removePrefix "#"; in
-    color: alpha: "rgba(${raw color}${alpha})";
+  rgba = color: alpha: "rgba(${color}${alpha})";
   wallpaper = builtins.fetchurl {
     url = "file://${toString ./assets/wallpaper.jpg}";
     sha256 = "sha256:0lbg9fyjkcw13n4fxnd14fj3fmq7lz5ydbzvakx2igy07gm2c7q9";
@@ -49,9 +48,9 @@ in {
         border_size = 2;
         layout = "dwindle";
         "col.active_border" = toString [
-	  (rgba colors.bright.yellow "ff")
-	  (rgba colors.red "ff")
-	];
+          (rgba colors.bright.yellow "ff")
+          (rgba colors.red "ff")
+        ];
         "col.inactive_border" = rgba colors.bright.black "cc";
       };
 
@@ -87,7 +86,7 @@ in {
           enabled = true;
           offset = "3 3";
           range = 8;
-	  color = rgba colors.background "ee";
+          color = rgba colors.surface "ee";
         };
       };
 
@@ -140,10 +139,9 @@ in {
         "$mod, mouse_up, workspace, e-1"
         "$mod, mouse_down, workspace, e+1"
       ] ++ (
-        builtins.concatLists (builtins.genList (i:
-	  let
-	    key = toString i;
-	    ws = toString (i + 1);
+        builtins.concatLists (builtins.genList (i: let
+            key = toString i;
+            ws = toString (i + 1);
           in [
             "$mod, ${key}, workspace, ${ws}"
             "$mod SHIFT, ${key}, movetoworkspace, ${ws}"

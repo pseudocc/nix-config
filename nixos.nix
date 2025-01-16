@@ -1,3 +1,4 @@
+# vim: et:ts=2:sw=2
 { lib, pkgs, flakes, ... }: {
   imports = [];
 
