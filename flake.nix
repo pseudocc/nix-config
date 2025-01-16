@@ -29,7 +29,8 @@
     ...
   } @ inputs:
   let
-    flakes = inputs // {
+    pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    flakes = inputs // rec {
       me = rec {
         nick = "pseudoc";
         user = nick;
@@ -44,6 +45,17 @@
           url = "file://${toString path}";
           sha256 = sha256;
         });
+      };
+
+      packages.neovim-terminal = pkgs.callPackage ./packages/neovim-terminal.nix {
+        cursor = {
+          foreground = colors.cursor.primary;
+          background = colors.surface;
+          inactive = {
+            foreground = colors.bright.black;
+            background = colors.surface;
+          };
+        };
       };
 
       homeManagerModules.ghostty = { lib, pkgs, config, flakes, ... }:
@@ -100,7 +112,10 @@
 
         background = base;
         foreground = text;
-        cursor = highlight;
+        cursor = {
+          primary = highlight;
+          secondary = bright.red;
+        };
     
         black = "413736";
         red = "db475f";

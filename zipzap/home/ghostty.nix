@@ -10,6 +10,8 @@ in {
   programs.ghostty = {
     enable = true;
     settings = {
+      command = lib.getExe' flakes.packages.neovim-terminal "nvim-term";
+
       # Appearance
       window-decoration = false;
       gtk-tabs-location = "bottom";
@@ -35,7 +37,7 @@ in {
         colors.bright.cyan
         colors.bright.white
       ];
-      cursor-color = colors.cursor;
+      cursor-color = colors.cursor.secondary;
       cursor-text = colors.surface;
       selection-foreground = colors.highlight;
       selection-background = colors.bright.black;

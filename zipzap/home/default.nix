@@ -22,6 +22,7 @@
 
     packages = with pkgs; [
       chromium
+      flakes.packages.neovim-terminal
     ];
   };
 
