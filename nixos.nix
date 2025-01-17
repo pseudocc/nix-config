@@ -47,11 +47,11 @@
   };
 
   security.sudo.extraRules = [{
-      users = [ flakes.me.user ];
-      commands = [{
-        command = "ALL";
-        options = [ "NOPASSWD" ];
-      }];
+    users = [ flakes.me.user ];
+    commands = [{
+      command = "ALL";
+      options = [ "NOPASSWD" ];
+    }];
   }];
 
   services.openssh = {
@@ -67,6 +67,8 @@
     tmux
     tree
     curl
+    wget
+    ripgrep
   ];
 
   system.stateVersion = "24.11";
