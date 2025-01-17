@@ -10,8 +10,6 @@ in {
   programs.ghostty = {
     enable = true;
     settings = {
-      command = lib.getExe' flakes.packages.neovim-terminal "nvim-term";
-
       # Appearance
       window-decoration = false;
       gtk-tabs-location = "bottom";

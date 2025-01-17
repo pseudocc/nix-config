@@ -1,8 +1,11 @@
 # vim: et:ts=2:sw=2
 { lib, pkgs, flakes, ... }:
 let
-  ghostty = flakes.ghostty.packages.${pkgs.system}.default;
   colors = flakes.colors;
+  ghostty = lib.getExe flakes.ghostty.packages.${pkgs.system}.default;
+  nvim-term = lib.getExe' flakes.packages.neovim-terminal "nvim-term";
+  nvim-term-class = "com.pseudoc.neovim-terminal";
+
   rgba = color: alpha: "rgba(${color}${alpha})";
   wallpaper = flakes.lib.embedFile {
     path = ./assets/wallpaper.jpg;
@@ -48,6 +51,7 @@ in {
         "col.active_border" = toString [
           (rgba colors.bright.yellow "ff")
           (rgba colors.red "ff")
+          "30deg"
         ];
         "col.inactive_border" = rgba colors.bright.black "cc";
       };
@@ -120,8 +124,13 @@ in {
         ];
       };
 
+      windowrulev2 = [
+        "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"}, class:${nvim-term-class}"
+      ];
+
       bind = [
-        "$mod, T, exec, ${lib.getExe ghostty}"
+        "$mod, T, exec, ${ghostty}"
+        "$mod SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
         "$mod, D, killactive,"
         "$mod, V, togglefloating,"
         "$mod, C, centerwindow,"
