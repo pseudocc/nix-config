@@ -2,6 +2,7 @@
 { lib, pkgs, flakes, ... }:
 let
   colors = flakes.colors;
+  wofi = lib.getExe pkgs.wofi;
   ghostty = lib.getExe flakes.ghostty.packages.${pkgs.system}.default;
   nvim-term = lib.getExe' flakes.packages.neovim-terminal "nvim-term";
   nvim-term-class = "com.pseudoc.neovim-terminal";
@@ -125,12 +126,14 @@ in {
       };
 
       windowrulev2 = [
-        "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"}, class:${nvim-term-class}"
+        "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"} 30deg, class:${nvim-term-class}"
       ];
 
       bind = [
         "$mod, T, exec, ${ghostty}"
         "$mod SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
+        "$mod, R, exec, ${wofi}"
+
         "$mod, D, killactive,"
         "$mod, V, togglefloating,"
         "$mod, C, centerwindow,"

@@ -1,0 +1,45 @@
+/** colors are defined in wofi.nix **/
+
+* {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+@keyframes showup {
+    0% { opacity: .0; }
+  100% { opacity: .9; }
+}
+
+#window {
+  border: 2px solid @secondary;
+  border-radius: 8px;
+  background-color: @base;
+  animation: showup .5s ease-in-out both;
+}
+
+#input, #inner-box, #outer-box, #text {
+  margin: 4px;
+  padding: 8px;
+}
+
+#input {
+  color: @input;
+  background-color: @surface;
+}
+
+#entry {
+  background-color: @base;
+}
+
+#entry:selected {
+  border-radius: 8px;
+  background-color: @primary;
+}
+
+#entry #text {
+  color: @primary;
+}
+
+#entry:selected #text {
+  color: @secondary;
+}
