@@ -19,7 +19,7 @@
       @define-color input #${bright.black};
       @define-color text #${text};
       @define-color primary #${red};
-      @define-color secondary #${bright.yellow};
+      @define-color secondary #${yellow};
     '' + builtins.readFile ./wofi.css;
   };
 }

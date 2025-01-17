@@ -50,7 +50,7 @@ in {
         border_size = 2;
         layout = "dwindle";
         "col.active_border" = toString [
-          (rgba colors.bright.yellow "ff")
+          (rgba colors.yellow "ff")
           (rgba colors.red "ff")
           "30deg"
         ];
