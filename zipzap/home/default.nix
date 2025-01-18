@@ -9,6 +9,7 @@
     ./ghostty.nix
     ./git.nix
     ./wofi.nix
+    ./waybar.nix
     flakes.homeManagerModules.ghostty
     flakes.catppuccin.homeManagerModules.catppuccin
   ];
@@ -24,7 +25,6 @@
     packages = with pkgs; [
       chromium
       wl-clipboard
-      wofi
       flakes.packages.neovim-terminal
     ];
   };
