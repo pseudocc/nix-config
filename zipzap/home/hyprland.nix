@@ -44,6 +44,12 @@ in {
     settings = {
       "$mod" = "SUPER";
 
+      monitor = "eDP-1,preferred,auto,1.5";
+      source = [
+        # This file is not managed by Nix
+        "~/.config/hypr/external-monitors.conf"
+      ];
+
       general = {
         gaps_in = 5;
         gaps_out = 15;
