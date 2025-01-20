@@ -13,6 +13,7 @@ in {
       # Appearance
       window-decoration = false;
       gtk-tabs-location = "bottom";
+      font-family = "GohuFont uni14 Nerd Font Mono";
       font-feature = "-calt";
       background-image = bgimg;
       background = colors.base;

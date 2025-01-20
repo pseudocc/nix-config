@@ -1,8 +1,9 @@
 /** colors are defined in wofi.nix **/
 
 * {
-  font-family: monospace;
-  font-size: 14px;
+  font-family: "GohuFont uni14 Nerd Font Propo", monospace;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 @keyframes showup {

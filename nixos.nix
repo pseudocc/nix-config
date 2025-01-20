@@ -36,6 +36,10 @@
     LC_TIME = "en_US.UTF-8";
   };
 
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "Gohu" ]; })
+  ];
+
   users.users.${flakes.me.user} = {
     isNormalUser = true;
     description = flakes.me.description;
