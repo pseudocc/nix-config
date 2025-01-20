@@ -40,6 +40,7 @@ in {
       cursor-text = colors.surface;
       selection-foreground = colors.highlight;
       selection-background = colors.bright.black;
+      adjust-cursor-thickness = 2;
 
       # Controls
       keybind = let 
