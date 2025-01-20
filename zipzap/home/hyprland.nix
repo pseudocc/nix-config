@@ -36,13 +36,19 @@ in {
     };
   };
 
-  wayland.windowManager.hyprland = {
+  wayland.windowManager.hyprland = let
+    void = "42";
+  in {
     enable = true;
     xwayland.enable = true;
     systemd.variables = ["--all"];
 
     settings = {
       "$mod" = "SUPER";
+
+      exec-once = [
+        "hyprctl dispatch workspace ${void}"
+      ];
 
       monitor = "eDP-1,preferred,auto,1.5";
       source = [
@@ -161,7 +167,7 @@ in {
           "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
         ];
         genPair = i: let s = toString (i + 1); in { name = s; value = s; };
-        pairs = with builtins; listToAttrs (genList genPair 9) // { "0" = "42"; };
+        pairs = with builtins; listToAttrs (genList genPair 9) // { "0" = void; };
         binds = lib.mapAttrsToList bindws pairs;
       in builtins.concatLists binds);
 
@@ -171,7 +177,7 @@ in {
       ];
 
       workspace = [
-        "42, monitor:eDP-1, default: true, defaultName: void"
+        "${void}, monitor:eDP-1, default:true, defaultName:void"
       ];
     };
   };
