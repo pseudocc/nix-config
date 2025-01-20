@@ -154,20 +154,24 @@ in {
 
         "$mod, mouse_up, workspace, e-1"
         "$mod, mouse_down, workspace, e+1"
-      ] ++ (
-        builtins.concatLists (builtins.genList (i: let
-            key = toString i;
-            ws = toString (i + 1);
-          in [
-            "$mod, ${key}, workspace, ${ws}"
-            "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
-          ]
-        ) 10)
-      );
+      ]
+      ++ (let
+        bindws = key: ws: [
+          "$mod, ${key}, workspace, ${ws}"
+          "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
+        ];
+        genPair = i: let s = toString (i + 1); in { name = s; value = s; };
+        pairs = with builtins; listToAttrs (genList genPair 9) // { "0" = "42"; };
+        binds = lib.mapAttrsToList bindws pairs;
+      in builtins.concatLists binds);
 
       bindm = [
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
+      ];
+
+      workspace = [
+        "42, monitor:eDP-1, default: true, defaultName: void"
       ];
     };
   };
