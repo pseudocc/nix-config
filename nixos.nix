@@ -66,14 +66,5 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    vim
-    tmux
-    tree
-    curl
-    wget
-    ripgrep
-  ];
-
   system.stateVersion = "24.11";
 }
