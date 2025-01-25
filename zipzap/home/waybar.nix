@@ -1,6 +1,6 @@
 # vim: et:ts=2:sw=2
 { lib, pkgs, flakes, ... }: {
-  home.packages = with pkgs; [ wireplumber ];
+  home.packages = with pkgs; [ brightnessctl ];
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -58,7 +58,9 @@
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
       };
 
-      backlight = {
+      backlight = let
+        light = value: "brightnessctl set ${value}";
+      in {
         device = "intel_backlight";
         format = "{icon} {percent}%";
         format-icons = [
@@ -66,6 +68,11 @@
           (escape ''"\udb80\udcdf"'')
           (escape ''"\udb80\udce0"'')
         ];
+        on-click = light "20%";
+        on-click-middle = light "40%";
+        on-click-right = light "60%";
+        on-scroll-up = light "+5%";
+        on-scroll-down = light "5%-";
         min-length = 6;
       };
 
@@ -124,7 +131,6 @@
         on-click = "pamixer --default-source -t";
         on-scroll-up = "pamixer --default-source -i 5";
         on-scroll-down = "pamixer --default-source -d 5";
-        scroll-step = 5;
       };
 
       network = {
