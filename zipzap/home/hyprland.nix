@@ -36,6 +36,8 @@ in {
     };
   };
 
+  services.cliphist.enable = true;
+
   wayland.windowManager.hyprland = let
     void = "42";
   in {
@@ -160,6 +162,8 @@ in {
 
         "$mod, mouse_up, workspace, e-1"
         "$mod, mouse_down, workspace, e+1"
+
+        "$mod, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
       ]
       ++ (let
         bindws = key: ws: [
