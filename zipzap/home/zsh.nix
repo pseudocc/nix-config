@@ -45,7 +45,8 @@
       ignorePatterns = [
         "rm *"
         "cd *"
-	"ls *"
+        "ls *"
+        "git commit -m *"
         "cp *"
         "pkill *"
       ];
