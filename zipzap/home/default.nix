@@ -10,6 +10,7 @@
     ./git.nix
     ./wofi.nix
     ./waybar.nix
+    ./zsh.nix
     flakes.homeManagerModules.ghostty
     flakes.catppuccin.homeManagerModules.catppuccin
   ];
@@ -45,52 +46,9 @@
   };
 
   programs = {
-    command-not-found.enable = true;
-    fzf.enable = true;
-    starship.enable = true;
     home-manager.enable = true;
     gh.enable = true;
     bun.enable = true;
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "bun"
-        "gh"
-        "fzf"
-        "vi-mode"
-        "git-prompt"
-        "git-auto-fetch"
-        "starship"
-        "command-not-found"
-        "history-substring-search"
-        "dotenv"
-      ];
-    };
-
-    shellAliases = {
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      "rebuild" = "sudo nixos-rebuild --flake $HOME/nix-config#zipzap";
-    };
-
-    history = {
-      size = 2000;
-      ignoreAllDups = true;
-      ignorePatterns = [
-        "rm *"
-        "cd *"
-        "cp *"
-        "pkill *"
-      ];
-    };
   };
 
   programs.neovim = {
