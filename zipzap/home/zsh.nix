@@ -20,6 +20,14 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
+    autocd = true;
+    dirHashes = {
+      dl = "$HOME/Downloads";
+      gh = "$HOME/projects/github";
+      l = "$HOME/projects/local";
+      p = "$HOME/projects";
+    };
+
     oh-my-zsh = {
       enable = true;
       plugins = [
