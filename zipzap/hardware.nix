@@ -7,7 +7,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [
     "console=tty1"
-  # "iwlwifi.disable_11be=1"
   ];
   boot.extraModulePackages = [ ];
 
@@ -15,7 +14,6 @@
     device = "/dev/disk/by-uuid/eea6c913-1a36-4c54-a235-f4c6d39eb5d2";
     fsType = "ext4";
   };
-
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/3B38-D71C";
@@ -30,4 +28,5 @@
   hardware.graphics.enable = true;
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
+  services.fprintd.enable = true;
 }

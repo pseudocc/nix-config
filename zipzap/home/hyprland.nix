@@ -32,6 +32,10 @@ in {
   programs.hyprlock = {
     enable = true;
     settings = {
+      auth = {
+        "fingerprint:enabled" = true;
+      };
+
       general = {
         disable_loading_bar = false;
         hide_cursor = true;
