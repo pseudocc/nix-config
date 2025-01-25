@@ -35,7 +35,6 @@ in {
       jack.enable = true;
     };
 
-
     environment.systemPackages = with pkgs; let
       additionals = if cfg.desktop != null then [ cfg.desktop ] else [];
     in [
@@ -45,7 +44,7 @@ in {
       curl
       wget
       ripgrep
-      pulseaudio  # just to use the utilities (pactl, ...)
+      pamixer
     ] ++ additionals;
     programs.dconf.enable = cfg.desktop != null;
 
