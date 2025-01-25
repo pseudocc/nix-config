@@ -7,6 +7,7 @@ let
   nvim-term = lib.getExe' flakes.packages.neovim-terminal "nvim-term";
   nvim-term-class = "com.pseudoc.neovim-terminal";
 
+  rgb = color: "rgb(${color})";
   rgba = color: alpha: "rgba(${color}${alpha})";
   wallpaper = flakes.lib.embedFile {
     path = ./assets/wallpaper.jpg;
@@ -25,6 +26,65 @@ in {
         "org.freedesktop.impl.portal.FileChooser" = "gtk";
       };
       common = { default = [ "gtk" ]; };
+    };
+  };
+
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = false;
+        hide_cursor = true;
+      };
+
+      background = [{
+        path = wallpaper;
+        blur_passes = 2;
+      }];
+
+      input-field = with flakes.colors; [{
+        size = "320, 40";
+        position = "0, -160";
+        dots_center = true;
+        fade_on_enpty = true;
+        font_color = rgb bright.black;
+        inner_color = rgb surface;
+        outer_color = rgb highlight;
+        check_color = rgb green;
+        fail_color = rgb bright.red;
+      }];
+    };
+  };
+
+  services.hypridle = {
+    enable = true;
+    settings = {
+      general = {
+        lock_cmd = "pidof hyprlock || hyprlock";
+        before_sleep_cmd = "loginctl lock-session";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+      };
+
+      listener = [
+        {
+          timeout = 150;
+          on-timeout = "brightnessctl -s set 10";
+          on-resume = "brightnessctl -r";
+        }
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 600;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        {
+          timeout = 900;
+          on-timeout = "systemctl suspend";
+        }
+      ];
     };
   };
 
