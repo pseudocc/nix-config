@@ -1,4 +1,4 @@
-# vim: et:ts=2
+# vim: et:ts=2:sw=2
 { lib, pkgs, flakes, ... }: {
   imports = [
     ../zsetup.nix
@@ -16,6 +16,10 @@
 
   networking.hostName = "zipzap";
   time.timeZone = "Asia/Shanghai";
+
+  environment.systemPackages = with pkgs; [
+    openvpn
+  ];
 
   zsetup = {
     pipewire = true;
