@@ -5,6 +5,8 @@
     command-not-found.enable = true;
   };
 
+  home.packages = [ pkgs.zsh-vi-mode ];
+
   programs.starship = {
     enable = true;
     settings = {
@@ -26,7 +28,6 @@
         "fzf"
         "git-auto-fetch"
         "starship"
-        "starship-vi-mode"
         "command-not-found"
         "history-substring-search"
         "dotenv"
@@ -47,10 +48,19 @@
         "cd *"
         "ls *"
         "git commit -m *"
+        "git commit -am *"
         "cp *"
         "pkill *"
       ];
     };
+
+    initExtra = ''
+      . ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+    '';
   };
+
+  home.file.".profile".text = ''
+    . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  '';
 }
 
