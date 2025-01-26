@@ -38,6 +38,8 @@ in {
     environment.systemPackages = with pkgs; let
       additionals = if cfg.desktop != null then [ cfg.desktop ] else [];
     in [
+      python3Full
+      usbutils
       vim
       tmux
       tree
@@ -59,6 +61,11 @@ in {
           user = "${flakes.me.user}";
         };
       };
+    };
+
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
     };
   };
 } 
