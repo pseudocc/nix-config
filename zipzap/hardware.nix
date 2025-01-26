@@ -28,5 +28,5 @@
   hardware.graphics.enable = true;
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;
-  services.fprintd.enable = true;
+  services.fprintd.enable = false;
 }

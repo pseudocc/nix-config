@@ -33,7 +33,8 @@ in {
     enable = true;
     settings = {
       auth = {
-        "fingerprint:enabled" = true;
+        # cannot get fprint and password work together
+        "fingerprint:enabled" = false;
       };
 
       general = {
@@ -50,13 +51,33 @@ in {
         size = "320, 40";
         position = "0, -160";
         dots_center = true;
-        fade_on_enpty = true;
         font_color = rgb bright.black;
         inner_color = rgb surface;
         outer_color = rgb highlight;
         check_color = rgb green;
         fail_color = rgb bright.red;
+        rounding = 10;
       }];
+
+      label = with flakes.colors; [
+        {
+          text = "$TIME";
+          color = rgb bright.white;
+          font_size = "120";
+          position = "0, -160";
+          halign = "center";
+          valign = "top";
+        }
+        {
+          text = "$USER@zipzap";
+          color = rgb bright.black;
+          font_size = "30";
+          font_family = "GohuFont uni11 Nerd Font Mono";
+          position = "0, -80";
+          halign = "center";
+          valign = "center";
+        }
+      ];
     };
   };
 
