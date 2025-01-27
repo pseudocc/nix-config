@@ -70,7 +70,7 @@ in {
         }
         {
           text = "$USER@zipzap";
-          color = rgb bright.black;
+          color = rgb white;
           font_size = "30";
           font_family = "GohuFont uni11 Nerd Font Mono";
           position = "0, -80";

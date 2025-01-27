@@ -11,6 +11,7 @@
     ./wofi.nix
     ./waybar.nix
     ./zsh.nix
+    ./neovim.nix
     flakes.homeManagerModules.ghostty
     flakes.catppuccin.homeManagerModules.catppuccin
   ];
@@ -49,13 +50,6 @@
     home-manager.enable = true;
     gh.enable = true;
     bun.enable = true;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
   };
 
   # Nicely reload system units when changing configs
