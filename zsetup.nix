@@ -38,7 +38,8 @@ in {
     environment.systemPackages = with pkgs; let
       additionals = if cfg.desktop != null then [ cfg.desktop ] else [];
     in [
-      python3Full
+      python3
+      nodejs
       usbutils
       vim
       tmux
