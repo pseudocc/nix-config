@@ -22,12 +22,21 @@ map('n', '<leader><C-s>', function ()
   end)
 end)
 
+core.setup {
+  extensions = {
+    file_browser = { hijack_netrw = true, },
+  },
+}
+
 for name, maps in pairs({
   ['git_worktree'] = {
     ['<leader><C-g>'] = 'git_worktrees',
   },
   ['todo-comments'] = {
     ['<leader><C-t>'] = 'todo',
+  },
+  ['file_browser'] = {
+    ['<C-b>'] = 'file_browser',
   },
 }) do
   core.load_extension(name)

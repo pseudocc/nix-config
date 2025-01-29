@@ -20,8 +20,6 @@
     in ''
       local g = vim.g
       g.mapleader = '${mapleader.global}'
-      g.loaded_netrw = 1
-      g.loaded_netrwPlugin = 1
 
       ${require ./nvim/opts.lua}
       ${require ./nvim/maps.lua}
@@ -94,6 +92,7 @@
       }
 
       git-worktree-nvim
+      telescope-file-browser-nvim
 
       {
         plugin = gitsigns-nvim;
