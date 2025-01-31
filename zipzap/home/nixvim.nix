@@ -88,14 +88,6 @@ in {
       ];
     };
 
-    highlight = with colors; {
-      ExtraWhitespace.bg = "#${bright.black}";
-    };
-
-    match = {
-      ExtraWhitespace = "\\s\\+$";
-    };
-
     diagnostics = {
       virtual_lines.only_current_line = true;
       virtual_text = true;
