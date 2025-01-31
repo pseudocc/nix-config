@@ -25,7 +25,30 @@
 
     globals = {
       mapleader = " ";
+      python_indent = {
+        disable_parentheses_indenting = false;
+        closed_paren_align_last_line = false;
+        searchpair_timeout = 150;
+        continue = "shiftwidth()";
+        open_paren = "shiftwidth()";
+        nested_paren = "shiftwidth()";
+      };
     };
+
+    autoCmd = [
+      {
+        event = ["BufReadPost"];
+        pattern = ["*"];
+        callback.__raw = ''function ()
+          if vim.bo.ft == "commit" then return end
+          local line = vim.fn.line([['"]])
+          local last = vim.fn.line("$")
+          if line >= 1 and line <= last then
+            vim.cmd([[normal! g`"]])
+          end
+        end'';
+      }
+    ];
 
     opts = {
       expandtab = true;
@@ -106,6 +129,7 @@
         };
       };
 
+      
     };
 
     highlight = with colors; {
