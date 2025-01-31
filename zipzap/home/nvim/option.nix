@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, flakes, ... }: {
+{ lib, ... }: {
   programs.nixvim.globals = {
     mapleader = " ";
     python_indent = {
@@ -42,6 +42,5 @@
       "precedes:…"
       "nbsp:␣"
     ];
-    };
-
+  };
 }

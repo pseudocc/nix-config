@@ -8,6 +8,7 @@ in {
     ./nvim/plugins
     ./nvim/highlight.nix
     ./nvim/option.nix
+    ./nvim/filetype.nix
   ];
 
   programs.nixvim = {
