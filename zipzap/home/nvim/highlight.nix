@@ -9,7 +9,7 @@ with lib; let
   };
   fn = {
     highlight = cfg: removeAttrs cfg [ "match" ];
-    match = cfg: getAttrs [ "match" ] cfg;
+    match = cfg: cfg.match;
   };
 in {
   programs.nixvim = {
