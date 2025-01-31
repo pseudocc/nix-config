@@ -1,9 +1,14 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, flakes, ... }: {
-  programs.nixvim = let
-    colors = flakes.colors;
-    join = lib.concatStringsSep;
-  in {
+{ lib, pkgs, flakes, ... }: let
+  lua = flakes.lib.nixvim.lua;
+  colors = flakes.colors;
+in {
+  imports = [
+    flakes.nixvim.homeManagerModules.nixvim
+    ./nvim/plugins
+  ];
+
+  programs.nixvim = {
     enable = true;
     defaultEditor = true;
 
@@ -36,10 +41,11 @@
     };
 
     autoCmd = [
+      # Always jump to the last known cursor position
       {
         event = ["BufReadPost"];
         pattern = ["*"];
-        callback.__raw = ''function ()
+        callback = lua ''function ()
           if vim.bo.ft == "commit" then return end
           local line = vim.fn.line([['"]])
           local last = vim.fn.line("$")
@@ -73,63 +79,13 @@
       signcolumn = "yes:1";
 
       list = true;
-      listchars = join "," [
+      listchars = lib.concatStringsSep "," [
         "tab:↦ "
         "trail:·"
         "extends:…"
         "precedes:…"
         "nbsp:␣"
       ];
-    };
-
-    plugins = {
-      mini = {
-        enable = true;
-        modules = {
-          ai = {};
-          files = {
-            mappings = {
-              close = "q";
-              go_in = "l";
-              go_in_plus = "L";
-              go_out = "h";
-              go_out_plus = "H";
-              mark_goto = "'";
-              mark_set = "m";
-              reset = "<BS>";
-              reveal_cwd = "@";
-              show_help = "?";
-              synchronize = "=";
-              trim_left = "<";
-              trim_right = ">";
-            };
-            windows.preview = true;
-          };
-          jump2d = {
-            mappings.start_jumping = "<CR>";
-            labels = "aoeuhtnspidcr,";
-          };
-          move = {
-            mappings = {
-              left = "<M-h>";
-              right = "<M-l>";
-              down = "<M-j>";
-              up = "<M-k>";
-              line_left = "<M-h>";
-              line_right = "<M-l>";
-              line_down = "<M-j>";
-              line_up = "<M-k>";
-            };
-            options.reindent_linewise = false;
-          };
-          splitjoin = {
-            mappings.toggle = "gS";
-          };
-          cursorword = {};
-        };
-      };
-
-      
     };
 
     highlight = with colors; {
@@ -145,10 +101,8 @@
       virtual_text = true;
     };
 
-    filetype = {
-      extension = {
-        pxu = "pxu";
-      };
+    filetype.extension = {
+      pxu = "pxu";
     };
   };
 }

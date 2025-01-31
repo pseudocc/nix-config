@@ -14,7 +14,6 @@
     ./nixvim.nix
     flakes.homeManagerModules.ghostty
     flakes.catppuccin.homeManagerModules.catppuccin
-    flakes.nixvim.homeManagerModules.nixvim
   ];
 
   home = {

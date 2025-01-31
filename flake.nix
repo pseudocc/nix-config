@@ -50,6 +50,8 @@
           url = "file://${toString path}";
           sha256 = sha256;
         });
+
+        nixvim.lua = code: { __raw = code; };
       };
 
       packages.neovim-terminal = pkgs.callPackage ./packages/neovim-terminal.nix {
