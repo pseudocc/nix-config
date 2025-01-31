@@ -37,10 +37,6 @@
   catppuccin = {
     enable = true;
     ghostty.enable = false;
-    gtk = {
-      enable = true;
-      size = "standard";
-    };
     cursors = {
       enable = true;
       accent = "peach";
