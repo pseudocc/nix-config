@@ -5,23 +5,28 @@
     ./fugit2.nix
   ];
 
+  programs.nixvim.colorscheme = "catppuccin";
+  programs.nixvim.colorschemes.catppuccin = {
+    enable = true;
+    settings = {
+      term_colors = true;
+      transparent_background = true;
+    };
+  };
+
   programs.nixvim.plugins = {
     web-devicons.enable = true;
-
-    colorscheme = "catppuccin";
-    colorschemes.catppuccin = {
-      enable = true;
-      settings = {
-        term_colors = true;
-        transparent_background = true;
-      };
-    };
 
     lualine = {
       enable = true;
       settings.options = {
         theme = "catppuccin";
       };
+    };
+
+    nvim-autopairs = {
+      enable = true;
+      luaConfig.post = builtins.readFile ./nvim-autopairs.lua;
     };
   };
 }
