@@ -41,15 +41,6 @@ in {
       end
     '';
 
-    colorscheme = "catppuccin";
-    colorschemes.catppuccin = {
-      enable = true;
-      settings = {
-        term_colors = true;
-        transparent_background = true;
-      };
-    };
-
     autoCmd = [
       # Always jump to the last known cursor position
       {

@@ -7,5 +7,21 @@
 
   programs.nixvim.plugins = {
     web-devicons.enable = true;
+
+    colorscheme = "catppuccin";
+    colorschemes.catppuccin = {
+      enable = true;
+      settings = {
+        term_colors = true;
+        transparent_background = true;
+      };
+    };
+
+    lualine = {
+      enable = true;
+      settings.options = {
+        theme = "catppuccin";
+      };
+    };
   };
 }
