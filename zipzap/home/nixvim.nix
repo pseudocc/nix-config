@@ -22,6 +22,25 @@ in {
     withPython3 = false;
     withRuby = false;
 
+    extraConfigLuaPre = ''
+      local function map(mode, key, cmd, opts)
+        if type(opts) == "string" then
+          opts = { desc = opts }
+        else
+          opts = opts or {}
+        end
+        if opts.noremap == nil then opts.noremap = true end
+        if opts.silent == nil then opts.silent = true end
+        vim.keymap.set(mode, key, cmd, opts)
+      end
+
+      local function wrapVimCmd(cmd)
+        return function()
+          vim.cmd(cmd)
+        end
+      end
+    '';
+
     colorscheme = "catppuccin";
     colorschemes.catppuccin = {
       enable = true;
@@ -50,10 +69,6 @@ in {
     diagnostics = {
       virtual_lines.only_current_line = true;
       virtual_text = true;
-    };
-
-    filetype.extension = {
-      pxu = "pxu";
     };
   };
 }

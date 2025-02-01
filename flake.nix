@@ -5,6 +5,7 @@
   inputs = {
     # Nix
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     # Ghostty Terminal (Customized)
@@ -30,6 +31,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs:
@@ -148,8 +150,11 @@
     };
   in {
     nixosConfigurations = {
-      zipzap = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit flakes; };
+      zipzap = nixpkgs.lib.nixosSystem rec {
+        specialArgs = {
+          inherit flakes;
+          pkgs-unstable = import nixpkgs-unstable { inherit system; };
+        };
         system = "x86_64-linux";
         modules = [
           ./nixos.nix

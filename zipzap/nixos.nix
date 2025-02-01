@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, flakes, ... }: {
+{ lib, pkgs, pkgs-unstable, flakes, ... }: {
   imports = [
     ../zsetup.nix
     ./hardware.nix
@@ -10,7 +10,7 @@
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit flakes; };
+    extraSpecialArgs = { inherit pkgs-unstable flakes; };
     users.${flakes.me.user} = import ./home/default.nix;
   };
 
