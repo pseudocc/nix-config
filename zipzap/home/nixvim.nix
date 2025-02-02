@@ -39,6 +39,10 @@ in {
           vim.cmd(cmd)
         end
       end
+
+      local M = {}
+      M.map = map
+      M.wrapVimCmd = wrapVimCmd
     '';
 
     autoCmd = [

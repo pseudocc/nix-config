@@ -3,6 +3,7 @@
   imports = [
     ./mini.nix
     ./fugit2.nix
+    ./treesitter.nix
   ];
 
   programs.nixvim.colorscheme = "catppuccin";
@@ -24,9 +25,25 @@
       };
     };
 
+    nvim-surround.enable = true;
+
     nvim-autopairs = {
       enable = true;
       luaConfig.post = builtins.readFile ./nvim-autopairs.lua;
     };
+
+    indent-blankline = {
+      enable = true;
+      settings = {
+        indent.char = "┃";
+        scope = {
+          show_end = false;
+          show_start = false;
+        };
+      };
+    };
   };
+
+  programs.nixvim.extraPlugins = [ pkgs.vimPlugins.harpoon2 ];
+  programs.nixvim.extraConfigLua = builtins.readFile ./harpoon.lua;
 }
