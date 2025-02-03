@@ -9,6 +9,7 @@ in {
     ./nvim/highlight.nix
     ./nvim/option.nix
     ./nvim/filetype.nix
+    ./nvim/keymap.nix
   ];
 
   programs.nixvim = {
