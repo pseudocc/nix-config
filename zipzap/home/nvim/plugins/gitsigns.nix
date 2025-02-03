@@ -10,6 +10,7 @@
       in flakes.lib.nixvim.lua ''function (bufnr)
         local this = package.loaded.gitsigns
         local function map(mode, l, r, opts)
+          opts.buffer = bufnr
           if opts.desc then
             opts.desc = 'Gitsigns: ' .. opts.desc
           end
