@@ -23,7 +23,7 @@ in {
     withRuby = false;
 
     extraConfigLuaPre = ''
-      local function map(mode, key, cmd, opts)
+      function _M.map(mode, key, cmd, opts)
         if type(opts) == "string" then
           opts = { desc = opts }
         else
@@ -34,15 +34,11 @@ in {
         vim.keymap.set(mode, key, cmd, opts)
       end
 
-      local function wrapVimCmd(cmd)
+      function _M.wrapVimCmd(cmd)
         return function()
           vim.cmd(cmd)
         end
       end
-
-      local M = {}
-      M.map = map
-      M.wrapVimCmd = wrapVimCmd
     '';
 
     autoCmd = [

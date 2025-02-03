@@ -1,11 +1,11 @@
-Harpoon = {
+local Harpoon = {
   core = require('harpoon'),
   leader = '<leader>',
 }
 
 function Harpoon:map(mode, l, r, desc)
   desc = desc and 'Harpoon: ' .. desc
-  M.map(mode, self.leader .. l, r, desc)
+  _M.map(mode, self.leader .. l, r, desc)
 end
 
 function Harpoon.list(fname, ...)

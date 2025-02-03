@@ -44,7 +44,7 @@ in {
     };
 
     luaConfig.post = ''
-      Treesitter = {};
+      local Treesitter = {};
       Treesitter.config = require('nvim-treesitter.parsers').get_parser_configs()
       Treesitter.config.pxu = {
         install_info = {

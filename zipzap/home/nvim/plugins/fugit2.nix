@@ -28,7 +28,7 @@ in {
       libgit2_path = libPath libgit2 "libgit2.so";
     };
     luaConfig.post = ''
-      map('n', ',g', wrapVimCmd('Fugit2'), 'Fugit2: main')
+      _M.map('n', ',g', _M.wrapVimCmd('Fugit2'), 'Fugit2: main')
     '';
   };
 }

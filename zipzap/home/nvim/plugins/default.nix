@@ -4,6 +4,7 @@
     ./mini.nix
     ./fugit2.nix
     ./treesitter.nix
+    ./telescope.nix
   ];
 
   programs.nixvim.colorscheme = "catppuccin";
@@ -41,6 +42,19 @@
           show_start = false;
         };
       };
+    };
+
+    # telescope extension is set in telescope.nix
+    git-worktree.enable = true;
+
+    # telescope extension is set in telescope.nix
+    todo-comments = {
+      enable = true;
+      luaConfig.post = ''
+        Todo = require 'todo-comments'
+        _M.map('n', '[t', Todo.jump_prev, 'Todo: previous')
+        _M.map('n', ']t', Todo.jump_next, 'Todo: next')
+      '';
     };
   };
 
