@@ -32,7 +32,7 @@
           ['${leader}hs'] = { this.stage_hunk, 'stage hunk' },
           ['${leader}hr'] = { this.reset_hunk, 'reset hunk' },
         } do
-          map({'n', 'v'}, key, action[1], action[2])
+          map({'n', 'v'}, key, action[1], { desc = action[2] })
         end
 
         for key, action in pairs {
@@ -41,10 +41,10 @@
           ['${leader}hb'] = { this.toggle_current_line_blame, 'toggle blame' },
           ['${leader}hd'] = { this.diffthis, 'diff this' },
         } do
-          map('n', key, action[1], action[2])
+          map('n', key, action[1], { desc = action[2] })
         end
 
-        map({'o', 'x'}, 'ih', this.select_hunk, 'select hunk')
+        map({'o', 'x'}, 'ih', this.select_hunk, { desc = 'select hunk' })
       end'';
     };
   };

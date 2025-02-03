@@ -46,5 +46,9 @@ in {
       };
       cursorword = {};
     };
+
+    luaConfig.post = ''
+      _M.map('n', '<C-b>', require('mini.files').open, 'MiniFiles: open')
+    '';
   };
 }
