@@ -5,6 +5,7 @@
     ./fugit2.nix
     ./treesitter.nix
     ./telescope.nix
+    ./gitsigns.nix
   ];
 
   programs.nixvim.colorscheme = "catppuccin";
