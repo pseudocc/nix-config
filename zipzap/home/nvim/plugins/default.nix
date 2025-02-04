@@ -8,6 +8,7 @@
     ./gitsigns.nix
     ./copilot.nix
     ./cmp.nix
+    ./lsp.nix
   ];
 
   programs.nixvim.colorscheme = "catppuccin";
