@@ -54,8 +54,8 @@
       };
 
       clock = {
-        format = escape ''"\uf017 {:%R  \uf133 %y/%m/%d}"'';
-        tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        format = escape ''"\uf017 {:%R}"'';
+        tooltip-format = escape ''"<big>\uf133 {:%y/%m/%d}</big>\n<tt><small>{calendar}</small></tt>"'';
       };
 
       backlight = let
@@ -171,4 +171,3 @@
     '' + builtins.readFile ./waybar.css;
   };
 }
-
