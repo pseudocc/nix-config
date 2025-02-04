@@ -125,6 +125,7 @@ in {
 
   wayland.windowManager.hyprland = let
     void = "42";
+    browser = "24";
   in {
     enable = true;
     xwayland.enable = true;
@@ -256,7 +257,10 @@ in {
           "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
         ];
         genPair = i: let s = toString (i + 1); in { name = s; value = s; };
-        pairs = with builtins; listToAttrs (genList genPair 9) // { "0" = void; };
+        pairs = with builtins; listToAttrs (genList genPair 9) // {
+          "0" = void;
+          "b" = browser;
+        };
         binds = lib.mapAttrsToList bindws pairs;
       in builtins.concatLists binds);
 
@@ -267,6 +271,7 @@ in {
 
       workspace = [
         "${void}, monitor:eDP-1, default:true, defaultName:void"
+        "${browser}, on-created-empty:${lib.getExe pkgs.chromium}, defaultName:browser"
       ];
     };
   };
