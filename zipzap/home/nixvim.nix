@@ -40,6 +40,25 @@ in {
           vim.cmd(cmd)
         end
       end
+
+      function _M.capitalize(word)
+        return word:sub(1,1):upper() .. word:sub(2):lower()
+      end
+
+      function _M.toggleVirtualText()
+        local cfg = vim.diagnostic.config()
+        vim.diagnostic.config({ virtual_text = not cfg.virtual_text })
+      end
+    '';
+
+    extraConfigLuaPost = ''
+      _M.map('n', '<leader>vt', _M.toggleVirtualText, 'diagnostic: toggle virtual text')
+
+      local lualine_cfg = require 'lualine.components.diagnostics.config'
+      for type, icon in pairs(lualine_cfg.symbols.icons) do
+        local hl = 'DiagnosticSign' .. _M.capitalize(type)
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
     '';
 
     autoCmd = [

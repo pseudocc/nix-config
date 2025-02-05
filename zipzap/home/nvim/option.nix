@@ -34,5 +34,7 @@
       "precedes:…"
       "nbsp:␣"
     ];
+
+    updatetime = 500;
   };
 }

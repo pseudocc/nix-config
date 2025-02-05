@@ -2,10 +2,9 @@
 { lib, pkgs, pkgs-unstable, flakes, ... }: {
   programs.nixvim.plugins.lsp = {
     enable = true;
-    autoEnableSources = true;
 
     keymaps = {
-      diagnostics = {
+      diagnostic = {
         "[d" = "goto_prev";
         "]d" = "goto_next";
       };
@@ -19,16 +18,27 @@
       };
     };
 
+    onAttach = ''
+      vim.api.nvim_create_autocmd('CursorHold', {
+        buffer = bufnr,
+        callback = function()
+          local opts = {
+            focusable = false,
+            close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'cursor',
+          }
+          vim.diagnostic.open_float(nil, opts)
+        end
+      })
+    '';
+
     servers = {
       bashls.enable = true;
       clangd.enable = true;
-      ts_ls = {
-        enable = true;
-        settings = {
-          root_dir = "root_pattern('package.json', '.git')";
-          single_file_support = true;
-        };
-      };
+      ts_ls.enable = true;
       zls.enable = true;
       pyright.enable = true;
     };

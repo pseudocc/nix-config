@@ -23,7 +23,7 @@ in {
     enable = true;
 
     settings = {
-      indent.enable = true;
+      indent.enable = false;
       highlight.enable = true;
     };
 
