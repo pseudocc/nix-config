@@ -37,8 +37,9 @@ in {
     };
   };
 
-  home.packages = [
-    pkgs.chromium
+  home.packages = with pkgs;[
+    chromium
+    mattermost-desktop
     neovim-terminal
   ];
 
@@ -139,6 +140,7 @@ in {
   wayland.windowManager.hyprland = let
     void = "42";
     browser = "24";
+    chat = "23";
   in {
     enable = true;
     xwayland.enable = true;
@@ -268,7 +270,7 @@ in {
         "$mod, mouse_up, workspace, e-1"
         "$mod, mouse_down, workspace, e+1"
 
-        "$mod, C, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
+        "$mod SHIFT, C, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
       ]
       ++ (let
         bindws = key: ws: [
@@ -278,7 +280,8 @@ in {
         genPair = i: let s = toString (i + 1); in { name = s; value = s; };
         pairs = with builtins; listToAttrs (genList genPair 9) // {
           "0" = void;
-          "b" = browser;
+          "B" = browser;
+          "C" = chat;
         };
         binds = lib.mapAttrsToList bindws pairs;
       in builtins.concatLists binds);
@@ -290,9 +293,11 @@ in {
 
       workspace = let 
         chromium = lib.getExe pkgs.chromium;
+        mattermost = lib.getExe pkgs.mattermost-desktop;
       in [
         "${void}, monitor:eDP-1, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
+        "${chat}, on-created-empty:${mattermost}, defaultName:chat"
       ];
     };
   };
