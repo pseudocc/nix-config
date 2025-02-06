@@ -1,5 +1,6 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, flakes, modulesPath, ... }: {
+{ lib, pkgs, flakes, modulesPath, ... }: let
+in {
   disabledModules = [
     "${modulesPath}/programs/ghostty.nix"
   ];
@@ -25,9 +26,9 @@
     };
 
     packages = with pkgs; [
-      chromium
+      zig
+      zig-shell-completions
       wl-clipboard
-      flakes.packages.neovim-terminal
     ];
   };
 

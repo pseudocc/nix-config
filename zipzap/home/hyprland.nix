@@ -2,9 +2,17 @@
 { lib, pkgs, flakes, ... }:
 let
   colors = flakes.colors;
-  wofi = lib.getExe pkgs.wofi;
-  ghostty = lib.getExe flakes.ghostty.packages.${pkgs.system}.default;
-  nvim-term = lib.getExe' flakes.packages.neovim-terminal "nvim-term";
+
+  neovim-terminal = pkgs.callPackage flakes.packages.neovim-terminal {
+    cursor = {
+      foreground = colors.cursor.primary;
+      background = colors.surface;
+      inactive = {
+        foreground = colors.bright.black;
+        background = colors.surface;
+      };
+    };
+  };
   nvim-term-class = "com.pseudoc.neovim-terminal";
 
   rgb = color: "rgb(${color})";
@@ -28,6 +36,11 @@ in {
       common = { default = [ "gtk" ]; };
     };
   };
+
+  home.packages = [
+    pkgs.chromium
+    neovim-terminal
+  ];
 
   programs.hyprlock = {
     enable = true;
@@ -229,7 +242,13 @@ in {
         "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"} 30deg, class:${nvim-term-class}"
       ];
 
-      bind = [
+      bind = let
+        wofi = lib.getExe pkgs.wofi;
+        cliphist = lib.getExe pkgs.cliphist;
+        wl-copy = lib.getExe' pkgs.wl-clipboard "wl-copy";
+        ghostty = lib.getExe flakes.ghostty.packages.${pkgs.system}.default;
+        nvim-term = lib.getExe' neovim-terminal "nvim-term";
+      in [
         "$mod, T, exec, ${ghostty}"
         "$mod SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
         "$mod, R, exec, ${wofi}"
@@ -249,7 +268,7 @@ in {
         "$mod, mouse_up, workspace, e-1"
         "$mod, mouse_down, workspace, e+1"
 
-        "$mod, C, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+        "$mod, C, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
       ]
       ++ (let
         bindws = key: ws: [
@@ -269,9 +288,11 @@ in {
         "$mod, mouse:273, resizewindow"
       ];
 
-      workspace = [
+      workspace = let 
+        chromium = lib.getExe pkgs.chromium;
+      in [
         "${void}, monitor:eDP-1, default:true, defaultName:void"
-        "${browser}, on-created-empty:${lib.getExe pkgs.chromium}, defaultName:browser"
+        "${browser}, on-created-empty:${chromium}, defaultName:browser"
       ];
     };
   };

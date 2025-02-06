@@ -22,6 +22,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zig = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,12 +36,12 @@
   outputs = {
     self,
     nixpkgs,
+    zig,
     nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs:
   let
-    pkgs = nixpkgs.legacyPackages.x86_64-linux;
     flakes = inputs // rec {
       me = rec {
         nick = "pseudoc";
@@ -56,16 +61,7 @@
         nixvim.lua = code: { __raw = code; };
       };
 
-      packages.neovim-terminal = pkgs.callPackage ./packages/neovim-terminal.nix {
-        cursor = {
-          foreground = colors.cursor.primary;
-          background = colors.surface;
-          inactive = {
-            foreground = colors.bright.black;
-            background = colors.surface;
-          };
-        };
-      };
+      packages.neovim-terminal = ./packages/neovim-terminal.nix;
 
       homeManagerModules.ghostty = { lib, pkgs, config, flakes, ... }:
       with lib; let
@@ -126,7 +122,7 @@
           primary = highlight;
           secondary = highlight-low;
         };
-    
+
         black = "413736";
         red = "db475f";
         green = "71aa53";
@@ -135,7 +131,7 @@
         magenta = "c6a0f6";
         cyan = "81c8be";
         white = "cfc4c2";
-    
+
         bright = {
           black = "6e768c";
           red = "ed6677";
