@@ -24,6 +24,9 @@ in {
     enable = true;
     package = fugit2;
     settings = {
+      width = "80%";
+      min_width = 55;
+      max_width = 90;
       gpgme_path = libPath gpgme "libgpgme.so";
       libgit2_path = libPath libgit2 "libgit2.so";
     };
