@@ -13,7 +13,6 @@
     (keymap "edit: blackhole paste" "v" "<leader>P" ''"_dP'')
     (keymap "edit: copy to clipboard" "v" "Y" ''"+y'')
     (keymap "edit: select all" "n" "gV" ''ggVG'')
-    (keymap "lsp: format" "n" "<leader>f" (lua ''vim.lsp.buf.format''))
     (keymap "edit: sudo write" "n" "<leader>W" ":w !sudo tee % > /dev/null<CR>")
     (keymap "terminal: normal mode" "t" "<C-D>" "<C-\\><C-N>")
     (keymap "buffer: previous" "n" "[b" ":bprev<CR>")
