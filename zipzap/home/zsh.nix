@@ -5,7 +5,10 @@
     command-not-found.enable = true;
   };
 
-  home.packages = [ pkgs.zsh-vi-mode ];
+  home.packages = with pkgs; [
+    zsh-vi-mode
+    any-nix-shell
+  ];
 
   programs.starship = {
     enable = true;
@@ -64,6 +67,7 @@
 
     initExtra = ''
       . ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+      ${lib.getExe pkgs.any-nix-shell} zsh --info-right | source /dev/stdin
     '';
   };
 
