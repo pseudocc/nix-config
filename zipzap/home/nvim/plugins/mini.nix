@@ -5,7 +5,14 @@ in {
   programs.nixvim.plugins.mini = {
     enable = true;
     modules = {
-      ai = {};
+      ai = {
+        around = "a";
+        inside = "i";
+        around_next = "an";
+        inside_next = "in";
+        around_last = "al";
+        inside_last = "il";
+      };
       files = {
         mappings = {
           close = "q";
