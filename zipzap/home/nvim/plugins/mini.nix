@@ -52,6 +52,9 @@ in {
         mappings.toggle = "gS";
       };
       cursorword = {};
+      starter = {
+        evaluate_single = true;
+      };
     };
 
     luaConfig.post = ''
