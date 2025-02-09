@@ -1,4 +1,4 @@
-/** colors are defined in wofi.nix **/
+/** colors are defined in waybar.nix **/
 
 * {
   border: none;
@@ -35,19 +35,17 @@ tooltip {
 #workspaces button.focused {
   color: @text;
   background: @surface;
-  border-radius: 10px;
 }
 
 #workspaces button.urgent {
   color: @surface;
   background: @highlight;
-  border-radius: 10px;
 }
 
 #workspaces button:hover {
   color: @text;
   background: @surface;
-  border-radius: 10px;
+  border-top: 2px solid @highlight;
 }
 
 #cpu,
@@ -61,40 +59,24 @@ tooltip {
 #workspaces,
 #backlight {
   background: @surface;
-  padding: 0px 10px;
-  margin: 3px 0px;
-  margin-top: 10px;
+  padding: 0px 5px;
+  margin: 0;
   border: none;
-}
-
-#tray {
   border-radius: 10px;
-  margin-left: 10px;
-}
-
-#workspaces {
-  background: @surface;
-  border-radius: 10px;
-  margin-left: 10px;
-  padding-right: 0px;
-  padding-left: 5px;
-}
-
-#window {
-  border-radius: 10px;
-  margin-left: 60px;
-  margin-right: 60px;
 }
 
 #clock {
   color: @clock;
-  border-radius: 10px;
+  margin-left: 5px;
+}
+
+#workspaces {
+  background: @surface;
   margin-left: 5px;
 }
 
 #network {
   color: @network;
-  border-radius: 10px;
   margin-right: 5px;
 }
 
@@ -109,17 +91,17 @@ tooltip {
   margin-right: 5px;
 }
 
-#battery {
-  color: @battery;
-  border-radius: 0 10px 10px 0;
-  margin-right: 10px;
-}
-
 #cpu {
   border-radius: 10px 0px 0px 10px;
 }
 
-#backlight {
-  border-radius: 10px;
-  margin-left: 5px;
+#memory {
+  padding: 0;
+  border-radius: 0;
+}
+
+#battery {
+  color: @battery;
+  border-radius: 0 10px 10px 0;
+  margin-right: 5px;
 }

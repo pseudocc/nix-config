@@ -9,13 +9,14 @@
       escape = builtins.fromJSON;
     in {
       layer = "top";
+      margin = "5 10";
+      height = 30;
       position = "bottom";
       mod = "dock";
       gtk-layer-shell = true;
       passthrough = false;
 
       modules-left = [
-        "backlight"
         "tray"
         "clock"
         "hyprland/workspaces"
@@ -27,6 +28,7 @@
         "network"
         "group/audio"
         "group/hardware"
+        "backlight"
       ];
 
       "group/hardware" = {
@@ -99,6 +101,7 @@
           (escape ''"\udb80\udc82"'')
           (escape ''"\udb80\udc79"'')
         ];
+        min-length = 6;
       };
 
       pulseaudio = {
@@ -147,14 +150,14 @@
 
       cpu = {
         interval = 10;
-        max-length = 10;
         format = escape ''"\uf4bc {}%"'';
+        min-length = 8;
       };
 
       memory = {
         interval = 10;
-        max-length = 10;
         format = escape ''"\ue266 {}%"'';
+        min-length = 8;
       };
     };
 
