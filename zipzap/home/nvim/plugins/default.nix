@@ -63,8 +63,20 @@
         _M.map('n', ']t', Todo.jump_next, 'Todo: next')
       '';
     };
+
+    image = {
+      enable = true;
+      backend = "kitty";
+    };
   };
 
-  programs.nixvim.extraPlugins = [ pkgs.vimPlugins.harpoon2 ];
-  programs.nixvim.extraConfigLua = builtins.readFile ./harpoon.lua;
+  programs.nixvim = {
+    extraPackages = with pkgs; [
+      kitty
+      imagemagick
+    ];
+    extraLuaPackages = luaPkgs: [ luaPkgs.magick ];
+    extraPlugins = [ pkgs.vimPlugins.harpoon2 ];
+    extraConfigLua = builtins.readFile ./harpoon.lua;
+  };
 }
