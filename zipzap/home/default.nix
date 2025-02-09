@@ -1,5 +1,10 @@
 # vim: et:ts=2:sw=2
 { lib, pkgs, flakes, modulesPath, ... }: let
+  cursor = {
+    name = "Bibata-Modern-Ice";
+    size = 24;
+    package = pkgs.bibata-cursors;
+  };
 in {
   disabledModules = [
     "${modulesPath}/programs/ghostty.nix"
@@ -23,6 +28,8 @@ in {
 
     sessionVariables = {
       NIXOS_OZONE_WL = 1;
+      XCURSOR_SIZE = cursor.size;
+      XCURSOR_THEME = cursor.name;
     };
 
     packages = with pkgs; [
@@ -35,11 +42,7 @@ in {
   gtk = {
     enable = true;
 
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
-      size = 24;
-    };
+    cursorTheme = cursor;
 
     iconTheme = {
       name = "Papirus-Dark";
