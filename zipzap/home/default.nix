@@ -32,15 +32,33 @@ in {
     ];
   };
 
-  gtk.enable = true;
+  gtk = {
+    enable = true;
+
+    cursorTheme = {
+      name = "Bibata-Modern-Ice";
+      package = pkgs.bibata-cursors;
+      size = 24;
+    };
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+
+    theme = {
+      name = "catppuccin-mocha-peach-standard";
+      package = pkgs.catppuccin-gtk.override {
+        accents = [ "peach" ];
+        size = "standard";
+        variant = "mocha";
+      };
+    };
+  };
 
   catppuccin = {
     enable = true;
     ghostty.enable = false;
-    cursors = {
-      enable = true;
-      accent = "peach";
-    };
   };
 
   i18n.inputMethod = {

@@ -38,6 +38,10 @@
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "Gohu" ]; })
+    noto-fonts-emoji
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    noto-fonts-extra
   ];
 
   users.users.${flakes.me.user} = {
