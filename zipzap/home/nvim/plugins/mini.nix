@@ -53,6 +53,11 @@ in {
       };
       cursorword = {};
       starter = {
+        items = [
+          (lua ''require('mini.starter').sections.builtin_actions()'')
+          (lua ''require('mini.starter').sections.recent_files(7)'')
+          (lua ''require('mini.starter').sections.telescope()'')
+        ];
         evaluate_single = true;
       };
     };
