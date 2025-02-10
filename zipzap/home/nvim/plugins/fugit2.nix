@@ -25,6 +25,7 @@ in {
     package = fugit2;
     settings = {
       width = "80%";
+      height = "80%";
       min_width = 55;
       max_width = 90;
       gpgme_path = libPath gpgme "libgpgme.so";
