@@ -14,8 +14,6 @@ in {
     ./hyprland.nix
     ./ghostty.nix
     ./git.nix
-    ./wofi.nix
-    ./waybar.nix
     ./zsh.nix
     ./nixvim.nix
     flakes.homeManagerModules.ghostty

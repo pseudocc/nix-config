@@ -22,6 +22,13 @@ let
     sha256 = "sha256:0lbg9fyjkcw13n4fxnd14fj3fmq7lz5ydbzvakx2igy07gm2c7q9";
   };
 in {
+
+  imports = [
+    ./wofi.nix
+    ./waybar.nix
+    ./swaync.nix
+  ];
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
