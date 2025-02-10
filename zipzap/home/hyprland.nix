@@ -295,7 +295,7 @@ in {
         chromium = lib.getExe pkgs.chromium;
         mattermost = lib.getExe pkgs-unstable.mattermost-desktop;
       in [
-        "${void}, monitor:eDP-1, default:true, defaultName:void"
+        "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
         "${chat}, on-created-empty:${mattermost}, defaultName:chat"
       ];
