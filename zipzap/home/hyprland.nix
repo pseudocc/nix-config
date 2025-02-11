@@ -257,6 +257,7 @@ in {
         wl-copy = lib.getExe' pkgs.wl-clipboard "wl-copy";
         ghostty = lib.getExe flakes.ghostty.packages.${pkgs.system}.default;
         nvim-term = lib.getExe' neovim-terminal "nvim-term";
+        swaync-client = lib.getExe' pkgs.swaynotificationcenter "swaync-client";
       in [
         "$mod, T, exec, ${ghostty}"
         "$mod SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
@@ -278,6 +279,7 @@ in {
         "$mod, mouse_down, workspace, e+1"
 
         "$mod SHIFT, C, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
+        "$mod, N, exec, ${swaync-client} -t"
       ]
       ++ (let
         bindws = key: ws: [
