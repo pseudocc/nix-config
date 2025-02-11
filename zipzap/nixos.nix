@@ -23,7 +23,7 @@
 
   zsetup = {
     pipewire = true;
-    cups = true;
+    locations = "all";
     desktop = pkgs.gtk4.dev;
     session = "${pkgs.hyprland}/share/wayland-sessions";
   };

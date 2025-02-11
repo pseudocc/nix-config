@@ -3,15 +3,24 @@
 with lib; let
   cfg = config.zsetup;
   desktopType = types.nullOr types.package;
+  enums = fields: with types; oneOf [
+    (enum [ "all" ])
+    (listOf (enum fields))
+  ];
+  all.locations = [ "office" "home" "mobile" ];
 in {
   options.zsetup = {
     pipewire = mkEnableOption "sound with PipeWire";
-    cups = mkEnableOption "CUPS to print documents";
     desktop = mkOption {
       type = desktopType;
       default = null;
-      example = "gtk4";
+      example = pkgs.gtk4;
       description = "Which desktop environment is using.";
+    };
+    locations = mkOption {
+      type = enums all.locations;
+      example = [ "home" ];
+      description = "Where the system is used.";
     };
     session = mkOption {
       type = with types; nullOr path;
@@ -21,52 +30,80 @@ in {
     };
   };
 
-  config = {
-    services.printing.enable = cfg.cups;
-    services.fwupd.enable = true;
+  config = let
+    locations = if cfg.locations == "all" then all.locations else cfg.locations;
 
-    hardware.pulseaudio.enable = !cfg.pipewire;
-    security.rtkit.enable = cfg.desktop != null;
-    services.pipewire = mkIf cfg.pipewire {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      jack.enable = true;
+    office = mkIf (builtins.elem "office" locations) {
+      services.printing = {
+        enable = true;
+        drivers = with pkgs; [ hplip ];
+      };
+      hardware.printers.ensurePrinters = [{
+        name = "hp-laserjet";
+        description = "HP LaserJet 500 colorMFP M570dw";
+        location = "Beijing Office";
+        deviceUri = "socket://10.106.0.106";
+        model = "HP/hp-laserjet_500_color_mfp_m575-ps.ppd.gz";
+        ppdOptions.pageSizes = "A4";
+      }];
     };
 
-    environment.systemPackages = with pkgs; let
-      additionals = if cfg.desktop != null then [ cfg.desktop ] else [];
-    in [
-      python3
-      nodejs
-      usbutils
-      vim
-      tmux
-      tree
-      curl
-      wget
-      ripgrep
-      pamixer
-    ] ++ additionals;
-    programs.dconf.enable = cfg.desktop != null;
+    sound = {
+      hardware.pulseaudio.enable = !cfg.pipewire;
+      security.rtkit.enable = cfg.desktop != null;
+      services.pipewire = {
+        enable = cfg.pipewire;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+        jack.enable = true;
+      };
 
-    services.greetd = mkIf (cfg.desktop != null && cfg.session != null) {
-      enable = true;
-      vt = 6;
-      settings = {
-        default_session = let
-	  tuigreet = lib.getExe pkgs.greetd.tuigreet;
-	in {
-          command = "${tuigreet} -t -s ${cfg.session}";
-          user = "${flakes.me.user}";
+      environment.systemPackages = with pkgs; [
+        pamixer
+      ];
+    };
+
+    desktop = mkIf (cfg.desktop != null) {
+      environment.systemPackages = [ cfg.desktop ];
+      programs.dconf.enable = true;
+
+      services.greetd = {
+        enable = cfg.session != null;
+        vt = 6;
+        settings = {
+          default_session = let
+            tuigreet = lib.getExe pkgs.greetd.tuigreet;
+          in {
+            command = "${tuigreet} -t -s ${cfg.session}";
+            user = "${flakes.me.user}";
+          };
         };
       };
     };
 
-    services.avahi = {
-      enable = true;
-      nssmdns4 = true;
-    };
-  };
-} 
+  in mkMerge [
+    {
+      services.fwupd.enable = true;
+      services.avahi = {
+        enable = true;
+        nssmdns4 = true;
+      };
+      environment.systemPackages = with pkgs; [
+        python3
+        nodejs
+        usbutils
+        vim
+        tmux
+        tree
+        curl
+        wget
+        ripgrep
+      ];
+    }
+
+    office
+    sound
+    desktop
+  ];
+}
