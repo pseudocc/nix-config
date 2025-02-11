@@ -49,6 +49,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       "rebuild" = "sudo nixos-rebuild --flake $HOME/nix-config#zipzap";
+      "nix-path" = "nix build --print-out-paths --no-link";
     };
 
     history = {
