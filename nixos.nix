@@ -37,7 +37,7 @@
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Gohu" ]; })
+    (nerdfonts.override { fonts = [ "Gohu" "Noto" ]; })
     noto-fonts-emoji
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
