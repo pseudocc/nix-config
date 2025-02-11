@@ -35,8 +35,8 @@ in {
       widgets = [
         "title"
         "volume"
-        "mpris"
         "notifications"
+        "mpris"
         "dnd"
       ];
 
