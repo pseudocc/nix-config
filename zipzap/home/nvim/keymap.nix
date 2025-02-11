@@ -11,10 +11,11 @@
     (keymap "edit: insert a real <Tab>" "i" "<S-Tab>" "<C-V><Tab>")
     (keymap "edit: blackhole delete" "v" "<leader>D" ''"_d'')
     (keymap "edit: blackhole paste" "v" "<leader>P" ''"_dP'')
-    (keymap "edit: copy to clipboard" "v" "Y" ''"+y'')
+    (keymap "edit: copy to clipboard+" "v" "c" ''"+y'')
+    (keymap "edit: copy to clipboard*" "v" "C" ''"*y'')
     (keymap "edit: select all" "n" "gV" ''ggVG'')
     (keymap "edit: sudo write" "n" "<leader>W" ":w !sudo tee % > /dev/null<CR>")
-    (keymap "terminal: normal mode" "t" "<C-D>" "<C-\\><C-N>")
+    (keymap "terminal: normal mode" "t" "<C-Esc>" "<C-\\><C-N>")
     (keymap "buffer: previous" "n" "[b" ":bprev<CR>")
     (keymap "buffer: next" "n" "]b" ":bnext<CR>")
   ];
