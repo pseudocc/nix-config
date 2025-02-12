@@ -21,6 +21,14 @@ in {
     flakes.catppuccin.homeManagerModules.catppuccin
   ];
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      chromium = prev.chromium.override {
+        commandLineArgs = "--enable-wayland-ime";
+      };
+    })
+  ];
+
   home = {
     username = flakes.me.user;
     homeDirectory = "/home/${flakes.me.user}";
