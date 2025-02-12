@@ -16,6 +16,7 @@ in {
     ./git.nix
     ./zsh.nix
     ./nixvim.nix
+    ./ssh.nix
     flakes.homeManagerModules.ghostty
     flakes.catppuccin.homeManagerModules.catppuccin
   ];
