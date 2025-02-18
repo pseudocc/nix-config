@@ -38,6 +38,15 @@ in {
         enable = true;
         drivers = with pkgs; [ hplip ];
       };
+      services.tor = {
+        enable = true;
+        openFirewall = true;
+        client.enable = true;
+        settings = {
+          ContactInfo = flakes.me.email;
+          Nickname = flakes.me.nick;
+        };
+      };
       hardware.printers.ensurePrinters = [{
         name = "hp-laserjet";
         description = "HP LaserJet 500 colorMFP M570dw";
