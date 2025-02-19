@@ -28,6 +28,23 @@
       };
     };
 
+    luaConfig.pre = ''
+      local Lsp = {}
+      Lsp.style = {
+        border = 'single',
+        max_width = 60,
+        max_height = 15,
+      }
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
+        vim.lsp.handlers.hover,
+        Lsp.style
+      )
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
+        vim.lsp.handlers.signature_help,
+        Lsp.style
+      )
+    '';
+
     onAttach = ''
       vim.api.nvim_create_autocmd('CursorHold', {
         buffer = bufnr,
@@ -35,7 +52,7 @@
           local opts = {
             focusable = false,
             close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
-            border = 'rounded',
+            border = 'single',
             source = 'always',
             prefix = ' ',
             scope = 'cursor',
