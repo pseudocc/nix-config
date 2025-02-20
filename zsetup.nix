@@ -108,6 +108,7 @@ in {
         curl
         wget
         ripgrep
+        nix-index
       ];
     }
 
