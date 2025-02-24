@@ -3,6 +3,7 @@
 {
   programs.git = {
     enable = true;
+    lfs.enable = true;
     extraConfig = {
       user = { inherit (flakes.me) nick name email signingKey; };
       init.defaultBranch = "main";
