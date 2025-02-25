@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, pkgs-unstable, flakes, ... }: let
+{ lib, pkgs, flakes, ... }: let
   lua = flakes.lib.nixvim.lua;
 in {
   programs.nixvim.plugins.telescope = {

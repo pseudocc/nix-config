@@ -7,10 +7,11 @@
     flakes.nixos-hardware.nixosModules.lenovo-thinkpad-x13-yoga
     flakes.home-manager.nixosModules.home-manager
     flakes.catppuccin.nixosModules.catppuccin
+    flakes.intel-npu-driver.nixosModules.intel-npu-driver
   ];
 
   home-manager = {
-    extraSpecialArgs = { inherit pkgs-unstable flakes; };
+    extraSpecialArgs = { inherit flakes; };
     users.${flakes.me.user} = import ./home/default.nix;
   };
 

@@ -145,12 +145,17 @@
       };
     };
   in {
-    nixosConfigurations = {
+    nixosConfigurations = let
+      pkgs-unstable = import nixpkgs-unstable { inherit system; };
+    in {
       zipzap = nixpkgs.lib.nixosSystem rec {
-        specialArgs = {
-          inherit flakes;
-          pkgs-unstable = import nixpkgs-unstable { inherit system; };
-        };
+        overlays = [
+          (final: prev: rec {
+            unstable = pkgs-unstable;
+            nix = unstable.nix;
+          })
+        ];
+        specialArgs = { inherit flakes; };
         system = "x86_64-linux";
         modules = [
           ./nixos.nix

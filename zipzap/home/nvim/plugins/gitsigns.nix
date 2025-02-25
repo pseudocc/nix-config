@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, pkgs-unstable, flakes, ... }: {
+{ lib, pkgs, flakes, ... }: {
   programs.nixvim.plugins.gitsigns = {
     enable = true;
     settings = {

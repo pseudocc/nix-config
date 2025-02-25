@@ -1,7 +1,7 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, pkgs-unstable, flakes, ... }:
+{ lib, pkgs, flakes, ... }:
 with pkgs; let
-  fugit2 = with vimPlugins; pkgs-unstable.vimPlugins.fugit2-nvim.overrideAttrs {
+  fugit2 = with vimPlugins; pkgs.unstable.vimPlugins.fugit2-nvim.overrideAttrs {
     version = "pseudocc";
     src = fetchFromGitHub {
       owner = "pseudocc";

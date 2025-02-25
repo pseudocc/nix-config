@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, pkgs-unstable, flakes, ... }: let
+{ lib, pkgs, flakes, ... }: let
   treesitter-pxu-grammar = let
     package = pkgs.tree-sitter.buildGrammar {
       language = "pxu";

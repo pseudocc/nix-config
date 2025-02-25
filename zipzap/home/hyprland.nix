@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, pkgs-unstable, flakes, ... }:
+{ lib, pkgs, flakes, ... }:
 let
   colors = flakes.colors;
 
@@ -46,7 +46,7 @@ in {
 
   home.packages = [
     pkgs.chromium
-    pkgs-unstable.mattermost-desktop
+    pkgs.unstable.mattermost-desktop
     neovim-terminal
   ];
 
@@ -300,9 +300,9 @@ in {
         "$mod, mouse:273, resizewindow"
       ];
 
-      workspace = let 
+      workspace = let
         chromium = lib.getExe pkgs.chromium;
-        mattermost = lib.getExe pkgs-unstable.mattermost-desktop;
+        mattermost = lib.getExe pkgs.unstable.mattermost-desktop;
       in [
         "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
