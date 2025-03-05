@@ -26,6 +26,7 @@ in {
       chromium = prev.chromium.override {
         commandLineArgs = "--enable-wayland-ime";
       };
+      unstable = import flakes.nixpkgs-unstable { inherit (pkgs) system; };
     })
   ];
 

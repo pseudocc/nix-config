@@ -24,7 +24,6 @@
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  hardware.firmware = [ flakes.intel-npu.firmware ];
   hardware.graphics.enable = true;
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = true;

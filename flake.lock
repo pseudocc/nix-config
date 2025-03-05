@@ -271,27 +271,6 @@
         "type": "github"
       }
     },
-    "intel-npu-driver": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_2"
-      },
-      "locked": {
-        "lastModified": 1740368476,
-        "narHash": "sha256-ao8YVCvF7OFBRUCIslRRDBUKYnyU8FhJ+rshNdW9BX0=",
-        "ref": "nixos-modules",
-        "rev": "0da634d027e7db6fa2c0561e6e854fd16337d640",
-        "revCount": 73,
-        "submodules": false,
-        "type": "git",
-        "url": "https://github.com/pseudocc/linux-npu-driver"
-      },
-      "original": {
-        "ref": "nixos-modules",
-        "submodules": false,
-        "type": "git",
-        "url": "https://github.com/pseudocc/linux-npu-driver"
-      }
-    },
     "ixx": {
       "inputs": {
         "flake-utils": [
@@ -372,6 +351,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-mine": {
+      "locked": {
+        "lastModified": 1741083326,
+        "narHash": "sha256-zRaWtl228llnMe87loQsP2OauoaHTVyb5D8W5m6DtfU=",
+        "owner": "pseudocc",
+        "repo": "nixpkgs",
+        "rev": "c232a62b48857b53405e1b5476b456d5563599a3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pseudocc",
+        "ref": "intel-npu",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1733423277,
@@ -421,22 +416,6 @@
       }
     },
     "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1739866667,
-        "narHash": "sha256-EO1ygNKZlsAC9avfcwHkKGMsmipUk1Uc0TbrEZpkn64=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "73cf49b8ad837ade2de76f87eb53fc85ed5d4680",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
       "locked": {
         "lastModified": 1740162160,
         "narHash": "sha256-SSYxFhqCOb3aiPb6MmN68yEzBIltfom8IgRz7phHscM=",
@@ -508,9 +487,9 @@
         "catppuccin": "catppuccin",
         "ghostty": "ghostty",
         "home-manager": "home-manager",
-        "intel-npu-driver": "intel-npu-driver",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs_2",
+        "nixpkgs-mine": "nixpkgs-mine",
         "nixpkgs-unstable": "nixpkgs-unstable_2",
         "nixvim": "nixvim",
         "zig": "zig_2"

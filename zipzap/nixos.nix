@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, pkgs-unstable, flakes, ... }: {
+{ lib, pkgs, flakes, ... }: {
   imports = [
     ../zsetup.nix
     ./hardware.nix
@@ -7,7 +7,6 @@
     flakes.nixos-hardware.nixosModules.lenovo-thinkpad-x13-yoga
     flakes.home-manager.nixosModules.home-manager
     flakes.catppuccin.nixosModules.catppuccin
-    flakes.intel-npu-driver.nixosModules.intel-npu-driver
   ];
 
   home-manager = {

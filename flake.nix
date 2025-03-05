@@ -6,6 +6,8 @@
     # Nix
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-mine.url = "github:pseudocc/nixpkgs/intel-npu";
+
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     # Ghostty Terminal (Customized)
@@ -13,9 +15,6 @@
 
     # Theme
     catppuccin.url = "github:catppuccin/nix";
-
-    # Firmware
-    intel-npu.url = "github:pseudocc/linux-npu-driver";
 
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -38,6 +37,7 @@
     nixpkgs,
     zig,
     nixpkgs-unstable,
+    nixpkgs-mine,
     home-manager,
     ...
   } @ inputs:
@@ -145,19 +145,12 @@
       };
     };
   in {
-    nixosConfigurations = let
-      pkgs-unstable = import nixpkgs-unstable { inherit system; };
-    in {
+    nixosConfigurations = {
       zipzap = nixpkgs.lib.nixosSystem rec {
-        overlays = [
-          (final: prev: rec {
-            unstable = pkgs-unstable;
-            nix = unstable.nix;
-          })
-        ];
         specialArgs = { inherit flakes; };
         system = "x86_64-linux";
         modules = [
+          ./npu.nix
           ./nixos.nix
           ./zipzap/nixos.nix
         ];
