@@ -43,6 +43,7 @@
         vim.lsp.handlers.signature_help,
         Lsp.style
       )
+      vim.g.zig_fmt_parse_errors = 0
     '';
 
     onAttach = ''

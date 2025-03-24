@@ -17,7 +17,7 @@
     catppuccin.url = "github:catppuccin/nix";
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:pseudocc/nixvim/suffix-path";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
