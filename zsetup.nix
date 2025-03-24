@@ -34,6 +34,8 @@ in {
     locations = if cfg.locations == "all" then all.locations else cfg.locations;
 
     office = mkIf (builtins.elem "office" locations) {
+      users.users.${flakes.me.user}.extraGroups = [ "lxd" ];
+      virtualisation.lxd.enable = true;
       services.printing = {
         enable = true;
         drivers = with pkgs; [ hplip ];
