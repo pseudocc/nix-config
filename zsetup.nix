@@ -99,6 +99,12 @@ in {
       services.avahi = {
         enable = true;
         nssmdns4 = true;
+        publish = {
+          enable = true;
+          userServices = true;
+          domain = true;
+          hinfo = true;
+        };
       };
       environment.systemPackages = with pkgs; [
         python3
