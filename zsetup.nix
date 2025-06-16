@@ -33,6 +33,21 @@ in {
   config = let
     locations = if cfg.locations == "all" then all.locations else cfg.locations;
 
+    home = mkIf (builtins.elem "home" locations) {
+      programs.steam = {
+        enable = true;
+        remotePlay.openFirewall = true;
+        dedicatedServer.openFirewall = true;
+        localNetworkGameTransfers.openFirewall = true;
+      };
+      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+        "steam"
+        "steam-original"
+        "steam-unwrapped"
+        "steam-run"
+      ];
+    };
+
     office = mkIf (builtins.elem "office" locations) {
       users.users.${flakes.me.user}.extraGroups = [ "lxd" ];
       virtualisation.lxd.enable = true;
@@ -120,6 +135,7 @@ in {
       ];
     }
 
+    home
     office
     sound
     desktop
