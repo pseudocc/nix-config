@@ -44,6 +44,7 @@
   let
     flakes = inputs // rec {
       me = rec {
+        canonical = "catlas";
         nick = "pseudoc";
         user = nick;
         name = "Atlas Yu";
