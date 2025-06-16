@@ -75,7 +75,7 @@ in {
     };
 
     sound = {
-      hardware.pulseaudio.enable = !cfg.pipewire;
+      services.pulseaudio.enable = !cfg.pipewire;
       security.rtkit.enable = cfg.desktop != null;
       services.pipewire = {
         enable = cfg.pipewire;

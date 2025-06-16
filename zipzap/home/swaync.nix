@@ -63,7 +63,7 @@ in {
       };
     };
 
-    style = ''
+    style = lib.mkDefault ''
       ${builtins.readFile ./swaync.css}
     '';
   };

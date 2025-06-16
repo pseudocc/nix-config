@@ -302,7 +302,7 @@ in {
 
       workspace = let
         chromium = lib.getExe pkgs.chromium;
-        mattermost = lib.getExe pkgs.unstable.mattermost-desktop;
+        mattermost = lib.getExe pkgs.mattermost-desktop;
       in [
         "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"

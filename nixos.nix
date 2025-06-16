@@ -37,7 +37,8 @@
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "Gohu" "Noto" ]; })
+    nerd-fonts.gohufont
+    nerd-fonts.noto
     noto-fonts-emoji
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
@@ -80,5 +81,5 @@
     };
   };
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 }

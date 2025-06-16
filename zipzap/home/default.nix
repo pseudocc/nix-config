@@ -18,7 +18,7 @@ in {
     ./nixvim.nix
     ./ssh.nix
     flakes.homeManagerModules.ghostty
-    flakes.catppuccin.homeManagerModules.catppuccin
+    flakes.catppuccin.homeModules.catppuccin
   ];
 
   nixpkgs.overlays = [
@@ -26,7 +26,7 @@ in {
       chromium = prev.chromium.override {
         commandLineArgs = "--enable-wayland-ime";
       };
-      unstable = import flakes.nixpkgs-unstable { inherit (pkgs) system; };
+      unstable = import flakes.nixpkgs-mine { inherit (pkgs) system; };
     })
   ];
 
@@ -73,7 +73,8 @@ in {
   };
 
   i18n.inputMethod = {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     fcitx5.addons = with pkgs; [
       fcitx5-gtk
       fcitx5-configtool
