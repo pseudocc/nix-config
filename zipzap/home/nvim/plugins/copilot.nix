@@ -19,6 +19,5 @@
       };
       filetypes.yaml = true;
     };
-    nodePackage = pkgs.nodejs;
   };
 }

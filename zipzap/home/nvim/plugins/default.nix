@@ -66,7 +66,7 @@
 
     image = {
       enable = true;
-      backend = "kitty";
+      settings.backend = "kitty";
     };
   };
 

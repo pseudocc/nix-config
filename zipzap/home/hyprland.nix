@@ -53,10 +53,7 @@ in {
   programs.hyprlock = {
     enable = true;
     settings = {
-      auth = {
-        # cannot get fprint and password work together
-        "fingerprint:enabled" = false;
-      };
+      auth.fingerprint.enable = true;
 
       general = {
         disable_loading_bar = false;
@@ -67,38 +64,6 @@ in {
         path = wallpaper;
         blur_passes = 2;
       }];
-
-      input-field = with flakes.colors; [{
-        size = "320, 40";
-        position = "0, -160";
-        dots_center = true;
-        font_color = rgb bright.black;
-        inner_color = rgb surface;
-        outer_color = rgb highlight;
-        check_color = rgb green;
-        fail_color = rgb bright.red;
-        rounding = 10;
-      }];
-
-      label = with flakes.colors; [
-        {
-          text = "$TIME";
-          color = rgb bright.white;
-          font_size = "120";
-          position = "0, -160";
-          halign = "center";
-          valign = "top";
-        }
-        {
-          text = "$USER@zipzap";
-          color = rgba bright.white "b0";
-          font_size = "30";
-          font_family = "GohuFont uni11 Nerd Font Mono";
-          position = "0, -80";
-          halign = "center";
-          valign = "center";
-        }
-      ];
     };
   };
 
