@@ -78,8 +78,8 @@ in {
     ];
 
     diagnostic.settings = {
-      virtual_lines.only_current_line = true;
-      virtual_text = true;
+      virtual_lines.current_line = true;
+      virtual_text = false;
     };
 
     dependencies.nodejs.package = pkgs.nodejs;

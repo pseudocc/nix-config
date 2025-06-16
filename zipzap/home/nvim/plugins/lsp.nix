@@ -2,6 +2,7 @@
 { lib, pkgs, flakes, ... }: {
   programs.nixvim.plugins.lsp = let
     leader = ",";
+    lua = flakes.lib.nixvim.lua;
   in {
     enable = true;
 
@@ -12,20 +13,46 @@
       };
 
       lspBuf = {
-        K = "hover";
-        gd = "definition";
-        gD = "references";
-        gi = "implementation";
-        gt = "type_definition";
         "${leader}rn" = "rename";
         "${leader}ca" = "code_action";
         "${leader}f" = "format";
-
-        "<C-k>" = {
-          mode = [ "n" "i" "v" "x" ];
-          action = "signature_help";
-        };
       };
+
+      extra = [
+        {
+          action = lua ''require('telescope.builtin').lsp_definitions'';
+          key = "gd";
+        }
+        {
+          action = lua ''require('telescope.builtin').lsp_references'';
+          key = "gr";
+        }
+        {
+          action = lua ''require('telescope.builtin').lsp_implementations'';
+          key = "gi";
+        }
+        {
+          action = lua ''require('telescope.builtin').lsp_type_definitions'';
+          key = "gt";
+        }
+        {
+          action = lua ''
+            function ()
+              vim.lsp.buf.hover(Lsp.style)
+            end
+          '';
+          key = "K";
+        }
+        {
+          action = lua ''
+            function ()
+              vim.lsp.buf.signature_help(Lsp.style)
+            end
+          '';
+          key = "<C-k>";
+          mode = [ "n" "i" "v" "x" ];
+        }
+      ];
     };
 
     luaConfig.pre = ''
@@ -35,32 +62,7 @@
         max_width = 60,
         max_height = 15,
       }
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-        vim.lsp.handlers.hover,
-        Lsp.style
-      )
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-        vim.lsp.handlers.signature_help,
-        Lsp.style
-      )
       vim.g.zig_fmt_parse_errors = 0
-    '';
-
-    onAttach = ''
-      vim.api.nvim_create_autocmd('CursorHold', {
-        buffer = bufnr,
-        callback = function()
-          local opts = {
-            focusable = false,
-            close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter', 'FocusLost' },
-            border = 'single',
-            source = 'always',
-            prefix = ' ',
-            scope = 'cursor',
-          }
-          vim.diagnostic.open_float(nil, opts)
-        end
-      })
     '';
 
     servers = {
