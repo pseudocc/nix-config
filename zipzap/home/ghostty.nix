@@ -13,6 +13,7 @@ in {
       # Appearance
       window-decoration = false;
       gtk-tabs-location = "bottom";
+      font-size = 15;
       font-family = "GohuFont uni14 Nerd Font Mono";
       font-feature = "-calt";
       background-image = bgimg;
@@ -43,7 +44,7 @@ in {
       adjust-cursor-thickness = 2;
 
       # Controls
-      keybind = let 
+      keybind = let
         binds = lib.mapAttrsToList;
         bind = key: act: "${key}=${act}";
         primary = key: bind "ctrl+shift+${key}";

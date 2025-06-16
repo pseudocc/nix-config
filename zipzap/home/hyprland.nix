@@ -278,7 +278,7 @@ in {
         "$mod, mouse_up, workspace, e-1"
         "$mod, mouse_down, workspace, e+1"
 
-        "$mod SHIFT, C, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
+        "$mod SHIFT, P, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
         "$mod, N, exec, ${swaync-client} -t"
       ]
       ++ (let
