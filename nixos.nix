@@ -45,13 +45,6 @@
     noto-fonts-extra
   ];
 
-  fonts.fontconfig.defaultFonts = {
-    emoji = [ "Noto Color Emoji" ];
-    monospace = [ "GohuFont uni14 Nerd Font Mono" ];
-    sansSerif = [ "Noto Sans CJK SC" ];
-    serif = [ "Noto Serif CJK SC" ];
-  };
-
   users.users.${flakes.me.user} = {
     isNormalUser = true;
     description = flakes.me.description;

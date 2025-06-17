@@ -39,6 +39,12 @@ in {
         remotePlay.openFirewall = true;
         dedicatedServer.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
+        fontPackages = with pkgs; lib.mkForce [
+          noto-fonts-emoji
+          noto-fonts-cjk-sans
+          noto-fonts-cjk-serif
+          noto-fonts-extra
+        ];
       };
       nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
         "steam"

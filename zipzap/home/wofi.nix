@@ -5,8 +5,8 @@
     settings = {
       show="drun";
       prompt="An idiot admires complexity, a genius admires simplicity.";
-      width=640;
-      height=400;
+      width=960;
+      height=600;
       always_parse_args=true;
       show_all=false;
       print_command=true;

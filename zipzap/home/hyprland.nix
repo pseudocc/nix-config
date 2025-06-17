@@ -125,7 +125,7 @@ in {
         "hyprctl dispatch workspace ${void}"
       ];
 
-      monitor = "eDP-1,preferred,auto,1.5";
+      monitor = "eDP-1,preferred,auto,1";
       source = [
         # This file is not managed by Nix
         "~/.config/hypr/external-monitors.conf"
