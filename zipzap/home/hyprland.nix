@@ -128,7 +128,7 @@ in {
       monitor = "eDP-1,preferred,auto,1";
       source = [
         # This file is not managed by Nix
-        "~/.config/hypr/external-monitors.conf"
+        "~/.config/hypr/flex.conf"
       ];
 
       general = {
@@ -245,6 +245,9 @@ in {
 
         "$mod SHIFT, P, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
         "$mod, N, exec, ${swaync-client} -t"
+
+        "$mod SHIFT, left, movecurrentworkspacetomonitor, l"
+        "$mod SHIFT, right, movecurrentworkspacetomonitor, r"
       ]
       ++ (let
         bindws = key: ws: [
