@@ -24,6 +24,11 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    bughamster = {
+      url = "git+ssh://git@github.com/canonical/bughamster?ref=jira-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

@@ -69,6 +69,9 @@ in {
         model = "HP/hp-laserjet_500_color_mfp_m575-ps.ppd.gz";
         ppdOptions.pageSizes = "A4";
       }];
+      environment.systemPackages = [
+        flakes.bughamster.packages.${pkgs.system}.default
+      ];
     };
 
     sound = {

@@ -1,5 +1,26 @@
 {
   "nodes": {
+    "bughamster": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1744268444,
+        "narHash": "sha256-cICb3hXNgEbH19p3cE+cuGev1eHPDPuJJZCJJMPflKM=",
+        "ref": "jira-nix",
+        "rev": "0c6f1664b0894b8e9d8146cb95ee558d6e9781b4",
+        "revCount": 206,
+        "type": "git",
+        "url": "ssh://git@github.com/canonical/bughamster"
+      },
+      "original": {
+        "ref": "jira-nix",
+        "type": "git",
+        "url": "ssh://git@github.com/canonical/bughamster"
+      }
+    },
     "catppuccin": {
       "inputs": {
         "nixpkgs": "nixpkgs"
@@ -305,6 +326,7 @@
     },
     "root": {
       "inputs": {
+        "bughamster": "bughamster",
         "catppuccin": "catppuccin",
         "ghostty": "ghostty",
         "home-manager": "home-manager",
