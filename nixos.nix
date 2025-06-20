@@ -21,7 +21,16 @@
   };
 
   networking.useDHCP = lib.mkDefault true;
-  networking.networkmanager.enable = true;
+  networking.wireless.iwd = {
+    enable = true;
+    settings = {
+      General.CountryCode = "HK";
+    };
+  };
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

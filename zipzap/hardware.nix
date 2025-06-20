@@ -26,6 +26,9 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   hardware.graphics.enable = true;
   hardware.enableRedistributableFirmware = true;
+  hardware.firmware = with pkgs; [
+    wireless-regdb
+  ];
   hardware.cpu.intel.updateMicrocode = true;
   services.fprintd.enable = false;
 
