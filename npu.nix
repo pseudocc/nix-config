@@ -10,7 +10,7 @@
         inherit (pkgs) system;
       };
     in {
-      inherit (mine) intel-npu-driver intel-npu-firmware;
+      inherit (mine) intel-npu-driver;
     })
   ];
 
