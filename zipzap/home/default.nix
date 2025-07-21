@@ -17,7 +17,7 @@ in {
     ./zsh.nix
     ./nixvim.nix
     ./ssh.nix
-    flakes.homeManagerModules.ghostty
+    flakes.modules.ghostty
     flakes.catppuccin.homeModules.catppuccin
   ];
 
