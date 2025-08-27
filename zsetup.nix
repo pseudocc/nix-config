@@ -53,6 +53,7 @@ in {
         ];
       };
       zsetup.unfree = [
+        "qq"
         "steam"
         "steam-original"
         "steam-unwrapped"

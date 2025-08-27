@@ -1,5 +1,5 @@
 # vim: et:ts=2:sw=2
-{ lib, pkgs, flakes, modulesPath, ... }: let
+{ nixosConfig, lib, pkgs, zsetup, flakes, modulesPath, ... }: let
   cursor = {
     name = "Bibata-Modern-Ice";
     size = 24;
@@ -29,6 +29,8 @@ in {
       unstable = import flakes.nixpkgs-mine { inherit (pkgs) system; };
     })
   ];
+
+  nixpkgs.config = { inherit (nixosConfig.nixpkgs.config) allowUnfreePredicate; };
 
   home = {
     username = flakes.me.user;

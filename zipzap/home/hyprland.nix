@@ -45,6 +45,7 @@ in {
   };
 
   home.packages = [
+    pkgs.qq
     pkgs.chromium
     pkgs.mattermost-desktop
     neovim-terminal
@@ -113,6 +114,7 @@ in {
     void = "42";
     browser = "24";
     chat = "23";
+    QQ = "25";
   in {
     enable = true;
     xwayland.enable = true;
@@ -259,6 +261,7 @@ in {
           "0" = void;
           "B" = browser;
           "C" = chat;
+          "Q" = QQ;
         };
         binds = lib.mapAttrsToList bindws pairs;
       in builtins.concatLists binds);
@@ -271,10 +274,12 @@ in {
       workspace = let
         chromium = lib.getExe pkgs.chromium;
         mattermost = lib.getExe pkgs.mattermost-desktop;
+        qq = "${pkgs.qq}/bin/qq";
       in [
         "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
         "${chat}, on-created-empty:${mattermost}, defaultName:chat"
+        "${QQ}, on-created-empty:${qq}, defaultName:QQ"
       ];
     };
   };
