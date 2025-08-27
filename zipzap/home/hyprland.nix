@@ -46,7 +46,7 @@ in {
 
   home.packages = [
     pkgs.chromium
-    pkgs.unstable.mattermost-desktop
+    pkgs.mattermost-desktop
     neovim-terminal
   ];
 
