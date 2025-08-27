@@ -28,6 +28,12 @@ in {
       example = "/nix-store/share/wayland-sessions";
       description = "The session tuigreet will launch.";
     };
+    unfree = mkOption {
+      type = with types; listOf types.string;
+      default = [ ];
+      example = [ "steam" "vault" ];
+      description = "List of unfree packages to allow.";
+    };
   };
 
   config = let
@@ -46,7 +52,7 @@ in {
           noto-fonts-extra
         ];
       };
-      nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      zsetup.unfree = [
         "steam"
         "steam-original"
         "steam-unwrapped"
@@ -134,6 +140,7 @@ in {
         ripgrep
         nix-index
       ];
+      nixpkgs.config.allowUnfreePredicate = _pkgs: builtins.elem (lib.getName _pkgs) cfg.unfree;
     }
 
     home
