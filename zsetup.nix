@@ -122,6 +122,7 @@ in {
         };
       };
       environment.systemPackages = with pkgs; [
+        flakes.nix-prefetch-github.packages.${pkgs.system}.default
         python3
         nodejs
         usbutils
