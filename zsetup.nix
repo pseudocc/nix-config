@@ -77,6 +77,10 @@ in {
       }];
       environment.systemPackages = [
         flakes.bughamster.packages.${pkgs.system}.default
+        pkgs.vault
+      ];
+      zsetup.unfree = [
+        "vault"
       ];
     };
 
