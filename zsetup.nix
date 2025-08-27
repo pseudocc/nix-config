@@ -29,7 +29,7 @@ in {
       description = "The session tuigreet will launch.";
     };
     unfree = mkOption {
-      type = with types; listOf types.string;
+      type = with types; listOf types.str;
       default = [ ];
       example = [ "steam" "vault" ];
       description = "List of unfree packages to allow.";
