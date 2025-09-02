@@ -69,7 +69,10 @@
       bashls.enable = true;
       clangd.enable = true;
       ts_ls.enable = true;
-      zls.enable = true;
+      zls = {
+        enable = true;
+        package = pkgs.unstable.zls;
+      };
       pyright.enable = true;
     };
   };
