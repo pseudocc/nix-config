@@ -43,7 +43,7 @@ in {
     };
 
     packages = with pkgs; [
-      zig
+      unstable.zig_0_15
       zig-shell-completions
       wl-clipboard
     ];
