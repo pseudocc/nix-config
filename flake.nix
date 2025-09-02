@@ -29,12 +29,6 @@
       url = "git+ssh://git@github.com/canonical/bughamster?ref=jira-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nix-prefetch-github = {
-      url = "github:seppeljordan/nix-prefetch-github/v7.1.0";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
-    };
   };
 
   outputs = {
