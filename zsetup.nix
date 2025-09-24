@@ -54,6 +54,7 @@ in {
       };
       zsetup.unfree = [
         "qq"
+        "discord"
         "steam"
         "steam-original"
         "steam-unwrapped"

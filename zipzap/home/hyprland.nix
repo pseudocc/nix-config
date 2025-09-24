@@ -45,6 +45,7 @@ in {
   };
 
   home.packages = [
+    pkgs.discord
     pkgs.qq
     pkgs.chromium
     pkgs.mattermost-desktop
