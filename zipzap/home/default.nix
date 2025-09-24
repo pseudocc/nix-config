@@ -45,6 +45,8 @@ in {
     packages = with pkgs; [
       unstable.zig_0_15
       zig-shell-completions
+      rustc
+      cargo
       wl-clipboard
     ];
   };

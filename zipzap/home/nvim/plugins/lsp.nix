@@ -73,6 +73,11 @@
         enable = true;
         package = pkgs.unstable.zls;
       };
+      rust_analyzer = {
+        enable = true;
+        installRustc = false;
+        installCargo = false;
+      };
       pyright.enable = true;
     };
   };
