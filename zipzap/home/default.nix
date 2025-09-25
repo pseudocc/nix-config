@@ -42,9 +42,15 @@ in {
       XCURSOR_THEME = cursor.name;
     };
 
-    packages = with pkgs; [
-      unstable.zig_0_15
+    packages = let
+      zig = pkgs.unstable.zig_0_15;
+      default-cc = pkgs.writeShellScriptBin "cc" ''
+        exec ${zig}/bin/zig cc "$@"
+      '';
+    in with pkgs; [
+      zig
       zig-shell-completions
+      default-cc
       rustc
       cargo
       wl-clipboard
