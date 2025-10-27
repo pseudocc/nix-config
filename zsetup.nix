@@ -73,13 +73,22 @@ in {
         name = "hp-laserjet";
         description = "HP LaserJet 500 colorMFP M570dw";
         location = "Beijing Office";
-        deviceUri = "socket://10.106.0.106";
+        deviceUri = "socket://hp-laserjet.local";
         model = "HP/hp-laserjet_500_color_mfp_m575-ps.ppd.gz";
         ppdOptions.pageSizes = "A4";
       }];
+      networking.hosts = {
+        "10.106.0.106" = [
+          "hp-laserjet.local"
+          "printer.local"
+        ];
+        "10.106.0.76" = [ "mock.local" ];
+        "10.106.4.112" = [ "mock.local" ];
+      };
       environment.systemPackages = [
         flakes.bughamster.packages.${pkgs.system}.default
         pkgs.vault
+        pkgs.rclone
       ];
       zsetup.unfree = [
         "vault"
