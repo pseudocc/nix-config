@@ -27,6 +27,7 @@ in {
     ./wofi.nix
     ./waybar.nix
     ./swaync.nix
+    ./kanshi.nix
   ];
 
   xdg.portal = {
@@ -126,12 +127,6 @@ in {
 
       exec-once = [
         "hyprctl dispatch workspace ${void}"
-      ];
-
-      monitor = "eDP-1,preferred,auto,1";
-      source = [
-        # This file is not managed by Nix
-        "~/.config/hypr/flex.conf"
       ];
 
       general = {
