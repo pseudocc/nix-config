@@ -9,8 +9,7 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
-    # Ghostty Terminal (Customized)
-    ghostty.url = "github:pseudocc/ghostty";
+    ghostty.url = "github:ghostty-org/ghostty/v1.2.3";
 
     # Theme
     catppuccin.url = "github:catppuccin/nix";
