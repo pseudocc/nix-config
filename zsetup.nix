@@ -142,6 +142,11 @@ in {
           hinfo = true;
         };
       };
+      services.journald = {
+        extraConfig = ''
+          SystemMaxUse=200M
+        '';
+      };
       environment.systemPackages = with pkgs; [
         python3
         nodejs
