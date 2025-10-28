@@ -63,8 +63,10 @@ in {
     };
 
     office = mkIf (builtins.elem "office" locations) {
-      users.users.${flakes.me.user}.extraGroups = [ "lxd" ];
-      virtualisation.lxd.enable = true;
+      virtualisation.podman = {
+        enable = true;
+        extraPackages = [ pkgs.zfs ];
+      };
       services.printing = {
         enable = true;
         drivers = with pkgs; [ hplip ];
