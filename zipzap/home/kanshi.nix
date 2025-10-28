@@ -6,7 +6,7 @@
     settings = [
       {
         output.criteria = "eDP-1";
-        output.scale = 1.25;
+        output.scale = 1.0;
       }
       {
         profile.name = "portable";
@@ -45,41 +45,39 @@
   home.packages = let
     systemctl = lib.getExe' pkgs.systemd "systemctl";
     monps = pkgs.writeShellScriptBin "monps" ''
-      if [ $(hyprctl monitors | grep "^Monitor" | wc -l) != 2 ]; then
-        echo "Only works with two monitors connected."
-        exit 1
-      fi
-
       COMMAND="''${1:-reload}"
 
       enable-monitor() {
-        echo "include \"~/.config/kanshi/$1\"" > ~/.config/kanshi/docked
-        restart-kanshi
-      }
+        local kanshi hyprland
+        kanshi="include \"~/.config/kanshi/$1\""
 
-      restart-kanshi() {
+        echo "$kanshi" > ~/.config/kanshi/docked
         ${systemctl} --user restart kanshi.service
+
+        hyprland="monitor = ,preferred,auto"
+        if [ "$1" = "both" ] && [ "$2" = "mirror" ]; then
+          hyprland="$hyprland,auto,mirror,eDP-1"
+        else
+          hyprland="$hyprland,1"
+        fi
+        echo "$hyprland" > ~/.config/hypr/kanshi.conf
       }
 
       case "$COMMAND" in
         r|reload)
-          restart-kanshi
+          ${systemctl} --user restart kanshi.service
           ;;
         m|mirror)
-          enable-monitor "both"
-          echo "monitor = ,preferred,auto,auto,mirror,eDP-1" > ~/.config/hypr/kanshi.conf
+          enable-monitor both mirror
           ;;
         j|joint)
-          enable-monitor "both"
-          echo "" > ~/.config/hypr/kanshi.conf
+          enable-monitor both
           ;;
         i|internal)
-          enable-monitor "internal"
-          echo "" > ~/.config/hypr/kanshi.conf
+          enable-monitor internal
           ;;
         e|external)
-          enable-monitor "external"
-          echo "" > ~/.config/hypr/kanshi.conf
+          enable-monitor external
           ;;
         *)
           echo "Usage: monps [reload|mirror|joint|internal|external]"
