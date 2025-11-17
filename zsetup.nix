@@ -133,6 +133,19 @@ in {
 
   in mkMerge [
     {
+      nixpkgs.overlays = [
+        (final: prev: let
+          mine = import flakes.nixpkgs-unstable {
+            inherit (pkgs) system;
+            config.allowUnfreePredicate = _pkgs: builtins.elem (lib.getName _pkgs) [
+              "github-copilot-cli"
+            ];
+          };
+        in {
+          inherit (mine) github-copilot-cli;
+        })
+      ];
+
       services.fwupd.enable = true;
       services.avahi = {
         enable = true;
@@ -160,7 +173,9 @@ in {
         wget
         ripgrep
         nix-index
+        github-copilot-cli
       ];
+
       nixpkgs.config.allowUnfreePredicate = _pkgs: builtins.elem (lib.getName _pkgs) cfg.unfree;
     }
 

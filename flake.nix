@@ -6,6 +6,7 @@
     # Nix
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-mine.url = "github:pseudocc/nixpkgs/intel-npu";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
