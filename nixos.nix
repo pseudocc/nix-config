@@ -8,6 +8,7 @@
     settings = {
       experimental-features = "nix-command flakes";
       flake-registry = "";
+      trusted-users = [ "root" flakes.me.user ];
     };
     channel.enable = false;
 

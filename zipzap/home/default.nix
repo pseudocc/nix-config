@@ -54,6 +54,7 @@ in {
       rustc
       cargo
       wl-clipboard
+      devenv
     ];
   };
 
@@ -97,6 +98,7 @@ in {
     home-manager.enable = true;
     gh.enable = true;
     bun.enable = true;
+    direnv.enable = true;
   };
 
   # Nicely reload system units when changing configs
