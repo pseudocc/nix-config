@@ -26,7 +26,7 @@ in {
       chromium = prev.chromium.override {
         commandLineArgs = "--enable-wayland-ime";
       };
-      unstable = import flakes.nixpkgs-mine { inherit (pkgs) system; };
+      unstable = import flakes.nixpkgs-unstable { inherit (pkgs) system; };
     })
   ];
 
@@ -54,7 +54,7 @@ in {
       rustc
       cargo
       wl-clipboard
-      devenv
+      unstable.devenv
     ];
   };
 
