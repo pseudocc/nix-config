@@ -11,12 +11,17 @@
     ./lsp.nix
   ];
 
-  programs.nixvim.colorscheme = "catppuccin";
-  programs.nixvim.colorschemes.catppuccin = {
+  programs.nixvim.colorscheme = "rose-pine";
+  programs.nixvim.colorschemes.rose-pine = {
     enable = true;
     settings = {
-      term_colors = true;
-      transparent_background = true;
+      variant = "moon";
+        bold_vert_split = false;
+        disable_background = true;
+        disable_float_background = true;
+        highlight_groups = {
+          Whitespace.fg = "surface";
+        };
     };
   };
 
@@ -26,7 +31,7 @@
     lualine = {
       enable = true;
       settings.options = {
-        theme = "catppuccin";
+        theme = "rose-pine";
       };
     };
 
