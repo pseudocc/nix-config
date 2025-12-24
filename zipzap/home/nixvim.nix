@@ -4,7 +4,7 @@
   colors = flakes.colors;
 in {
   imports = [
-    flakes.nixvim.homeManagerModules.nixvim
+    flakes.nixvim.homeModules.nixvim
     ./nvim/plugins
     ./nvim/highlight.nix
     ./nvim/option.nix

@@ -46,10 +46,10 @@ in {
         dedicatedServer.openFirewall = true;
         localNetworkGameTransfers.openFirewall = true;
         fontPackages = with pkgs; lib.mkForce [
-          noto-fonts-emoji
+          noto-fonts-color-emoji
           noto-fonts-cjk-sans
           noto-fonts-cjk-serif
-          noto-fonts-extra
+          noto-fonts
         ];
       };
       zsetup.unfree = [
@@ -59,6 +59,7 @@ in {
         "steam-original"
         "steam-unwrapped"
         "steam-run"
+        "github-copilot-cli"
       ];
     };
 
@@ -88,7 +89,6 @@ in {
         "10.106.4.112" = [ "mock.local" ];
       };
       environment.systemPackages = [
-        flakes.bughamster.packages.${pkgs.system}.default
         pkgs.vault
         pkgs.rclone
       ];
@@ -119,10 +119,9 @@ in {
 
       services.greetd = {
         enable = cfg.session != null;
-        vt = 6;
         settings = {
           default_session = let
-            tuigreet = lib.getExe pkgs.greetd.tuigreet;
+            tuigreet = lib.getExe pkgs.tuigreet;
           in {
             command = "${tuigreet} -t -s ${cfg.session}";
             user = "${flakes.me.user}";
@@ -135,14 +134,16 @@ in {
     {
       nixpkgs.overlays = [
         (final: prev: let
-          mine = import flakes.nixpkgs-unstable {
-            inherit (pkgs) system;
-            config.allowUnfreePredicate = _pkgs: builtins.elem (lib.getName _pkgs) [
-              "github-copilot-cli"
-            ];
+          unstable = import flakes.nixpkgs-unstable {
+            inherit (pkgs.stdenv.hostPlatform) system;
+            config.allowUnfreePredicate = _pkgs: builtins.elem (lib.getName _pkgs) cfg.unfree;
           };
         in {
-          inherit (mine) github-copilot-cli;
+          inherit (unstable)
+            steam
+            steam-original
+            steam-unwrapped
+            steam-run;
         })
       ];
 
@@ -172,7 +173,7 @@ in {
         curl
         wget
         ripgrep
-        nix-index
+        p7zip
         github-copilot-cli
       ];
 

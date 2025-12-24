@@ -2,7 +2,10 @@
 { lib, pkgs, flakes, ... }: {
   programs = {
     fzf.enable = true;
-    command-not-found.enable = true;
+    nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+    };
   };
 
   home.packages = with pkgs; [

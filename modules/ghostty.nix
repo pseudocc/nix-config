@@ -1,6 +1,7 @@
 { lib, pkgs, config, flakes, ... }:
 with lib; let
-  ghostty = flakes.ghostty.packages.${pkgs.system}.default;
+  system = pkgs.stdenv.hostPlatform.system;
+  ghostty = flakes.ghostty.packages.${system}.default;
   cfg = config.programs.ghostty;
   Settings = with types; let
       Primitives = either str (either bool (either int float));

@@ -9,8 +9,8 @@ in {
   home.packages = [ pkgs.cloudflared ];
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     includes = [ "unmanaged-config" ];
-    addKeysToAgent = "confirm";
     matchBlocks = {
       "github.com".identityFile = "~/.ssh/self";
       mock = {
@@ -23,6 +23,16 @@ in {
       };
       ps7 = canonical-bastion "devices-bastion-ps7";
       pek = canonical-bastion "bjp-vpn1";
+      "*" = {
+        compression = true;
+        forwardAgent = true;
+        addKeysToAgent = "confirm";
+        hashKnownHosts = false;
+        userKnownHostsFile = "~/.ssh/known_hosts";
+        controlMaster = "auto";
+        controlPath = "~/.ssh/master-%r@%h:%p";
+        controlPersist = "5m";
+      };
     };
   };
 }

@@ -4,29 +4,31 @@
 
   inputs = {
     # Nix
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-mine.url = "github:pseudocc/nixpkgs/intel-npu";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
-    ghostty.url = "github:ghostty-org/ghostty/v1.2.3";
+    ghostty = {
+      url = "github:ghostty-org/ghostty/v1.2.3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Theme
     catppuccin.url = "github:catppuccin/nix";
 
     nixvim = {
-      url = "github:pseudocc/nixvim/suffix-path";
+      url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    bughamster = {
-      url = "git+ssh://git@github.com/canonical/bughamster?ref=jira-nix";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -34,8 +36,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-mine,
-    home-manager,
     ...
   } @ inputs:
   let

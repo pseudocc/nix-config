@@ -9,6 +9,10 @@
       experimental-features = "nix-command flakes";
       flake-registry = "";
       trusted-users = [ "root" flakes.me.user ];
+      substituters = [
+        "https://mirrors.bfsu.edu.cn/nix-channels/store"
+        "https://mirror.sjtu.edu.cn/nix-channels/store"
+      ];
     };
     channel.enable = false;
 
@@ -49,10 +53,10 @@
   fonts.packages = with pkgs; [
     nerd-fonts.gohufont
     nerd-fonts.noto
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
-    noto-fonts-extra
+    noto-fonts
   ];
 
   users.users.${flakes.me.user} = {
@@ -84,5 +88,5 @@
     };
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

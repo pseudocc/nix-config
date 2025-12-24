@@ -217,10 +217,11 @@ in {
       ];
 
       bind = let
+        system = pkgs.stdenv.hostPlatform.system;
         wofi = lib.getExe pkgs.wofi;
         cliphist = lib.getExe pkgs.cliphist;
         wl-copy = lib.getExe' pkgs.wl-clipboard "wl-copy";
-        ghostty = lib.getExe flakes.ghostty.packages.${pkgs.system}.default;
+        ghostty = lib.getExe flakes.ghostty.packages.${system}.default;
         nvim-term = lib.getExe' neovim-terminal "nvim-term";
         swaync-client = lib.getExe' pkgs.swaynotificationcenter "swaync-client";
       in [

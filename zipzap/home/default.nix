@@ -19,6 +19,7 @@ in {
     ./ssh.nix
     flakes.modules.ghostty
     flakes.catppuccin.homeModules.catppuccin
+    flakes.nix-index-database.homeModules.default
   ];
 
   nixpkgs.overlays = [
@@ -26,7 +27,9 @@ in {
       chromium = prev.chromium.override {
         commandLineArgs = "--enable-wayland-ime";
       };
-      unstable = import flakes.nixpkgs-unstable { inherit (pkgs) system; };
+      unstable = import flakes.nixpkgs-unstable {
+        inherit (pkgs.stdenv.hostPlatform) system;
+      };
     })
   ];
 
@@ -43,7 +46,7 @@ in {
     };
 
     packages = let
-      zig = pkgs.unstable.zig_0_15;
+      zig = pkgs.zig;
       default-cc = pkgs.writeShellScriptBin "cc" ''
         exec ${zig}/bin/zig cc "$@"
       '';
@@ -63,7 +66,7 @@ in {
 
     cursorTheme = cursor;
 
-    iconTheme = {
+    iconTheme = lib.mkForce {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
     };
@@ -88,8 +91,8 @@ in {
     type = "fcitx5";
     fcitx5.addons = with pkgs; [
       fcitx5-gtk
-      fcitx5-configtool
-      fcitx5-chinese-addons
+      qt6Packages.fcitx5-configtool
+      qt6Packages.fcitx5-chinese-addons
       fcitx5-pinyin-zhwiki
     ];
   };
@@ -105,5 +108,5 @@ in {
   systemd.user.startServices = "sd-switch";
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 }

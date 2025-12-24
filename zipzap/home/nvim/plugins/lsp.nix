@@ -69,10 +69,7 @@
       bashls.enable = true;
       clangd.enable = true;
       ts_ls.enable = true;
-      zls = {
-        enable = true;
-        package = pkgs.unstable.zls;
-      };
+      zls.enable = true;
       rust_analyzer = {
         enable = true;
         installRustc = false;
