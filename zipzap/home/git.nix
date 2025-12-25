@@ -13,6 +13,10 @@
       pull.rebase = true;
       gpg.program = lib.getExe' pkgs.gnupg "gpg2";
       commit.gpgSign = true;
+      url = {
+        "git+ssh://pseudoc@git.launchpad.net/".insteadOf = "lp:";
+        "git@github.com:".insteadOf = "gh:";
+      };
     };
   };
 

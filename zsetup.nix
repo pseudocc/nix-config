@@ -64,9 +64,81 @@ in {
     };
 
     office = mkIf (builtins.elem "office" locations) {
-      virtualisation.podman = {
+      virtualisation.incus = {
         enable = true;
-        extraPackages = [ pkgs.zfs ];
+        preseed.profiles = [
+          {
+            name = "ubuntu-dev";
+            config."cloud-init.user-data" = ''
+#cloud-config
+              package_upgrade: true
+              packages:
+                - bash-completion
+                - build-essential
+                - debhelper
+                - devscripts
+                - openssh-server
+                - git
+                - curl
+                - wget
+                - vim
+                - gnupg
+                - gnupg-agent
+              runcmd:
+                - [ sh, -c, "curl -sS https://starship.rs/install.sh | sh -s -- -y" ]
+              write_files:
+                - path: /home/pseudoc/.bashrc
+                  content: |
+                    # ~/.bashrc: executed by bash(1) for non-login shells.
+                    . "$HOME/.bash_profile"
+                - path: /home/pseudoc/.bash_profile
+                  content: |
+                    # ~/.bash_profile: executed by bash(1) for login shells.
+                    # if not running interactively, don't do anything
+                    [[ $- != *i* ]] && return
+
+                    if [ -f /etc/bash_completion ]; then
+                      . /etc/bash_completion
+                    fi
+                    if [ -f /usr/share/bash-completion/bash_completion ]; then
+                      . /usr/share/bash-completion/bash_completion
+                    fi
+
+                    case $TERM in
+                      xterm-kitty|xterm-ghostty)
+                        export TERM="xterm-256color"
+                        ;;
+                    esac
+
+                    # Vim way
+                    export EDITOR=vim
+                    set -o vi
+                    alias vi='vim'
+
+                    # Starship prompt
+                    eval "$(starship init bash)"
+
+                    # Debian development
+                    export DEBEMAIL="atlas.yu@canonical.com"
+                    export DEBFULLNAME="Atlas Yu"
+
+                    # GPG signing
+                    export GPG_TTY=$(tty)
+              users:
+                - name: pseudoc
+                  ssh_authorized_keys:
+                    - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINuoseDzo0mUwBthHFnKfNPK1EdJTrpv7boeC1ybMsty pseudoc@nixos
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  shell: /bin/bash
+              '';
+           }
+        ];
+      };
+      security.wrappers.incus = {
+        setuid = true;
+        owner = "root";
+        group = "incus-admin";
+        source = lib.getExe pkgs.incus;
       };
       services.printing = {
         enable = true;

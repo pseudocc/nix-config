@@ -36,6 +36,7 @@
     enable = true;
     wifi.backend = "iwd";
   };
+  networking.nftables.enable = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

@@ -57,6 +57,7 @@ in {
       rustc
       cargo
       wl-clipboard
+      mutagen
       unstable.devenv
     ];
   };
