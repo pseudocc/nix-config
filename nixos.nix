@@ -21,8 +21,11 @@
   };
 
   boot.loader = {
-    systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
+  };
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
   };
 
   networking.useDHCP = lib.mkDefault true;

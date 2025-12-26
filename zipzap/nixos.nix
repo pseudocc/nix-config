@@ -7,6 +7,7 @@
     flakes.nixos-hardware.nixosModules.lenovo-thinkpad-x13-yoga
     flakes.home-manager.nixosModules.home-manager
     flakes.catppuccin.nixosModules.catppuccin
+    flakes.lanzaboote.nixosModules.lanzaboote
   ];
 
   home-manager = {
