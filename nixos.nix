@@ -35,6 +35,9 @@
   networking.networkmanager = {
     enable = true;
     wifi.backend = "iwd";
+    plugins = with pkgs; [
+      networkmanager-openvpn
+    ];
   };
   networking.nftables.enable = true;
 

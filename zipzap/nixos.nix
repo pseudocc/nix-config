@@ -17,10 +17,6 @@
   networking.hostName = "zipzap";
   time.timeZone = "Asia/Shanghai";
 
-  environment.systemPackages = with pkgs; [
-    openvpn
-  ];
-
   zsetup = {
     pipewire = true;
     locations = "all";
