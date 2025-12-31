@@ -51,8 +51,8 @@
     shellAliases = {
       ".." = "cd ..";
       "..." = "cd ../..";
-      "rebuild" = "sudo nixos-rebuild --flake $HOME/nix-config#zipzap";
-      "nix-path" = "nix build --print-out-paths --no-link";
+      "..git" = "cd $(git rev-parse --show-toplevel)";
+      "rebuild" = "sudo nixos-rebuild --flake $HOME/nix-config#$HOST";
     };
 
     history = {
