@@ -15,7 +15,7 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
     ghostty = {
-      url = "github:ghostty-org/ghostty/v1.2.3";
+      url = "github:ghostty-org/ghostty/tip";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
