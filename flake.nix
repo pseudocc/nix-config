@@ -63,6 +63,15 @@
           ./zipzap/nixos.nix
         ];
       };
+      ziczac = nixpkgs.lib.nixosSystem rec {
+        specialArgs = { inherit flakes; };
+        system = "x86_64-linux";
+        modules = [
+          ./npu.nix
+          ./nixos.nix
+          ./ziczac/nixos.nix
+        ];
+      };
     };
   };
 }
