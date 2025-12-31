@@ -52,7 +52,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       "..git" = "cd $(git rev-parse --show-toplevel)";
-      "rebuild" = "sudo nixos-rebuild --flake $HOME/nix-config#$HOST";
+      "rebuild" = "sudo nixos-rebuild --flake /etc/nixos#$HOST";
     };
 
     history = {
