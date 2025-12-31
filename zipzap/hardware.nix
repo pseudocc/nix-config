@@ -1,5 +1,15 @@
 # vim: et:ts=2:sw=2
 { pkgs, flakes, ... }: {
+  imports = [
+    flakes.lanzaboote.nixosModules.lanzaboote
+  ];
+
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+
   boot.initrd.systemd.enable = true;
   boot.initrd.luks.devices."luks-bd93f785-372d-410e-8222-741255fc9115".device = "/dev/disk/by-uuid/bd93f785-372d-410e-8222-741255fc9115";
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];

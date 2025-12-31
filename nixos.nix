@@ -20,14 +20,6 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  boot.loader = {
-    efi.canTouchEfiVariables = true;
-  };
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
-
   networking.useDHCP = lib.mkDefault true;
   networking.wireless.iwd = {
     enable = true;
