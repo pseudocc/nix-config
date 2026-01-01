@@ -125,7 +125,7 @@ in {
     settings = {
       "$mod" = "SUPER";
 
-      monitor = "eDP-1,preferred,auto,1";
+      monitor = "eDP-1,highres,auto,auto";
 
       exec-once = [
         "hyprctl dispatch workspace ${void}"
