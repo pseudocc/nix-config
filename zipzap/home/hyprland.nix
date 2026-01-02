@@ -127,7 +127,10 @@ in {
 
       monitor = "eDP-1,highres,auto,auto";
 
-      exec-once = [
+      exec-once = let
+        iio-hyprland = lib.getExe flakes.iio-hyprland.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      in [
+        iio-hyprland
         "hyprctl dispatch workspace ${void}"
       ];
 
