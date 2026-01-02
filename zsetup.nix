@@ -191,6 +191,7 @@ in {
 
       services.greetd = {
         enable = cfg.session != null;
+        useTextGreeter = true;
         settings = {
           default_session = let
             tuigreet = lib.getExe pkgs.tuigreet;
