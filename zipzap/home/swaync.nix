@@ -10,7 +10,7 @@ in {
       positionY = "top";
       layer = "overlay";
       layer-shell = true;
-      cssPriority = "application";
+      cssPriority = "user";
       control-center-margin-top = 10;
       control-center-margin-bottom = 10;
       control-center-margin-right = 10;
@@ -62,9 +62,11 @@ in {
         image-radius = 5;
       };
     };
+  };
 
-    style = lib.mkDefault ''
-      ${builtins.readFile ./swaync.css}
-    '';
+  catppuccin.swaync = {
+    enable = true;
+    font = "NotoSans Nerd Font Propo";
+    flavor = "mocha";
   };
 }
