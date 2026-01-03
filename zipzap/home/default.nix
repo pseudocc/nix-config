@@ -33,6 +33,8 @@ in {
     })
   ];
 
+  xdg.configFile."rofi/config.rasi".source = ./rofi.rasi;
+
   nixpkgs.config = { inherit (nixosConfig.nixpkgs.config) allowUnfreePredicate; };
 
   home = {

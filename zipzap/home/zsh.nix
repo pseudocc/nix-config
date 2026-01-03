@@ -8,6 +8,8 @@
     };
   };
 
+  services.gpg-agent.enableZshIntegration = true;
+
   home.packages = with pkgs; [
     zsh-vi-mode
     any-nix-shell
