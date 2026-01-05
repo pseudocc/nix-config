@@ -37,8 +37,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    iio-hyprland = {
-      url = "github:JeanSchoeller/iio-hyprland";
+    hypriio = {
+      url = "github:pseudocc/hypriio";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

@@ -20,13 +20,17 @@ in {
     flakes.modules.ghostty
     flakes.catppuccin.homeModules.catppuccin
     flakes.nix-index-database.homeModules.default
+    flakes.hypriio.homeModules.default
   ];
 
   nixpkgs.overlays = [
-    (final: prev: {
+    (final: prev: let
+      system = prev.stdenv.hostPlatform.system;
+    in {
       chromium = prev.chromium.override {
         commandLineArgs = "--enable-wayland-ime";
       };
+      hypriio = flakes.hypriio.packages.${system}.default;
       unstable = import flakes.nixpkgs-unstable {
         inherit (pkgs.stdenv.hostPlatform) system;
       };

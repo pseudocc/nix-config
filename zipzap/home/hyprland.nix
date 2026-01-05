@@ -30,6 +30,14 @@ in {
     ./kanshi.nix
   ];
 
+  services.hypriio = {
+    enable = true;
+    settings = {
+      output = "eDP-1";
+      restart-services = [ "hyprpaper.service" ];
+    };
+  };
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -127,10 +135,7 @@ in {
 
       monitor = "eDP-1,highres,auto,auto";
 
-      exec-once = let
-        iio-hyprland = lib.getExe flakes.iio-hyprland.packages.${pkgs.stdenv.hostPlatform.system}.default;
-      in [
-        iio-hyprland
+      exec-once = [
         "hyprctl dispatch workspace ${void}"
       ];
 
