@@ -13,6 +13,12 @@
         "https://mirrors.bfsu.edu.cn/nix-channels/store"
         "https://mirror.sjtu.edu.cn/nix-channels/store"
       ];
+      extra-substituters = [
+        "https://devenv.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      ];
     };
     channel.enable = false;
 
