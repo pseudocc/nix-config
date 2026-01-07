@@ -28,6 +28,7 @@ in {
     ./waybar.nix
     ./swaync.nix
     ./kanshi.nix
+    ./yazi.nix
   ];
 
   services.hypriio = {
@@ -35,21 +36,6 @@ in {
     settings = {
       output = "eDP-1";
       restart-services = [ "hyprpaper.service" ];
-    };
-  };
-
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-    ];
-    config = {
-      hyprland = {
-        default = [ "hyprland" "gtk" ];
-        "org.freedesktop.impl.portal.FileChooser" = "gtk";
-      };
-      common = { default = [ "gtk" ]; };
     };
   };
 
