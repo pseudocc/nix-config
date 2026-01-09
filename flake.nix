@@ -4,7 +4,7 @@
 
   inputs = {
     # Nix
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:pseudocc/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nix-index-database = {
@@ -63,7 +63,6 @@
         specialArgs = { inherit flakes; };
         system = "x86_64-linux";
         modules = [
-          ./npu.nix
           ./nixos.nix
           ./zipzap/nixos.nix
         ];
@@ -72,7 +71,6 @@
         specialArgs = { inherit flakes; };
         system = "x86_64-linux";
         modules = [
-          ./npu.nix
           ./nixos.nix
           ./ziczac/nixos.nix
         ];

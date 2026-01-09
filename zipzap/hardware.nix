@@ -1,7 +1,8 @@
 # vim: et:ts=2:sw=2
-{ pkgs, flakes, ... }: {
+{ pkgs, flakes, modulesPath, ... }: {
   imports = [
     flakes.lanzaboote.nixosModules.lanzaboote
+    (modulesPath + "/hardware/cpu/intel-npu.nix")
   ];
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -35,11 +36,8 @@
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  hardware.graphics.enable = true;
   hardware.enableRedistributableFirmware = true;
-  hardware.firmware = with pkgs; [
-    wireless-regdb
-  ];
+  hardware.cpu.intel.npu.enable = true;
   hardware.cpu.intel.updateMicrocode = true;
   services.fprintd.enable = false;
 

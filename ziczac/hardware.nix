@@ -1,8 +1,9 @@
-{ pkgs, flakes, ... }:
+{ pkgs, flakes, modulesPath, ... }:
 
 {
   imports = [
     flakes.lanzaboote.nixosModules.lanzaboote
+    (modulesPath + "/hardware/cpu/intel-npu.nix")
   ];
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -37,6 +38,7 @@
     ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
+  hardware.cpu.intel.npu.enable = true;
   hardware.cpu.intel.updateMicrocode = true;
   hardware.enableRedistributableFirmware = true;
 
@@ -45,4 +47,15 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
+
+  hardware.ipu7 = {
+    enable = true;
+    platform = "ipu7x";
+  };
+  zsetup.unfree = [
+    "ipu7-camera-bins"
+    "ipu7-camera-bins-unstable"
+    "ivsc-firmware"
+    "ivsc-firmware-unstable"
+  ];
 }
