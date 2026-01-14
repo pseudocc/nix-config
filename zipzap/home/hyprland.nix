@@ -111,10 +111,15 @@ in {
     browser = "24";
     chat = "23";
     QQ = "25";
+    Steam = "26";
   in {
     enable = true;
     xwayland.enable = true;
     systemd.variables = ["--all"];
+
+    plugins = with pkgs.hyprlandPlugins; [
+      csgo-vulkan-fix
+    ];
 
     settings = {
       "$mod" = "SUPER";
@@ -123,6 +128,11 @@ in {
 
       exec-once = [
         "hyprctl dispatch workspace ${void}"
+      ];
+
+      source = [
+        # This file is not managed by Nix
+        "~/.config/hypr/csgo-vulkan-fix.conf"
       ];
 
       general = {
@@ -206,8 +216,17 @@ in {
         ];
       };
 
-      windowrulev2 = [
-        "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"} 30deg, class:${nvim-term-class}"
+      windowrulev2 = let
+        nvim-term = "class:${nvim-term-class}";
+        steam = "class:steam";
+        steam-friend = "class:steam,title:Friends List";
+        steam-app = "class:steam_app_[0-9]+";
+      in [
+        "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"} 30deg, ${nvim-term}"
+        "workspace ${Steam}, ${steam}"
+        "float, ${steam-friend}"
+        "size 25% 80%, ${steam-friend}"
+        "immediate, ${steam-app}"
       ];
 
       bind = let
@@ -218,7 +237,10 @@ in {
         ghostty = lib.getExe flakes.ghostty.packages.${system}.default;
         nvim-term = lib.getExe' neovim-terminal "nvim-term";
         swaync-client = lib.getExe' pkgs.swaynotificationcenter "swaync-client";
+        set-scale = scale: "hyprctl keyword monitor eDP-1,highres,auto,${toString scale}";
       in [
+        "$mod, F1, exec, ${set-scale 1}"
+        "$mod SHIFT, F1, exec, ${set-scale "auto"}"
         "$mod, T, exec, ${ghostty}"
         "$mod SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
         "$mod, R, exec, ${wofi}"
@@ -255,6 +277,7 @@ in {
           "B" = browser;
           "C" = chat;
           "Q" = QQ;
+          "G" = Steam;
         };
         binds = lib.mapAttrsToList bindws pairs;
       in builtins.concatLists binds);
@@ -268,11 +291,13 @@ in {
         chromium = lib.getExe pkgs.chromium;
         mattermost = lib.getExe pkgs.mattermost-desktop;
         qq = "${pkgs.qq}/bin/qq";
+        steam = lib.getExe pkgs.steam;
       in [
         "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
         "${chat}, on-created-empty:${mattermost}, defaultName:chat"
         "${QQ}, on-created-empty:${qq}, defaultName:QQ"
+        "${Steam}, on-created-empty:${steam}, defaultName:Steam"
       ];
     };
   };
