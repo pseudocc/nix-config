@@ -42,6 +42,7 @@ in {
   home.packages = [
     pkgs.discord
     pkgs.qq
+    pkgs.wechat
     pkgs.chromium
     pkgs.mattermost-desktop
     neovim-terminal
@@ -111,6 +112,7 @@ in {
     browser = "24";
     chat = "23";
     QQ = "25";
+    WX = "27";
     Steam = "26";
   in {
     enable = true;
@@ -277,6 +279,7 @@ in {
           "B" = browser;
           "C" = chat;
           "Q" = QQ;
+          "W" = WX;
           "G" = Steam;
         };
         binds = lib.mapAttrsToList bindws pairs;
@@ -291,12 +294,14 @@ in {
         chromium = lib.getExe pkgs.chromium;
         mattermost = lib.getExe pkgs.mattermost-desktop;
         qq = "${pkgs.qq}/bin/qq";
+        wechat = "${pkgs.wechat}/bin/wechat";
         steam = lib.getExe pkgs.steam;
       in [
         "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
         "${chat}, on-created-empty:${mattermost}, defaultName:chat"
         "${QQ}, on-created-empty:${qq}, defaultName:QQ"
+        "${WX}, on-created-empty:${wechat}, defaultName:WX"
         "${Steam}, on-created-empty:${steam}, defaultName:Steam"
       ];
     };

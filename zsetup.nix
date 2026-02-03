@@ -54,6 +54,7 @@ in {
       };
       zsetup.unfree = [
         "qq"
+        "wechat"
         "discord"
         "steam"
         "steam-original"
