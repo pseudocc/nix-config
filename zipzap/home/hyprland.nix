@@ -48,6 +48,11 @@ in {
     neovim-terminal
   ];
 
+  xdg.systemDirs.data = [
+    "${pkgs.mattermost-desktop}/share"
+    "${pkgs.chromium}/share"
+  ];
+
   programs.hyprlock = {
     enable = true;
     settings = {
