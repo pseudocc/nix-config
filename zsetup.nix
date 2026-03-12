@@ -214,6 +214,9 @@ in {
           };
         in {
           inherit (unstable)
+            wechat
+            qq
+            discord
             steam
             steam-original
             steam-unwrapped
