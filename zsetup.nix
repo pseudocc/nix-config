@@ -61,6 +61,7 @@ in {
         "steam-unwrapped"
         "steam-run"
         "github-copilot-cli"
+        "masterpdfeditor"
       ];
     };
 
@@ -182,6 +183,7 @@ in {
       };
 
       environment.systemPackages = with pkgs; [
+        alsa-utils
         pamixer
       ];
     };
@@ -214,6 +216,7 @@ in {
           };
         in {
           inherit (unstable)
+            github-copilot-cli
             wechat
             qq
             discord
@@ -221,6 +224,7 @@ in {
             steam-original
             steam-unwrapped
             steam-run;
+            masterpdfeditor;
         })
       ];
 
@@ -244,6 +248,7 @@ in {
         python3
         nodejs
         usbutils
+        dig
         vim
         tmux
         tree
