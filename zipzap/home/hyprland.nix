@@ -272,6 +272,13 @@ in {
 
         "$mod SHIFT, left, movecurrentworkspacetomonitor, l"
         "$mod SHIFT, right, movecurrentworkspacetomonitor, r"
+
+        ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+        ", XF86AudioRaiseVolume, exec, pamixer -i 5"
+        ", XF86AudioLowerVolume, exec, pamixer -d 5"
+        ", XF86AudioMute, exec, pamixer -t"
+        ", XF86AudioMicMute, exec, pamixer --default-source -t"
       ]
       ++ (let
         bindws = key: ws: [
