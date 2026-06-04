@@ -61,7 +61,6 @@ in {
         "steam-unwrapped"
         "steam-run"
         "github-copilot-cli"
-        "masterpdfeditor"
       ];
     };
 
@@ -224,7 +223,6 @@ in {
             steam-original
             steam-unwrapped
             steam-run;
-            masterpdfeditor;
         })
       ];
 
