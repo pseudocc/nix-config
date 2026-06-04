@@ -160,6 +160,7 @@ in {
         ];
         "10.106.0.76" = [ "mock.local" ];
         "10.106.4.112" = [ "mock.local" ];
+        "10.131.60.50" = [ "jenkins.oem.internal" ];
       };
       environment.systemPackages = [
         pkgs.vault
