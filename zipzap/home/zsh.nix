@@ -74,6 +74,8 @@
     initContent = ''
       . ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
       ${lib.getExe pkgs.any-nix-shell} zsh --info-right | source /dev/stdin
+
+      [ -f ~/.zshrc.unmanaged ] && . ~/.zshrc.unmanaged
     '';
   };
 
