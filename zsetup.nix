@@ -162,6 +162,10 @@ in {
         "10.106.4.112" = [ "mock.local" ];
         "10.131.60.50" = [ "jenkins.oem.internal" ];
       };
+      networking.firewall.allowedTCPPorts = [
+        4173
+        5173
+      ];
       environment.systemPackages = [
         pkgs.vault
         pkgs.rclone
