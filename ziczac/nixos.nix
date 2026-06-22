@@ -17,6 +17,10 @@
   networking.hostName = "ziczac";
   time.timeZone = "Asia/Shanghai";
 
+  security.pki.certificateFiles = [
+    ./rootCA.pem
+  ];
+
   zsetup = {
     pipewire = true;
     locations = "all";
