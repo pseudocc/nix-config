@@ -38,6 +38,11 @@
       url = "github:pseudocc/hypriio";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hermes-agent = {
+      url = "github:NousResearch/hermes-agent/v2026.7.1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -70,6 +75,7 @@
         modules = [
           ./nixos.nix
           ./ziczac/nixos.nix
+          ./hermes-agent.nix
         ];
       };
     };
