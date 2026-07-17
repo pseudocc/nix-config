@@ -12,7 +12,7 @@ in {
     enable = true;
     enableDefaultConfig = false;
     includes = [ "unmanaged-config" ];
-    matchBlocks = {
+    settings = {
       "github.com".identityFile = "~/.ssh/self";
       mock = {
         hostname = "mock.local";

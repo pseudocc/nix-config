@@ -54,7 +54,6 @@ in {
       };
       zsetup.unfree = [
         "qq"
-        "wechat"
         "discord"
         "steam"
         "steam-original"
@@ -167,11 +166,7 @@ in {
         5173
       ];
       environment.systemPackages = [
-        pkgs.vault
         pkgs.rclone
-      ];
-      zsetup.unfree = [
-        "vault"
       ];
     };
 
@@ -221,7 +216,6 @@ in {
         in {
           inherit (unstable)
             github-copilot-cli
-            wechat
             qq
             discord
             steam

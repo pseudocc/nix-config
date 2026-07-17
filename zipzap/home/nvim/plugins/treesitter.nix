@@ -33,7 +33,7 @@ in {
       css     scss    html    svelte
       typescript      javascript      jsdoc
       haskell rust    zig     go      groovy
-      proto   json    yaml    toml    xml     jsonc
+      proto   json    yaml    toml    xml     json5
       udev    objdump awk     jq     hyprlang tmux
 
       treesitter-pxu-grammar
@@ -45,7 +45,7 @@ in {
 
     luaConfig.post = ''
       local Treesitter = {};
-      Treesitter.config = require('nvim-treesitter.parsers').get_parser_configs()
+      Treesitter.config = require('nvim-treesitter.parsers')
       Treesitter.config.pxu = {
         install_info = {
           url = '${treesitter-pxu-grammar}',

@@ -21,6 +21,7 @@ let
     path = ./assets/wallpaper.jpg;
     sha256 = "sha256:0lbg9fyjkcw13n4fxnd14fj3fmq7lz5ydbzvakx2igy07gm2c7q9";
   };
+  mod = "SUPER";
 in {
 
   imports = [
@@ -42,7 +43,7 @@ in {
   home.packages = [
     pkgs.discord
     pkgs.qq
-    pkgs.wechat
+    # pkgs.wechat
     pkgs.chromium
     pkgs.mattermost-desktop
     neovim-terminal
@@ -117,20 +118,18 @@ in {
     browser = "24";
     chat = "23";
     QQ = "25";
-    WX = "27";
     Steam = "26";
   in {
     enable = true;
     xwayland.enable = true;
     systemd.variables = ["--all"];
+    configType = "hyprlang";
 
     plugins = with pkgs.hyprlandPlugins; [
       csgo-vulkan-fix
     ];
 
     settings = {
-      "$mod" = "SUPER";
-
       monitor = "eDP-1,highres,auto,auto";
 
       exec-once = [
@@ -246,32 +245,32 @@ in {
         swaync-client = lib.getExe' pkgs.swaynotificationcenter "swaync-client";
         set-scale = scale: "hyprctl keyword monitor eDP-1,highres,auto,${toString scale}";
       in [
-        "$mod, F1, exec, ${set-scale 1}"
-        "$mod SHIFT, F1, exec, ${set-scale "auto"}"
-        "$mod, T, exec, ${ghostty}"
-        "$mod SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
-        "$mod, R, exec, ${wofi}"
+        "${mod}, F1, exec, ${set-scale 1}"
+        "${mod} SHIFT, F1, exec, ${set-scale "auto"}"
+        "${mod}, T, exec, ${ghostty}"
+        "${mod} SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
+        "${mod}, R, exec, ${wofi}"
 
-        "$mod, D, killactive,"
-        "$mod, V, togglefloating,"
-        "$mod, C, centerwindow,"
-        "$mod, F, fullscreen,"
-        "$mod, P, pseudo,"
-        "$mod, S, togglesplit,"
+        "${mod}, D, killactive,"
+        "${mod}, V, togglefloating,"
+        "${mod}, C, centerwindow,"
+        "${mod}, F, fullscreen,"
+        "${mod}, P, pseudo,"
+        "${mod}, S, togglesplit,"
 
-        "$mod, left, movefocus, l"
-        "$mod, right, movefocus, r"
-        "$mod, up, movefocus, u"
-        "$mod, down, movefocus, d"
+        "${mod}, left, movefocus, l"
+        "${mod}, right, movefocus, r"
+        "${mod}, up, movefocus, u"
+        "${mod}, down, movefocus, d"
 
-        "$mod, mouse_up, workspace, e-1"
-        "$mod, mouse_down, workspace, e+1"
+        "${mod}, mouse_up, workspace, e-1"
+        "${mod}, mouse_down, workspace, e+1"
 
-        "$mod SHIFT, P, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
-        "$mod, N, exec, ${swaync-client} -t"
+        "${mod} SHIFT, P, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
+        "${mod}, N, exec, ${swaync-client} -t"
 
-        "$mod SHIFT, left, movecurrentworkspacetomonitor, l"
-        "$mod SHIFT, right, movecurrentworkspacetomonitor, r"
+        "${mod} SHIFT, left, movecurrentworkspacetomonitor, l"
+        "${mod} SHIFT, right, movecurrentworkspacetomonitor, r"
 
         ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
         ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
@@ -282,8 +281,8 @@ in {
       ]
       ++ (let
         bindws = key: ws: [
-          "$mod, ${key}, workspace, ${ws}"
-          "$mod SHIFT, ${key}, movetoworkspace, ${ws}"
+          "${mod}, ${key}, workspace, ${ws}"
+          "${mod} SHIFT, ${key}, movetoworkspace, ${ws}"
         ];
         genPair = i: let s = toString (i + 1); in { name = s; value = s; };
         pairs = with builtins; listToAttrs (genList genPair 9) // {
@@ -291,29 +290,26 @@ in {
           "B" = browser;
           "C" = chat;
           "Q" = QQ;
-          "W" = WX;
           "G" = Steam;
         };
         binds = lib.mapAttrsToList bindws pairs;
       in builtins.concatLists binds);
 
       bindm = [
-        "$mod, mouse:272, movewindow"
-        "$mod, mouse:273, resizewindow"
+        "${mod}, mouse:272, movewindow"
+        "${mod}, mouse:273, resizewindow"
       ];
 
       workspace = let
         chromium = lib.getExe pkgs.chromium;
         mattermost = lib.getExe pkgs.mattermost-desktop;
         qq = "${pkgs.qq}/bin/qq";
-        wechat = "${pkgs.wechat}/bin/wechat";
         steam = lib.getExe pkgs.steam;
       in [
         "${void}, default:true, defaultName:void"
         "${browser}, on-created-empty:${chromium}, defaultName:browser"
         "${chat}, on-created-empty:${mattermost}, defaultName:chat"
         "${QQ}, on-created-empty:${qq}, defaultName:QQ"
-        "${WX}, on-created-empty:${wechat}, defaultName:WX"
         "${Steam}, on-created-empty:${steam}, defaultName:Steam"
       ];
     };

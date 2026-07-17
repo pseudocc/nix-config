@@ -4,7 +4,8 @@
 
   inputs = {
     # Nix
-    nixpkgs.url = "github:pseudocc/nixpkgs/nixos-25.11";
+    # nixpkgs.url = "github:pseudocc/nixpkgs/nixos-26.05";
+    nixpkgs.url = "git+file:///home/pseudoc/projects/github/nixpkgs?ref=nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nix-index-database = {
@@ -20,17 +21,17 @@
     catppuccin.url = "github:catppuccin/nix";
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.11";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.0.0";
+      url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
