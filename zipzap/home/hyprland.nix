@@ -105,13 +105,16 @@ in {
 
   services.hyprpaper = {
     enable = true;
-    settings = {
-      preload = [ wallpaper ];
-      wallpaper = [ ",${wallpaper}" ];
-    };
+    settings.wallpaper = [{
+      monitor = "";
+      path = wallpaper;
+      fit_mode = "cover";
+    }];
   };
 
   services.cliphist.enable = true;
+
+  catppuccin.hyprland.enable = false;
 
   wayland.windowManager.hyprland = let
     void = "42";
@@ -119,120 +122,168 @@ in {
     chat = "23";
     QQ = "25";
     Steam = "26";
+    lua = lib.generators.mkLuaInline;
+    luaDispatcher = dispatcher: lua "hl.dsp.${dispatcher}";
+    bind = keys: dispatcher: {
+      _args = [
+        keys
+        (luaDispatcher dispatcher)
+      ];
+    };
   in {
     enable = true;
     xwayland.enable = true;
     systemd.variables = ["--all"];
-    configType = "hyprlang";
-
-    plugins = with pkgs.hyprlandPlugins; [
-      csgo-vulkan-fix
-    ];
+    configType = "lua";
 
     settings = {
-      monitor = "eDP-1,highres,auto,auto";
+      monitor = {
+        output = "eDP-1";
+        mode = "highres";
+        position = "auto";
+        scale = "auto";
+      };
 
-      exec-once = [
-        "hyprctl dispatch workspace ${void}"
+      on = {
+        _args = [
+          "hyprland.start"
+          (lua "function()\n  hl.dispatch(hl.dsp.focus({ workspace = \"${void}\" }))\nend")
+        ];
+      };
+
+      config = {
+        general = {
+          gaps_in = 5;
+          gaps_out = 15;
+          border_size = 2;
+          layout = "dwindle";
+          col = {
+            active_border = {
+              colors = [
+                (rgba colors.yellow "ff")
+                (rgba colors.red "ff")
+              ];
+              angle = 30;
+            };
+            inactive_border = rgba colors.bright.black "cc";
+          };
+        };
+
+        dwindle = {
+          preserve_split = true;
+        };
+
+        cursor = {
+          inactive_timeout = 5;
+        };
+
+        input = {
+          kb_layout = "us";
+          touchpad = {
+            natural_scroll = true;
+          };
+        };
+
+        decoration = {
+          active_opacity = 1;
+          fullscreen_opacity = 1;
+          inactive_opacity = 0.85;
+          rounding = 7;
+
+          blur = {
+            enabled = true;
+            size = 4;
+            passes = 2;
+          };
+
+          shadow = {
+            enabled = true;
+            offset = [3 3];
+            range = 8;
+            color = rgba colors.surface "ee";
+          };
+        };
+
+        animations.enabled = true;
+      };
+
+      curve = [
+        {
+          _args = [
+            "easein"
+            { type = "bezier"; points = [[0.1 0] [0.5 0]]; }
+          ];
+        }
+        {
+          _args = [
+            "easeinback"
+            { type = "bezier"; points = [[0.35 0] [0.95 (-0.3)]]; }
+          ];
+        }
+        {
+          _args = [
+            "easeout"
+            { type = "bezier"; points = [[0.5 1] [0.9 1]]; }
+          ];
+        }
+        {
+          _args = [
+            "easeoutback"
+            { type = "bezier"; points = [[0.35 1.35] [0.65 1]]; }
+          ];
+        }
+        {
+          _args = [
+            "easeinout"
+            { type = "bezier"; points = [[0.45 0] [0.55 1]]; }
+          ];
+        }
       ];
 
-      source = [
-        # This file is not managed by Nix
-        "~/.config/hypr/csgo-vulkan-fix.conf"
+      animation = [
+        { leaf = "fadeIn"; enabled = true; speed = 3; bezier = "easeout"; }
+        { leaf = "fadeLayersIn"; enabled = true; speed = 3; bezier = "easeoutback"; }
+        { leaf = "layersIn"; enabled = true; speed = 3; bezier = "easeoutback"; style = "slide"; }
+        { leaf = "windowsIn"; enabled = true; speed = 3; bezier = "easeoutback"; style = "slide"; }
+        { leaf = "fadeLayersOut"; enabled = true; speed = 3; bezier = "easeinback"; }
+        { leaf = "fadeOut"; enabled = true; speed = 3; bezier = "easein"; }
+        { leaf = "layersOut"; enabled = true; speed = 3; bezier = "easeinback"; style = "slide"; }
+        { leaf = "windowsOut"; enabled = true; speed = 3; bezier = "easeinback"; style = "slide"; }
+        { leaf = "border"; enabled = true; speed = 3; bezier = "easeout"; }
+        { leaf = "fadeDim"; enabled = true; speed = 3; bezier = "easeinout"; }
+        { leaf = "fadeShadow"; enabled = true; speed = 3; bezier = "easeinout"; }
+        { leaf = "fadeSwitch"; enabled = true; speed = 3; bezier = "easeinout"; }
+        { leaf = "windowsMove"; enabled = true; speed = 3; bezier = "easeoutback"; }
+        { leaf = "workspaces"; enabled = true; speed = 2.6; bezier = "easeoutback"; style = "slide"; }
       ];
 
-      general = {
-        gaps_in = 5;
-        gaps_out = 15;
-        border_size = 2;
-        layout = "dwindle";
-        "col.active_border" = toString [
-          (rgba colors.yellow "ff")
-          (rgba colors.red "ff")
-          "30deg"
-        ];
-        "col.inactive_border" = rgba colors.bright.black "cc";
-      };
-
-      dwindle = {
-        pseudotile = true;
-        preserve_split = true;
-      };
-
-      cursor = {
-        inactive_timeout = 5;
-      };
-
-      input = {
-        kb_layout = "us";
-        touchpad = {
-          natural_scroll = true;
-        };
-      };
-
-      decoration = {
-        active_opacity = 1;
-        fullscreen_opacity = 1;
-        inactive_opacity = 0.85;
-        rounding = 7;
-
-        blur = {
-          enabled = true;
-          size = 4;
-          passes = 2;
-        };
-
-        shadow = {
-          enabled = true;
-          offset = "3 3";
-          range = 8;
-          color = rgba colors.surface "ee";
-        };
-      };
-
-      animations = {
-        enabled = true;
-        bezier = [
-          "easein,0.1, 0, 0.5, 0"
-          "easeinback,0.35, 0, 0.95, -0.3"
-
-          "easeout,0.5, 1, 0.9, 1"
-          "easeoutback,0.35, 1.35, 0.65, 1"
-
-          "easeinout,0.45, 0, 0.55, 1"
-        ];
-
-        animation = [
-          "fadeIn,1,3,easeout"
-          "fadeLayersIn,1,3,easeoutback"
-          "layersIn,1,3,easeoutback,slide"
-          "windowsIn,1,3,easeoutback,slide"
-
-          "fadeLayersOut,1,3,easeinback"
-          "fadeOut,1,3,easein"
-          "layersOut,1,3,easeinback,slide"
-          "windowsOut,1,3,easeinback,slide"
-
-          "border,1,3,easeout"
-          "fadeDim,1,3,easeinout"
-          "fadeShadow,1,3,easeinout"
-          "fadeSwitch,1,3,easeinout"
-          "windowsMove,1,3,easeoutback"
-          "workspaces,1,2.6,easeoutback,slide"
-        ];
-      };
-
-      windowrulev2 = let
-        nvim-term = "class:${nvim-term-class}";
-        steam = "class:steam";
-        steam-friend = "class:steam,title:Friends List";
-        steam-app = "class:steam_app_[0-9]+";
-      in [
-        "bordercolor ${rgba colors.highlight "ff"} ${rgba colors.cyan "cc"} 30deg, ${nvim-term}"
-        "workspace ${Steam}, ${steam}"
-        "float, ${steam-friend}"
-        "size 25% 80%, ${steam-friend}"
-        "immediate, ${steam-app}"
+      window_rule = [
+        {
+          match.class = nvim-term-class;
+          border_color = {
+            colors = [
+              (rgba colors.highlight "ff")
+              (rgba colors.cyan "cc")
+            ];
+            angle = 30;
+          };
+        }
+        {
+          match.class = "steam";
+          workspace = Steam;
+        }
+        {
+          match = {
+            class = "steam";
+            title = "Friends List";
+          };
+          float = true;
+          size = ["monitor_w*0.25" "monitor_h*0.8"];
+        }
+        {
+          match.class = "steam_app_[0-9]+";
+          immediate = true;
+        }
       ];
 
       bind = let
@@ -243,46 +294,58 @@ in {
         ghostty = lib.getExe flakes.ghostty.packages.${system}.default;
         nvim-term = lib.getExe' neovim-terminal "nvim-term";
         swaync-client = lib.getExe' pkgs.swaynotificationcenter "swaync-client";
-        set-scale = scale: "hyprctl keyword monitor eDP-1,highres,auto,${toString scale}";
+        set-scale = keys: scale: let
+          luaScale =
+            if builtins.isString scale
+            then ''"${scale}"''
+            else toString scale;
+        in {
+          _args = [
+            keys
+            (lua ''function()
+              hl.monitor({ output = "eDP-1", mode = "highres", position = "auto", scale = ${luaScale} })
+            end'')
+          ];
+        };
       in [
-        "${mod}, F1, exec, ${set-scale 1}"
-        "${mod} SHIFT, F1, exec, ${set-scale "auto"}"
-        "${mod}, T, exec, ${ghostty}"
-        "${mod} SHIFT, T, exec, ${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"
-        "${mod}, R, exec, ${wofi}"
+        (set-scale "${mod} + F1" 1)
+        (set-scale "${mod} + SHIFT + F1" "auto")
+        (bind "${mod} + T" "exec_cmd(${builtins.toJSON ghostty})")
+        (bind "${mod} + SHIFT + T" "exec_cmd(${builtins.toJSON "${ghostty} --command='${nvim-term}' --confirm-close-surface=false --class=${nvim-term-class}"})")
+        (bind "${mod} + R" "exec_cmd(${builtins.toJSON wofi})")
 
-        "${mod}, D, killactive,"
-        "${mod}, V, togglefloating,"
-        "${mod}, C, centerwindow,"
-        "${mod}, F, fullscreen,"
-        "${mod}, P, pseudo,"
-        "${mod}, S, togglesplit,"
+        (bind "${mod} + D" "window.close()")
+        (bind "${mod} + V" "window.float()")
+        (bind "${mod} + C" "window.center()")
+        (bind "${mod} + F" "window.fullscreen()")
+        (bind "${mod} + P" "window.pseudo()")
+        (bind "${mod} + S" ''layout("togglesplit")'')
 
-        "${mod}, left, movefocus, l"
-        "${mod}, right, movefocus, r"
-        "${mod}, up, movefocus, u"
-        "${mod}, down, movefocus, d"
+        (bind "${mod} + left" ''focus({ direction = "left" })'')
+        (bind "${mod} + right" ''focus({ direction = "right" })'')
+        (bind "${mod} + up" ''focus({ direction = "up" })'')
+        (bind "${mod} + down" ''focus({ direction = "down" })'')
 
-        "${mod}, mouse_up, workspace, e-1"
-        "${mod}, mouse_down, workspace, e+1"
+        (bind "${mod} + mouse_up" ''focus({ workspace = "e-1" })'')
+        (bind "${mod} + mouse_down" ''focus({ workspace = "e+1" })'')
 
-        "${mod} SHIFT, P, exec, ${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"
-        "${mod}, N, exec, ${swaync-client} -t"
+        (bind "${mod} + SHIFT + P" "exec_cmd(${builtins.toJSON "${cliphist} list | ${wofi} --dmenu | ${cliphist} decode | ${wl-copy}"})")
+        (bind "${mod} + N" "exec_cmd(${builtins.toJSON "${swaync-client} -t"})")
 
-        "${mod} SHIFT, left, movecurrentworkspacetomonitor, l"
-        "${mod} SHIFT, right, movecurrentworkspacetomonitor, r"
+        (bind "${mod} + SHIFT + left" ''workspace.move({ monitor = "l" })'')
+        (bind "${mod} + SHIFT + right" ''workspace.move({ monitor = "r" })'')
 
-        ", XF86MonBrightnessUp, exec, brightnessctl set +5%"
-        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-        ", XF86AudioRaiseVolume, exec, pamixer -i 5"
-        ", XF86AudioLowerVolume, exec, pamixer -d 5"
-        ", XF86AudioMute, exec, pamixer -t"
-        ", XF86AudioMicMute, exec, pamixer --default-source -t"
+        (bind "XF86MonBrightnessUp" ''exec_cmd("brightnessctl set +5%")'')
+        (bind "XF86MonBrightnessDown" ''exec_cmd("brightnessctl set 5%-")'')
+        (bind "XF86AudioRaiseVolume" ''exec_cmd("pamixer -i 5")'')
+        (bind "XF86AudioLowerVolume" ''exec_cmd("pamixer -d 5")'')
+        (bind "XF86AudioMute" ''exec_cmd("pamixer -t")'')
+        (bind "XF86AudioMicMute" ''exec_cmd("pamixer --default-source -t")'')
       ]
       ++ (let
         bindws = key: ws: [
-          "${mod}, ${key}, workspace, ${ws}"
-          "${mod} SHIFT, ${key}, movetoworkspace, ${ws}"
+          (bind "${mod} + ${key}" "focus({ workspace = ${builtins.toJSON ws} })")
+          (bind "${mod} + SHIFT + ${key}" "window.move({ workspace = ${builtins.toJSON ws}, follow = true })")
         ];
         genPair = i: let s = toString (i + 1); in { name = s; value = s; };
         pairs = with builtins; listToAttrs (genList genPair 9) // {
@@ -293,24 +356,35 @@ in {
           "G" = Steam;
         };
         binds = lib.mapAttrsToList bindws pairs;
-      in builtins.concatLists binds);
-
-      bindm = [
-        "${mod}, mouse:272, movewindow"
-        "${mod}, mouse:273, resizewindow"
+      in builtins.concatLists binds)
+      ++ [
+        {
+          _args = [
+            "${mod} + mouse:272"
+            (luaDispatcher "window.drag()")
+            { mouse = true; }
+          ];
+        }
+        {
+          _args = [
+            "${mod} + mouse:273"
+            (luaDispatcher "window.resize()")
+            { mouse = true; }
+          ];
+        }
       ];
 
-      workspace = let
+      workspace_rule = let
         chromium = lib.getExe pkgs.chromium;
         mattermost = lib.getExe pkgs.mattermost-desktop;
         qq = "${pkgs.qq}/bin/qq";
         steam = lib.getExe pkgs.steam;
       in [
-        "${void}, default:true, defaultName:void"
-        "${browser}, on-created-empty:${chromium}, defaultName:browser"
-        "${chat}, on-created-empty:${mattermost}, defaultName:chat"
-        "${QQ}, on-created-empty:${qq}, defaultName:QQ"
-        "${Steam}, on-created-empty:${steam}, defaultName:Steam"
+        { workspace = void; default = true; default_name = "void"; }
+        { workspace = browser; on_created_empty = chromium; default_name = "browser"; }
+        { workspace = chat; on_created_empty = mattermost; default_name = "chat"; }
+        { workspace = QQ; on_created_empty = qq; default_name = "QQ"; }
+        { workspace = Steam; on_created_empty = steam; default_name = "Steam"; }
       ];
     };
   };

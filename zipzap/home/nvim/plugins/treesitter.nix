@@ -34,7 +34,7 @@ in {
       typescript      javascript      jsdoc
       haskell rust    zig     go      groovy
       proto   json    yaml    toml    xml     json5
-      udev    objdump awk     jq     hyprlang tmux
+      udev    objdump awk     jq     tmux
 
       treesitter-pxu-grammar
     ];

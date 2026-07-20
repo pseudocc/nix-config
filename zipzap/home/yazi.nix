@@ -79,9 +79,10 @@ in {
     "inode/directory" = [ "yazi-gui.desktop" ];
   };
 
-  wayland.windowManager.hyprland.settings.windowrulev2 = [
-    "float,class:${yazi-chooser-class}"
-    "size 60% 80%,class:${yazi-chooser-class}"
-    "center,class:${yazi-chooser-class}"
-  ];
+  wayland.windowManager.hyprland.settings.window_rule = [{
+    match.class = yazi-chooser-class;
+    float = true;
+    size = ["monitor_w*0.6" "monitor_h*0.8"];
+    center = true;
+  }];
 }
