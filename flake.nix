@@ -4,8 +4,8 @@
 
   inputs = {
     # Nix
-    # nixpkgs.url = "github:pseudocc/nixpkgs/nixos-26.05";
-    nixpkgs.url = "git+file:///home/pseudoc/projects/github/nixpkgs?ref=nixos-26.05";
+    nixpkgs.url = "github:pseudocc/nixpkgs/nixos-26.05";
+    # nixpkgs.url = "git+file:///home/pseudoc/projects/github/nixpkgs?ref=nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nix-index-database = {
