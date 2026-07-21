@@ -966,16 +966,16 @@
       "locked": {
         "lastModified": 1784271113,
         "narHash": "sha256-RP1FnW/bCreLZzBAMzv0Yr4DfPZ5YjH+CbUm+HmZ1i4=",
-        "ref": "nixos-26.05",
+        "owner": "pseudocc",
+        "repo": "nixpkgs",
         "rev": "9b0fa8f6c3dd2ced8a8c09e2d0f1c678359d4d4e",
-        "revCount": 1009385,
-        "type": "git",
-        "url": "file:///home/pseudoc/projects/github/nixpkgs"
+        "type": "github"
       },
       "original": {
+        "owner": "pseudocc",
         "ref": "nixos-26.05",
-        "type": "git",
-        "url": "file:///home/pseudoc/projects/github/nixpkgs"
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "nixpkgs_2": {
