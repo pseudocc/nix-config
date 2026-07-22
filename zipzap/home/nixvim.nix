@@ -55,10 +55,18 @@ in {
       _M.map('n', '<leader>vt', _M.toggleVirtualText, 'diagnostic: toggle virtual text')
 
       local lualine_cfg = require 'lualine.components.diagnostics.config'
+      local diag_signs = {
+        text = {},
+        numhl = {},
+      }
+
       for type, icon in pairs(lualine_cfg.symbols.icons) do
-        local hl = 'DiagnosticSign' .. _M.capitalize(type)
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        local severity = vim.diagnostic.severity[type:upper()]
+        diag_signs.text[severity] = icon
+        diag_signs.numhl[severity] = 'DiagnosticSign' .. _M.capitalize(type)
       end
+
+      vim.diagnostic.config({ signs = diag_signs })
     '';
 
     autoCmd = [
