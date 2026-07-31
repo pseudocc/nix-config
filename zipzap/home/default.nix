@@ -89,6 +89,7 @@ in {
   };
 
   catppuccin = {
+    enable = true;
     autoEnable = true;
     ghostty.enable = false;
   };
