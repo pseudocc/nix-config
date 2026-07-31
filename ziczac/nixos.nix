@@ -19,6 +19,7 @@
 
   security.pki.certificateFiles = [
     ./rootCA.pem
+    ./mDNS.pem
   ];
 
   zsetup = {

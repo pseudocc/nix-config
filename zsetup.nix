@@ -161,10 +161,10 @@ in {
         "10.106.4.112" = [ "mock.local" ];
         "10.131.60.50" = [ "jenkins.oem.internal" ];
       };
-      networking.firewall.allowedTCPPorts = [
-        4173
-        5173
-      ];
+      networking.firewall.allowedTCPPorts = let
+        genRange = start: builtins.genList (i: start + i);
+      in
+        lib.concatMap (port: genRange port 10) [ 4170 5170 ];
       environment.systemPackages = [
         pkgs.rclone
       ];
