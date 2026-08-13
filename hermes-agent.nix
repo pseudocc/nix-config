@@ -7,7 +7,12 @@
   services.hermes-agent = {
     enable = true;
     settings.model = {
-      default = "openai/gpt-5.6-sol";
+      default = "gpt-5.6-sol";
+      provider = "copilot";
+    };
+    settings.providers.orcarouter = {
+      base_url = "https://api.orcarouter.ai/v1";
+      key_env = "ORCAROUTER_API_KEY";
     };
     environmentFiles = [
       "/var/lib/hermes/env"
