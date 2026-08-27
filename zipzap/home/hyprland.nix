@@ -40,12 +40,13 @@ in {
     };
   };
 
-  home.packages = [
-    pkgs.discord
-    pkgs.qq
-    # pkgs.wechat
-    pkgs.chromium
-    pkgs.mattermost-desktop
+  home.packages = with pkgs; [
+    discord
+    qq
+    chromium
+    mattermost-desktop
+    steam
+    lutris
     neovim-terminal
   ];
 

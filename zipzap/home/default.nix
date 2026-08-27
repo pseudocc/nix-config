@@ -63,7 +63,7 @@ in {
       rustc
       cargo
       wl-clipboard
-      mutagen
+      qbittorrent-enhanced
       unstable.devenv
     ];
   };
