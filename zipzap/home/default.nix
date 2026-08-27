@@ -17,6 +17,7 @@ in {
     ./zsh.nix
     ./nixvim.nix
     ./ssh.nix
+    ./opencode.nix
     flakes.modules.ghostty
     flakes.catppuccin.homeModules.catppuccin
     flakes.nix-index-database.homeModules.default
