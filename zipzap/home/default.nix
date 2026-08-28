@@ -65,6 +65,7 @@ in {
       cargo
       wl-clipboard
       qbittorrent-enhanced
+      autossh
       unstable.devenv
     ];
   };

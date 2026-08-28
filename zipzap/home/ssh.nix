@@ -30,6 +30,9 @@ in {
       };
       ps7 = canonical-bastion "devices-bastion-ps7";
       pek = canonical-bastion "bjp-vpn1";
+      office-llm = (canonical-bastion "bjp-vpn1") // {
+        localForward = with flakes.qwen-vllm; "${forward} ${server}";
+      };
       "*" = {
         compression = true;
         forwardAgent = false;

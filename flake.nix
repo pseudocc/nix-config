@@ -57,6 +57,11 @@
       lib = import ./lib.nix;
       colors = import ./colors.nix;
 
+      qwen-vllm = rec {
+        server = "10.106.7.133:8080";
+        forward = "127.0.0.1:4710";
+      };
+
       modules.ghostty = import ./modules/ghostty.nix;
       packages.neovim-terminal = ./packages/neovim-terminal.nix;
     };

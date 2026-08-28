@@ -97,27 +97,33 @@
     '';
     settings = {
       autoupdate = true;
-      provider."vllm-qwen" = {
-        npm = "@ai-sdk/openai-compatible";
-        name = "Qwen3.8-27B BF16 (vLLM)";
-        options.baseURL = "http://10.106.7.133:8080/v1";
-        models."qwen3.8-27b" = {
-          name = "Qwen3.8-27B BF16 (vLLM)";
-          attachment = true;
-          reasoning = true;
-          interleaved.field = "reasoning_content";
-          tool_call = true;
-          temperature = true;
-          limit = {
-            context = 262144;
-            output = 16384;
+      provider = rec {
+        office = {
+          npm = "@ai-sdk/openai-compatible";
+          name = "Canonical Beijing Office";
+          options.baseURL = "http://${flakes.qwen-vllm.server}/v1";
+          models."qwen3.8-27b" = {
+            name = "Qwen3.8-27B BF16 (vLLM)";
+            attachment = true;
+            reasoning = true;
+            interleaved.field = "reasoning_content";
+            tool_call = true;
+            temperature = true;
+            limit = {
+              context = 262144;
+              output = 16384;
+            };
+            variants = {
+              none.reasoningEffort = "none";
+              low.reasoningEffort = "low";
+              medium.reasoningEffort = "medium";
+              xhigh.reasoningEffort = "xhigh";
+            };
           };
-          variants = {
-            none.reasoningEffort = "none";
-            low.reasoningEffort = "low";
-            medium.reasoningEffort = "medium";
-            xhigh.reasoningEffort = "xhigh";
-          };
+        };
+        office-forward = office // {
+          name = "Canonical Beijing Office (SSH Forward)";
+          options.baseURL = "http://${flakes.qwen-vllm.forward}/v1";
         };
       };
     };
