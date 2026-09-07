@@ -102,8 +102,8 @@
           npm = "@ai-sdk/openai-compatible";
           name = "Canonical Beijing Office";
           options.baseURL = "http://${flakes.qwen-vllm.server}/v1";
-          models."qwen3.8-27b" = {
-            name = "Qwen3.8-27B BF16 (vLLM)";
+          models."qwen3.8-flash-next" = {
+            name = "Qwen 3.8 Flash Next";
             attachment = true;
             reasoning = true;
             interleaved.field = "reasoning_content";
