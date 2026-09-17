@@ -61,24 +61,32 @@ in {
         use crate::user::{self, User};
         use agent::{self, Agent};
         ```
-      - **Disambiguation by Module Prefix**: Qualify common or shared type names with their module to prevent ambiguity:
-        ```rust
-        let user_id: user::Id = 1;
-        let agent_settings = agent::Settings::default();
-        let os_settings = os::Settings::default();
-        ```
+      - **Disambiguation by Module Prefix & Lean Type Names**:
+        - Name types cleanly inside their module without stuttering or repeating the module name (e.g., `fighter::State` NOT `fighter::WarriorState`; `fighter::CreateFn` NOT `fighter::CreateFighterFn`; `arena::Winner` NOT `arena::BoutWinner`).
+        - Always refer to them using half-qualified paths (`fighter::State`, `user::Id`, `agent::Settings`).
+        - **NEVER** stutter types like `fighter::FighterState` or repeat the domain noun inside its own module.
         - **NEVER** use broad imports like `use os::Settings;` or `use agent::Settings;` when conflicting names exist.
         - **NEVER** use renaming imports like `use os::Settings as OSSettings;`. Always use half-qualified paths (`os::Settings`).
-      - **Concise Type Aliases**: Use lean type aliases for primitive IDs (`pub type Id = u32;` or `pub type Id = u64;`) rather than heavyweight tuple structs.
+      - **Concise Type Aliases**: Use lean type aliases for primitive IDs (`pub type Id = u32;` or `pub type Id = u64;`) and function pointers (`pub type CreateFn = fn() -> Box<dyn Fighter>;`) rather than heavyweight wrappers.
 
       ---
 
-      ## 4. Data Representation & Error Handling
-      - **Bounded In-Memory Representation**: When modeling bounded domain entities / DTOs, use fixed-size byte buffers (e.g. `[u8; 32]`, `[u8; 64]`) over dynamic heap allocations (`String`) to keep memory compact and bounded.
-      - **Zero-Copy Accessors**: Expose string fields via borrowed string slices (`&str`), decoding null-padded buffers with helper functions (e.g. `crate::helper::wrap_cstr(&self.field)`).
-      - **Zero-Allocation Parameter Bounds**: Prefer `AsRef<str>` over `Into<String>` for string-accepting methods/constructors to eliminate redundant allocations.
-      - **Validation & Setters**: Implement validation inside field setters (`pub fn set_<field><S: AsRef<str>>(&mut self, val: S) -> Result<(), Error>`). Guard buffer bounds dynamically using `self.<field>.len()` rather than magic numbers. In constructors, initialize default/zeroed buffers and delegate directly to setters using `?`.
-      - **Module Errors**: Define lean, module-scoped enums (`pub enum Error`) deriving `#[derive(Debug)]` (or `PartialEq, Eq` where assertions/equality checking are needed). Keep variants granular (e.g., `store::Error::IdExists`, `session::Error::TokenEmpty`). Avoid premature `Display` or `std::error::Error` boilerplate.
+      ## 4. Data Representation & Zero-Cost Abstractions
+      - **Boundary-Driven Memory Representation**:
+        - Keep internal storage and wire/protocol boundaries strictly minimal and bounded (e.g., fixed buffers, compact primitives) when serialization footprint or allocation overhead matters.
+        - Domain models, state machines, and business entities use standard idiomatic Rust types (`String`, `&str`, enums).
+      - **Zero-Copy Borrowing & Projection**:
+        - Expose internal data via zero-copy borrowed projections (`&str`, `&[T]`, borrowed references) rather than cloning or allocating on the fly.
+        - Return borrowed views from collections (`Vec<&T>`) and provide direct mutable access (`get_by_id_mut`) so callers interact with underlying entities without intermediary wrapper allocations or duplicated logic.
+      - **Allocation-Free Parameter Bounds**: Prefer `AsRef<T>` (e.g. `AsRef<str>`) over owned `Into<String>` on constructors and mutation methods to let callers pass borrowed or owned data without forced heap allocations.
+      - **Contract Enforcement at Construction & Mutation**:
+        - Encapsulate invariants behind private fields.
+        - Validate state at boundaries and mutate via validated methods (`pub fn set_<field>`).
+        - Constructors initialize clean baseline state and delegate directly to setters via `?`.
+      - **Lean, Module-Isolated Error Enums**:
+        - Define per-module `pub enum Error` with clear, domain-specific failure variants.
+        - Derive only what is needed (`Debug`, and `PartialEq, Eq` when unit tests or assertions require equality matching).
+        - Avoid heavy error crate macros (`thiserror`, `anyhow`) and premature `Display` / `std::error::Error` boilerplate unless writing an externally consumed library crate.
 
       ---
 
@@ -96,7 +104,8 @@ in {
       ---
 
       ## 6. Testing & Verification
-      - **Testing Economy & Pragmatism**: Write the least amount of code to cover the most cases.
+      - **Testing Mandate & Economy**: Always write focused unit tests for non-trivial modules, resolution logic, and state transitions. Aim for maximum state/branch coverage with the minimum number of cases:
+        - Consolidate symmetric branches or combinatorial matrices using concise table-driven fixtures or parameterized scenarios where possible.
         - Do NOT test internal setters if they are already exercised by constructor tests (`User::new`).
         - Do NOT test thin wrappers around standard library methods (`Store::get_by_id_mut` wrapping `HashMap::get_mut`).
       - **Test Placement & Naming**:
