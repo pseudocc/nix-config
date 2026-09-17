@@ -121,6 +121,10 @@
             };
           };
         };
+        taipei-lab = office // {
+          name = "Canonical Taipei Lab";
+          options.baseURL = "http://${flakes.qwen-vllm.server-taipei}/v1";
+        };
         office-forward = office // {
           name = "Canonical Beijing Office (SSH Forward)";
           options.baseURL = "http://${flakes.qwen-vllm.forward}/v1";
