@@ -795,11 +795,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1767607029,
-        "narHash": "sha256-QUdiGSIDDO301n9gFxfjSKTTapO+DEHmiohfWDJxZQM=",
+        "lastModified": 1790147789,
+        "narHash": "sha256-Z+zn/gCm62eIqG7hNSt7BqTSMs1K6cQYhWmmystsPjg=",
         "owner": "pseudocc",
         "repo": "hypriio",
-        "rev": "07ddfe64889766c3320248a6ee7683c122b830b4",
+        "rev": "25333ee2ae90dd04356aae3ad89043a2e1205438",
         "type": "github"
       },
       "original": {
