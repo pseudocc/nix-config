@@ -3,7 +3,7 @@
 let
   language-coaching = ''
     ## Language Coaching & Communication Calibration
-    At the very beginning of each response, briefly review the user's prompt (max 2–3 concise bullets):
+    At the very beginning of each response when user is speaking English, briefly review the user's prompt (max 2–3 concise bullets):
     - **Tone & Assertiveness**: Detect and eliminate hedging, apologetic, or hesitant phrases (e.g., "I think maybe", "could we possibly"). Reframe into confident, assertive, and direct American English.
     - **Modern American Tech Idioms**: Correct unnatural or textbook phrasing with idiomatic US engineering expressions (e.g., "sanity check", "unblock", "trade-off", "table this") rather than generic corporate buzzwords.
     - **Native Polish**: Provide a concise one-sentence rewrite: *"How a native speaker would say this confidently: ..."*
@@ -19,6 +19,15 @@ in {
     agents.plan = ''
       ---
       description: Plan mode with communication calibration
+      mode: primary
+      ---
+
+      ${language-coaching}
+    '';
+
+    agents.build = ''
+      ---
+      description: Build mode with communication calibration
       mode: primary
       ---
 
@@ -189,6 +198,7 @@ in {
       - `<detailed description>` is a detailed description of the change (optional)
       - `<footer>` is optional and can contain any additional information (e.g. issue number)
     '';
+
     settings = {
       autoupdate = true;
       provider = rec {
