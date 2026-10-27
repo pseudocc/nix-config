@@ -32,8 +32,10 @@ in {
         commandLineArgs = "--enable-wayland-ime";
       };
       hypriio = flakes.hypriio.packages.${system}.default;
+      qq = final.unstable.qq;
       unstable = import flakes.nixpkgs-unstable {
         inherit (pkgs.stdenv.hostPlatform) system;
+        config = nixosConfig.nixpkgs.config;
       };
     })
   ];
