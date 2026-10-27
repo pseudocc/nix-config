@@ -82,7 +82,6 @@
         modules = [
           ./nixos.nix
           ./ziczac/nixos.nix
-          ./hermes-agent.nix
         ];
       };
     };
