@@ -1,5 +1,22 @@
-{ pkgs, flakes, modulesPath, ... }:
-
+{ pkgs, lib, flakes, modulesPath, ... }:
+let
+  # Linux 7.3's Intel CVS layer needs the September HAL, whose proprietary
+  # libraries require glibc >= 2.43. Keep the whole camera process on one
+  # newer userspace, without replacing nixos-26.05's system-wide glibc.
+  cameraPkgs = import flakes.nixpkgs-unstable {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (pkgs) config;
+    overlays = [
+      (final: prev: {
+        ipu7-camera-bins = final.callPackage
+          (flakes.nixpkgs + "/pkgs/by-name/ip/ipu7-camera-bins/package.nix") { };
+        ipu7x-camera-hal = final.callPackage
+          (flakes.nixpkgs + "/pkgs/by-name/ip/ipu7x-camera-hal/package.nix") { };
+      })
+    ];
+  };
+  cameraGst = cameraPkgs.gst_all_1;
+in
 {
   imports = [
     flakes.lanzaboote.nixosModules.lanzaboote
@@ -52,6 +69,28 @@
     enable = true;
     platform = "ipu7x";
   };
+
+  # The relay, GStreamer plugins, HAL and binaries must share the newer libc.
+  nixpkgs.overlays = [
+    (final: prev: {
+      v4l2-relayd = cameraPkgs.v4l2-relayd;
+    })
+  ];
+
+  services.v4l2-relayd.instances.ipu7.extraPackages = lib.mkForce [
+    cameraGst.icamerasrc-ipu7x
+  ];
+  systemd.services.v4l2-relayd-ipu7.environment.GST_PLUGIN_PATH = lib.mkForce (
+    # Scan only the plugins needed by the raw-camera relay. The HAL's linked
+    # GStreamer libraries are resolved separately through their RPATHs.
+    lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" [
+      cameraGst.gst-plugins-base
+      cameraGst.gst-plugins-good
+      cameraGst.gstreamer.out
+      cameraGst.icamerasrc-ipu7x
+    ]
+  );
+
   zsetup.unfree = [
     "ipu7-camera-bins"
     "ipu7-camera-bins-unstable"
