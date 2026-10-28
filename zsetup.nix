@@ -60,6 +60,7 @@ in {
         "steam-unwrapped"
         "steam-run"
         "github-copilot-cli"
+        "copilot-language-server"
       ];
     };
 
@@ -253,6 +254,7 @@ in {
         wget
         ripgrep
         p7zip
+        unzip
         github-copilot-cli
       ];
 
