@@ -34,7 +34,15 @@ in
   boot.initrd.kernelModules = [ "dm-snapshot" "cryptd" ];
   boot.initrd.luks.devices."cryptroot".device = "/dev/disk/by-label/NIXLUKS";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest.extend (_: prev: {
+    # Match PSys's shared declarations to the unmodified in-tree IPU7 core.
+    # The vendor-only bus fields otherwise corrupt memory during probe/use.
+    ipu7-drivers = prev.ipu7-drivers.overrideAttrs (old: {
+      patches = (old.patches or [ ]) ++ [
+        ./patches/ipu7-psys-in-tree-core-abi.patch
+      ];
+    });
+  });
   boot.kernelModules = [ "kvm-intel" ];
   boot.kernelParams = [ "console=tty1" ];
   boot.extraModulePackages = [ ];

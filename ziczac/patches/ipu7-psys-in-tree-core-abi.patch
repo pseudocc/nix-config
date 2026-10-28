@@ -1,0 +1,148 @@
+diff --git a/Makefile b/Makefile
+index db7ae5b..b049207 100644
+--- a/Makefile
++++ b/Makefile
+@@ -32,6 +32,8 @@ ifeq ($(call version_lt,$(KERNEL_VERSION),$(KV_IPU7_ISYS)),true)
+ obj-y += drivers/media/pci/intel/ipu7/
+ else
+ obj-y += drivers/media/pci/intel/ipu7/psys/
++# PSys shares core-owned objects with the in-tree driver, not the vendor core.
++subdir-ccflags-y += -DIPU7_USE_IN_TREE_CORE
+ endif
+ 
+ # For ACPI build: add platform drivers
+diff --git a/README.md b/README.md
+index 6163a12..5a3cbc3 100644
+--- a/README.md
++++ b/README.md
+@@ -53,6 +53,19 @@ Three ways are available:
+ ### 2. Out-of-tree build
+ - Requires kernel headers installed on build machine
+ - Requires dependencies enabled in kernel, and patches under `patch/<kernel-version>` (not `in-tree-build`) applied to the kernel you will run the modules on
++- For kernels older than v6.17, the top-level Makefile builds the vendor core,
++  ISYS and PSys. For v6.17 and newer, it builds only PSys against the in-tree
++  core and ISYS, and defines `IPU7_USE_IN_TREE_CORE` to select the matching
++  shared declarations. Keep that definition when using a custom build system
++  for PSys with the in-tree core.
++- This installed-revision backport targets the unmodified upstream core ABI.
++  Downstream cores with vendor debugfs or task/TLB extensions require matching
++  declarations; use the newer upstream candidate's explicit ABI selection
++  rather than assuming this backport supports those layouts.
++- The in-tree core does not provide the vendor FW-task/TLB coordination
++  extensions. PSys-only builds must not access those fields; this build mode
++  does not add that coordination to the in-tree core. With debugfs enabled,
++  PSys firmware logs are under `/sys/kernel/debug/ipu7-psys/fwlog` in this mode.
+ - To build and install:
+ 	```sh
+ 	make -j`nproc` && sudo make modules_install && sudo depmod -a
+diff --git a/drivers/media/pci/intel/ipu7/ipu7-bus.h b/drivers/media/pci/intel/ipu7/ipu7-bus.h
+index eb9d0c9..0ccab57 100644
+--- a/drivers/media/pci/intel/ipu7/ipu7-bus.h
++++ b/drivers/media/pci/intel/ipu7/ipu7-bus.h
+@@ -47,11 +47,13 @@ struct ipu7_bus_device {
+ 	dma_addr_t boot_config_dma_addr;
+ 	u32 boot_config_size;
+ 
++#ifndef IPU7_USE_IN_TREE_CORE
+ 	/* Serialize FW message buffer or task queue acquisition against
+ 	 * TLB invalidation.
+ 	 */
+ 	struct mutex acquire_fw_task_buffer_lock;
+ 	unsigned int (*get_running_fw_task_count)(struct ipu7_bus_device *adev);
++#endif
+ };
+ 
+ struct ipu7_auxdrv_data {
+diff --git a/drivers/media/pci/intel/ipu7/ipu7-mmu.h b/drivers/media/pci/intel/ipu7/ipu7-mmu.h
+index e4bc485..394f8a0 100644
+--- a/drivers/media/pci/intel/ipu7/ipu7-mmu.h
++++ b/drivers/media/pci/intel/ipu7/ipu7-mmu.h
+@@ -402,7 +402,11 @@ struct ipu7_mmu {
+ 	bool ready;
+ 	spinlock_t ready_lock;	/* Serialize access to bool ready */
+ 
++#ifdef IPU7_USE_IN_TREE_CORE
++	void (*tlb_invalidate)(struct ipu7_mmu *mmu);
++#else
+ 	void (*tlb_invalidate)(struct ipu7_mmu *mmu, int mmu_id);
++#endif
+ };
+ 
+ struct ipu7_mmu *ipu7_mmu_init(struct device *dev,
+diff --git a/drivers/media/pci/intel/ipu7/ipu7.h b/drivers/media/pci/intel/ipu7/ipu7.h
+index b48bc1d..025c93b 100644
+--- a/drivers/media/pci/intel/ipu7/ipu7.h
++++ b/drivers/media/pci/intel/ipu7/ipu7.h
+@@ -85,7 +85,7 @@ struct ipu7_device {
+ 	bool ipc_reinit;
+ 	bool secure_mode;
+ 	bool ipu7_bus_ready_to_probe;
+-#ifdef CONFIG_DEBUG_FS
++#if defined(CONFIG_DEBUG_FS) && !defined(IPU7_USE_IN_TREE_CORE)
+ 	struct dentry *ipu7_dir;
+ #endif
+ };
+diff --git a/drivers/media/pci/intel/ipu7/psys/ipu-psys.c b/drivers/media/pci/intel/ipu7/psys/ipu-psys.c
+index ce16e4c..97de7e6 100644
+--- a/drivers/media/pci/intel/ipu7/psys/ipu-psys.c
++++ b/drivers/media/pci/intel/ipu7/psys/ipu-psys.c
+@@ -1005,6 +1005,7 @@ unlock:
+ 	return NULL;
+ }
+ 
++#ifndef IPU7_USE_IN_TREE_CORE
+ static unsigned int ipu7_psys_get_running_fw_task_count(
+ 					      struct ipu7_bus_device *adev)
+ {
+@@ -1025,6 +1026,7 @@ static unsigned int ipu7_psys_get_running_fw_task_count(
+ 
+ 	return count;
+ }
++#endif
+ 
+ static long ipu_psys_task_request(struct ipu_psys_task_request *task,
+ 				  struct ipu7_psys_fh *fh)
+@@ -1038,9 +1040,13 @@ static long ipu_psys_task_request(struct ipu_psys_task_request *task,
+ 		return -EINVAL;
+ 	}
+ 
++#ifndef IPU7_USE_IN_TREE_CORE
+ 	mutex_lock(&psys->adev->acquire_fw_task_buffer_lock);
++#endif
+ 	tq = ipu7_psys_get_task_queue(fh->ip, task);
++#ifndef IPU7_USE_IN_TREE_CORE
+ 	mutex_unlock(&psys->adev->acquire_fw_task_buffer_lock);
++#endif
+ 	if (!tq) {
+ 		dev_err(&psys->dev, "Failed to get task queue\n");
+ 		return -EINVAL;
+@@ -1350,7 +1356,7 @@ static int ipu7_psys_init_debugfs(struct ipu7_psys *psys)
+ {
+ 	struct dentry *file;
+ 	struct dentry *dir;
+-#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 17, 0)
++#ifndef IPU7_USE_IN_TREE_CORE
+ 	dir = debugfs_create_dir("psys", psys->adev->isp->ipu7_dir);
+ #else
+ 	dir = debugfs_create_dir("ipu7-psys", NULL);
+@@ -1466,8 +1472,10 @@ static int ipu7_psys_probe(struct auxiliary_device *auxdev,
+ 	}
+ 
+ 	dev_set_drvdata(dev, psys);
++#ifndef IPU7_USE_IN_TREE_CORE
+ 	adev->get_running_fw_task_count =
+ 		ipu7_psys_get_running_fw_task_count;
++#endif
+ 	mutex_unlock(&ipu7_psys_mutex);
+ #ifdef CONFIG_DEBUG_FS
+ 	psys_fw_log_init(psys);
+@@ -1503,7 +1511,9 @@ static void ipu7_psys_remove(struct auxiliary_device *auxdev)
+ 	struct ipu7_psys *psys = dev_get_drvdata(&auxdev->dev);
+ 	struct device *dev = &auxdev->dev;
+ 
++#ifndef IPU7_USE_IN_TREE_CORE
+ 	psys->adev->get_running_fw_task_count = NULL;
++#endif
+ #ifdef CONFIG_DEBUG_FS
+ 	if (psys->debugfsdir)
+ 		debugfs_remove_recursive(psys->debugfsdir);
