@@ -37,9 +37,19 @@ in
   boot.kernelPackages = pkgs.linuxPackages_latest.extend (_: prev: {
     # Match PSys's shared declarations to the unmodified in-tree IPU7 core.
     # The vendor-only bus fields otherwise corrupt memory during probe/use.
-    ipu7-drivers = prev.ipu7-drivers.overrideAttrs (old: {
+    ipu7-drivers = prev.ipu7-drivers.overrideAttrs (old: rec {
+      version = "20260926_1900_40";
+      src = pkgs.fetchFromGitHub {
+        owner = "intel";
+        repo = "ipu7-drivers";
+        tag = version;
+        hash = "sha256-JdCtc+BWp9BlhyilVTwpBEWw4zxk/2VfaYfgX0O+vzw=";
+      };
       patches = (old.patches or [ ]) ++ [
-        ./patches/ipu7-psys-in-tree-core-abi.patch
+        (pkgs.fetchpatch {
+          url = "https://github.com/intel/ipu7-drivers/pull/120.patch";
+          hash = "sha256-J+16bzLhrQ8/FTAaCLSUvbi9DjaWRkP7T8sq+DHBg+g=";
+        })
       ];
     });
   });
