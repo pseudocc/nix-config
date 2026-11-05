@@ -8,6 +8,11 @@
     # nixpkgs.url = "git+file:///home/pseudoc/projects/github/nixpkgs?ref=nixos-26.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    vinput = {
+      url = "path:/home/pseudoc/projects/github/vinput";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";

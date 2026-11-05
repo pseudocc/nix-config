@@ -1353,7 +1353,8 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_10",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "vinput": "vinput"
       }
     },
     "rust-overlay": {
@@ -1378,6 +1379,27 @@
       "inputs": {
         "nixpkgs": [
           "lanzaboote",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782012058,
+        "narHash": "sha256-9mWUnReOUXfKjZuJAL/bAFH3LUyECTRtXgSNVjRw3UY=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "8534567325bd8a8d2928e6afd81e0a87d19efd3c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_3": {
+      "inputs": {
+        "nixpkgs": [
+          "vinput",
           "nixpkgs"
         ]
       },
@@ -1548,6 +1570,24 @@
         "owner": "pyproject-nix",
         "repo": "uv2nix",
         "type": "github"
+      }
+    },
+    "vinput": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "rust-overlay": "rust-overlay_3"
+      },
+      "locked": {
+        "lastModified": 1793857276,
+        "narHash": "sha256-HzHuciLLZVg+SvvmMr0JrleEVPu3YweWXEFRroBo0pg=",
+        "path": "/home/pseudoc/projects/github/vinput",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/pseudoc/projects/github/vinput",
+        "type": "path"
       }
     },
     "zig": {
