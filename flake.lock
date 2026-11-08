@@ -1580,8 +1580,8 @@
         "rust-overlay": "rust-overlay_3"
       },
       "locked": {
-        "lastModified": 1793857276,
-        "narHash": "sha256-HzHuciLLZVg+SvvmMr0JrleEVPu3YweWXEFRroBo0pg=",
+        "lastModified": 1794121552,
+        "narHash": "sha256-PErhN5CA/gm26+pTdgG53Td059L0w3syNvLGTlwDNak=",
         "path": "/home/pseudoc/projects/github/vinput",
         "type": "path"
       },
