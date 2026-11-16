@@ -172,7 +172,7 @@ in {
       ---
 
       ## 11. Git Commits & Workflow
-      - **Conventional Commits**: Format with a scope and a concise summary (`type(scope): summary`), followed by a descriptive body explaining the context/intent (e.g., `feat(user): + struct User \n\n DTO for the db...`).
+      - **Conventional Commits**: Format with a scope and a concise summary (`type(scope): summary`), followed by a descriptive body explaining the context/intent (e.g., `feat(user): + struct User \n\n DTO for the db...`). And make sure the body is wrapped at 72 characters.
       - **Atomic Commits**: Keep commits strictly atomic and separated per component/file (e.g., separate commit for entity changes `feat(user): ...` and storage changes `feat(store): ...`).
     '';
 
